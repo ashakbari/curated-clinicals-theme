@@ -1,0 +1,199 @@
+{% comment %}
+  ============================================================================
+  CUSTOM LUXURY CATALOG / COLLECTION PAGE
+  ============================================================================
+{% endcomment %}
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+<style>
+  .lux-catalog *, .lux-catalog *::before, .lux-catalog *::after { box-sizing: border-box; }
+  .lux-catalog {
+    --gold: #c9a84c;
+    --gold-light: #d4ba6a;
+    --ink: #0e0e0e;
+    --ink-soft: #3a3a3a;
+    --paper: #fdfcf9;
+    --border: #e0dbd2;
+    --ff-display: 'Cormorant Garamond', serif;
+    --ff-body: 'DM Sans', sans-serif;
+    
+    background: var(--paper);
+    color: var(--ink);
+    padding: 4rem 2rem;
+    font-family: var(--ff-body);
+  }
+
+  .lux-catalog__header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .lux-catalog__eyebrow {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .lux-catalog__title {
+    font-family: var(--ff-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 300;
+    margin: 0 0 1rem 0;
+    color: var(--ink);
+  }
+
+  .lux-catalog__count {
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    font-style: italic;
+  }
+
+  .lux-catalog__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 3rem 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .lux-card {
+    display: flex;
+    flex-direction: column;
+    group;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.4s ease;
+  }
+
+  .lux-card:hover {
+    transform: translateY(-5px);
+  }
+
+  .lux-card__image-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/5;
+    background: #fff;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(0,0,0,0.04);
+  }
+
+  .lux-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  .lux-card:hover .lux-card__image {
+    transform: scale(1.05);
+  }
+
+  .lux-card__vendor {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 0.5rem;
+  }
+
+  .lux-card__title {
+    font-family: var(--ff-display);
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+    color: var(--ink);
+  }
+
+  .lux-card__price {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+  }
+
+  .lux-card__btn {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.9rem 1rem;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--border);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: auto;
+  }
+
+  .lux-card__btn:hover {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  @media (max-width: 768px) {
+    .lux-catalog__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem 1rem;
+    }
+    .lux-catalog { padding: 3rem 1rem; }
+    .lux-card__title { font-size: 1.1rem; }
+  }
+  @media (max-width: 480px) {
+    .lux-catalog__grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+<div class="lux-catalog">
+  <div class="lux-catalog__header">
+    <span class="lux-catalog__eyebrow">Medical-Grade Skincare</span>
+    <h1 class="lux-catalog__title">{{ collection.title | default: 'Our Curated Collection' }}</h1>
+    <p class="lux-catalog__count">{{ collection.products_count | default: 0 }} Products</p>
+  </div>
+
+  <div class="lux-catalog__grid">
+    {% for product in collection.products %}
+      <a href="{{ product.url }}" class="lux-card">
+        <div class="lux-card__image-wrapper">
+          <img 
+            src="{{ product.featured_image | img_url: '600x' }}" 
+            alt="{{ product.title | escape }}"
+            class="lux-card__image"
+            loading="lazy"
+          >
+        </div>
+        <div class="lux-card__vendor">{{ product.vendor }}</div>
+        <h3 class="lux-card__title">{{ product.title }}</h3>
+        <div class="lux-card__price">{{ product.price | money }}</div>
+        <button class="lux-card__btn">View Product</button>
+      </a>
+    {% else %}
+      <p style="grid-column: 1/-1; text-align: center; font-style: italic;">No products found in this collection.</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Luxury Catalog Grid",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Luxury Catalog Grid",
+      "category": "Collection"
+    }
+  ]
+}
+{% endschema %}
