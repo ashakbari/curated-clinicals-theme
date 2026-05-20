@@ -16,9 +16,16 @@
 {%- endfor -%}
 {%- assign available_concerns_list = available_concerns_raw | split: '|' | uniq | sort -%}
 
-{%- comment -%} Read current concern filter from URL {%- endcomment -%}
+{%- comment -%} Read current state from URL {%- endcomment -%}
 {%- assign current_concerns = request.params.concerns | default: '' -%}
 {%- assign current_concerns_list = current_concerns | split: ',' -%}
+{%- assign current_sort = request.params.sort_by | default: collection.default_sort_by | default: 'manual' -%}
+
+{%- comment -%} Build a sort fragment to preserve sort across filter links {%- endcomment -%}
+{%- assign sort_fragment = '' -%}
+{%- if current_sort != 'manual' and current_sort != blank -%}
+  {%- assign sort_fragment = '&sort_by=' | append: current_sort -%}
+{%- endif -%}
 
 <style>
   .lux-catalog *, .lux-catalog *::before, .lux-catalog *::after { box-sizing: border-box; }
@@ -29,9 +36,13 @@
     --ink: #0a0a0a;
     --ink-soft: #4a4a4a;
     --ink-faint: #8a8a8a;
+    --ink-ghost: #cfcfcf;
     --paper: #faf8f3;
     --paper-warm: #f4f0e6;
+    --paper-soft: #fdfcf9;
     --border: #e3ddd0;
+    --border-soft: #ece8de;
+    --shadow-card: 0 12px 32px -16px rgba(10, 10, 10, 0.18);
     --ff-display: 'Cormorant Garamond', 'Times New Roman', serif;
     --ff-body: 'DM Sans', system-ui, sans-serif;
 
@@ -44,10 +55,9 @@
   /* ===== HEADER ===== */
   .lux-catalog__header {
     text-align: center;
-    margin: 0 auto 4rem;
+    margin: 0 auto 3.5rem;
     max-width: 880px;
   }
-
   .lux-catalog__eyebrow {
     display: inline-flex;
     align-items: center;
@@ -68,7 +78,6 @@
     background: var(--gold);
     opacity: 0.7;
   }
-
   .lux-catalog__title {
     font-family: var(--ff-display);
     font-size: clamp(3rem, 7vw, 6rem);
@@ -79,13 +88,12 @@
     line-height: 1;
     letter-spacing: -0.01em;
   }
-
   .lux-catalog__divider {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.85rem;
-    margin: 2rem 0 1.25rem;
+    margin: 2rem 0 0;
   }
   .lux-catalog__divider::before,
   .lux-catalog__divider::after {
@@ -101,71 +109,157 @@
     transform: rotate(45deg);
   }
 
-  .lux-catalog__count {
-    font-family: var(--ff-display);
-    font-style: italic;
-    font-size: 1rem;
-    color: var(--ink-soft);
-    letter-spacing: 0.05em;
-  }
-
-  /* ===== FILTER ===== */
-  .lux-filter {
+  /* ===== FILTER BAR ===== */
+  .lux-filter-bar {
     max-width: 1400px;
-    margin: 0 auto 4rem;
-    padding-bottom: 2.5rem;
+    margin: 0 auto 3rem;
+    padding-bottom: 1.75rem;
     border-bottom: 1px solid var(--border);
-    text-align: center;
   }
-  .lux-filter__label {
+  .lux-filter-bar__main {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .lux-filter-bar__chips {
+    flex: 1 1 auto;
+    min-width: 280px;
+  }
+  .lux-filter-bar__label {
     display: block;
     font-family: var(--ff-body);
-    font-size: 0.65rem;
+    font-size: 0.62rem;
     font-weight: 600;
-    letter-spacing: 0.35em;
+    letter-spacing: 0.4em;
     text-transform: uppercase;
     color: var(--ink-faint);
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
   }
-  .lux-filter__chips {
+  .lux-chip-row {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem;
+    gap: 0.55rem;
   }
-  .lux-filter__chip {
+  .lux-chip {
     display: inline-block;
     font-family: var(--ff-body);
     font-size: 0.7rem;
     font-weight: 500;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--ink-soft);
     text-decoration: none;
-    padding: 0.7rem 1.25rem;
+    padding: 0.65rem 1.15rem;
     border: 1px solid var(--border);
     background: transparent;
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
   }
-  .lux-filter__chip:hover {
-    border-color: var(--gold);
-    color: var(--gold-deep);
+  .lux-chip:hover {
+    border-color: var(--ink);
+    color: var(--ink);
   }
-  .lux-filter__chip--active {
+  .lux-chip--active {
     background: var(--ink);
     color: var(--paper);
     border-color: var(--ink);
   }
-  .lux-filter__chip--active:hover {
+  .lux-chip--active:hover {
     background: var(--gold-deep);
     border-color: var(--gold-deep);
-    color: var(--paper);
   }
-  .lux-filter__clear {
+
+  /* ===== SORT ===== */
+  .lux-filter-bar__sort {
+    flex: 0 0 auto;
+    align-self: flex-end;
+    position: relative;
+  }
+  .lux-sort-wrap {
+    position: relative;
     display: inline-block;
-    margin-top: 1.25rem;
+  }
+  .lux-sort {
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: var(--ff-body);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+    background: transparent;
+    border: 1px solid var(--ink);
+    padding: 0.7rem 2.75rem 0.7rem 1.15rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .lux-sort:hover { background: var(--ink); color: var(--paper); }
+  .lux-sort:hover + .lux-sort-caret { color: var(--paper); }
+  .lux-sort-caret {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.6rem;
+    pointer-events: none;
+    color: var(--ink);
+    transition: color 0.3s ease;
+  }
+
+  /* ===== ACTIVE FILTERS ROW ===== */
+  .lux-active-row {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .lux-result-count {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 1rem;
+    color: var(--ink-soft);
+    letter-spacing: 0.03em;
+  }
+  .lux-active-row__left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    flex: 1;
+  }
+  .lux-active-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--ff-body);
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink);
+    text-decoration: none;
+    padding: 0.45rem 0.85rem;
+    background: var(--paper-warm);
+    border: 1px solid var(--border);
+    transition: all 0.3s ease;
+  }
+  .lux-active-pill:hover {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .lux-active-pill__x {
+    font-size: 0.95rem;
+    line-height: 1;
+    font-weight: 400;
+  }
+  .lux-clear-all {
     font-family: var(--ff-display);
     font-style: italic;
     font-size: 0.9rem;
@@ -175,7 +269,7 @@
     padding-bottom: 2px;
     transition: color 0.3s ease, border-color 0.3s ease;
   }
-  .lux-filter__clear:hover {
+  .lux-clear-all:hover {
     color: var(--gold-deep);
     border-color: var(--gold-deep);
   }
@@ -183,42 +277,54 @@
   /* ===== BRAND GROUP ===== */
   .lux-brand-group {
     max-width: 1400px;
-    margin: 0 auto 5rem;
+    margin: 0 auto 5.5rem;
   }
   .lux-brand-group:last-of-type { margin-bottom: 0; }
   .lux-brand-group--hidden { display: none; }
 
   .lux-brand-heading {
+    margin-bottom: 2.75rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .lux-brand-heading__row {
     display: flex;
-    align-items: baseline;
+    align-items: flex-end;
     justify-content: space-between;
     gap: 1.5rem;
-    margin-bottom: 2.5rem;
-    padding-bottom: 1.25rem;
-    border-bottom: 1px solid var(--border);
     flex-wrap: wrap;
   }
   .lux-brand-heading__name {
     font-family: var(--ff-display);
-    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-size: clamp(2rem, 4vw, 2.85rem);
     font-weight: 300;
     margin: 0;
     color: var(--ink);
     letter-spacing: -0.005em;
+    line-height: 1.1;
   }
-  .lux-brand-heading__count {
+  .lux-brand-heading__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
     font-family: var(--ff-display);
     font-style: italic;
-    font-size: 0.95rem;
+    font-size: 1rem;
     color: var(--ink-faint);
-    letter-spacing: 0.05em;
+    letter-spacing: 0.04em;
+  }
+  .lux-brand-heading__tagline {
+    color: var(--gold-deep);
+  }
+  .lux-brand-heading__sep {
+    color: var(--ink-ghost);
   }
 
   /* ===== GRID ===== */
   .lux-catalog__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 4rem 2.5rem;
+    gap: 3.5rem 2.25rem;
   }
 
   /* ===== CARD ===== */
@@ -228,21 +334,13 @@
     flex-direction: column;
     text-decoration: none;
     color: inherit;
-    padding-top: 1.25rem;
+    animation: lux-fade-up 0.7s cubic-bezier(0.25, 1, 0.5, 1) both;
+  }
+  @keyframes lux-fade-up {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   .lux-card--hidden { display: none; }
-  .lux-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background: var(--gold);
-    transform: translateX(-50%);
-    transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-  }
-  .lux-card:hover::before { width: 100%; }
 
   .lux-card__image-wrapper {
     position: relative;
@@ -250,76 +348,125 @@
     aspect-ratio: 4/5;
     background: #fff;
     overflow: hidden;
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--shadow-card);
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.5s ease;
+  }
+  .lux-card:hover .lux-card__image-wrapper {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 44px -20px rgba(10, 10, 10, 0.28);
   }
   .lux-card__image-wrapper::after {
     content: "";
     position: absolute;
     inset: 0;
-    border: 1px solid rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.05);
     pointer-events: none;
-    transition: border-color 0.4s ease;
-    z-index: 1;
+    z-index: 4;
   }
-  .lux-card:hover .lux-card__image-wrapper::after { border-color: var(--gold); }
 
-  .lux-card__image {
+  .lux-card__image,
+  .lux-card__image--alt {
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: opacity 0.6s ease, transform 1.2s cubic-bezier(0.25, 1, 0.5, 1);
   }
-  .lux-card:hover .lux-card__image { transform: scale(1.06); }
+  .lux-card__image--alt { opacity: 0; }
+  .lux-card:hover .lux-card__image { opacity: 0; }
+  .lux-card:hover .lux-card__image--alt { opacity: 1; }
+  .lux-card:hover .lux-card__image,
+  .lux-card:hover .lux-card__image--alt {
+    transform: scale(1.05);
+  }
 
-  .lux-card__badge {
+  /* ===== BADGES ===== */
+  .lux-badge-cluster {
     position: absolute;
     top: 1rem;
+    left: 1rem;
     right: 1rem;
-    background: var(--ink);
-    color: var(--paper);
-    font-size: 0.6rem;
+    z-index: 3;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+    pointer-events: none;
+  }
+  .lux-card__badge {
+    display: inline-block;
+    font-family: var(--ff-body);
+    font-size: 0.55rem;
     font-weight: 600;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.32em;
     text-transform: uppercase;
-    padding: 0.5rem 0.9rem;
-    z-index: 2;
+    padding: 0.45rem 0.85rem;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .lux-card__badge--bestseller {
+    background: rgba(10, 10, 10, 0.85);
+    color: var(--paper);
+  }
+  .lux-card__badge--new {
+    background: rgba(10, 10, 10, 0.85);
+    color: var(--paper);
   }
   .lux-card__badge--sale {
-    background: var(--gold);
-    color: var(--ink);
+    background: rgba(184, 146, 58, 0.92);
+    color: var(--paper);
+    margin-left: auto;
   }
 
-  .lux-card__vendor {
-    font-size: 0.65rem;
+  /* ===== QUICK VIEW OVERLAY ===== */
+  .lux-card__quickview {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--ink);
+    color: var(--paper);
+    font-family: var(--ff-body);
+    font-size: 0.62rem;
     font-weight: 600;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.4em;
     text-transform: uppercase;
-    color: var(--ink-faint);
-    margin-bottom: 0.6rem;
+    text-align: center;
+    padding: 1.1rem 1rem;
+    transform: translateY(101%);
+    transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+    z-index: 3;
   }
+  .lux-card:hover .lux-card__quickview { transform: translateY(0); }
 
+  /* ===== TITLE ===== */
   .lux-card__title {
     font-family: var(--ff-display);
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 400;
     line-height: 1.2;
-    margin: 0 0 1rem 0;
+    margin: 0 0 0.85rem 0;
     color: var(--ink);
     letter-spacing: -0.005em;
   }
 
-  /* ===== PRICE ===== */
+  /* ===== PRICE (Sephora-style stacked layout when on sale) ===== */
   .lux-card__price {
     display: flex;
     align-items: baseline;
     flex-wrap: wrap;
-    gap: 0.6rem;
+    gap: 0.7rem;
     font-family: var(--ff-body);
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--ink);
-    margin-bottom: 1.5rem;
     letter-spacing: 0.02em;
+  }
+  .lux-card__price-current {
+    color: var(--ink);
+    font-weight: 500;
   }
   .lux-card__price--on-sale .lux-card__price-current {
     color: var(--gold-deep);
@@ -332,53 +479,28 @@
     font-size: 0.85rem;
   }
   .lux-card__price-from {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--ink-faint);
     font-weight: 600;
   }
   .lux-card__price-save {
-    font-family: var(--ff-display);
-    font-style: italic;
-    font-size: 0.9rem;
-    color: var(--gold-deep);
-  }
-
-  /* ===== BUTTON ===== */
-  .lux-card__btn {
-    position: relative;
-    display: block;
-    width: 100%;
-    text-align: center;
-    padding: 1.05rem 1rem;
-    background: transparent;
-    color: var(--ink);
-    border: 1px solid var(--ink);
+    display: inline-block;
+    margin-left: auto;
     font-family: var(--ff-body);
-    font-size: 0.65rem;
+    font-size: 0.6rem;
     font-weight: 600;
-    letter-spacing: 0.35em;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
-    margin-top: auto;
-    overflow: hidden;
-    z-index: 0;
-    transition: color 0.4s ease;
+    color: var(--gold-deep);
+    background: rgba(184, 146, 58, 0.12);
+    padding: 0.3rem 0.6rem;
   }
-  .lux-card__btn::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: var(--ink);
-    transform: translateY(101%);
-    transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
-    z-index: -1;
-  }
-  .lux-card:hover .lux-card__btn { color: var(--paper); }
-  .lux-card:hover .lux-card__btn::before { transform: translateY(0); }
 
-  /* ===== EMPTY STATE ===== */
-  .lux-catalog__empty {
+  /* ===== EMPTY STATES ===== */
+  .lux-catalog__empty,
+  .lux-catalog__no-matches {
     grid-column: 1 / -1;
     text-align: center;
     font-family: var(--ff-display);
@@ -386,18 +508,10 @@
     font-size: 1.3rem;
     color: var(--ink-soft);
     padding: 4rem 0;
-  }
-  .lux-catalog__no-matches {
     max-width: 1400px;
     margin: 0 auto;
-    text-align: center;
-    font-family: var(--ff-display);
-    font-style: italic;
-    font-size: 1.3rem;
-    color: var(--ink-soft);
-    padding: 4rem 0;
-    display: none;
   }
+  .lux-catalog__no-matches { display: none; }
   .lux-catalog__no-matches--visible { display: block; }
 
   /* ===== PAGINATION ===== */
@@ -475,19 +589,24 @@
   }
 
   /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    .lux-filter-bar__main { flex-direction: column; align-items: stretch; }
+    .lux-filter-bar__sort { align-self: flex-start; }
+  }
   @media (max-width: 768px) {
     .lux-catalog { padding: 4rem 1rem 3rem; }
-    .lux-catalog__header { margin-bottom: 3rem; }
-    .lux-filter { margin-bottom: 3rem; }
-    .lux-filter__chip { font-size: 0.65rem; padding: 0.6rem 1rem; letter-spacing: 0.15em; }
+    .lux-catalog__header { margin-bottom: 2.5rem; }
+    .lux-filter-bar { margin-bottom: 2.5rem; }
+    .lux-chip { font-size: 0.62rem; padding: 0.55rem 0.95rem; letter-spacing: 0.13em; }
     .lux-brand-group { margin-bottom: 4rem; }
     .lux-brand-heading { margin-bottom: 2rem; }
+    .lux-brand-heading__meta { font-size: 0.85rem; }
     .lux-catalog__grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 2.5rem 1rem;
     }
-    .lux-card__title { font-size: 1.15rem; }
-    .lux-card__btn { letter-spacing: 0.25em; padding: 0.9rem 0.5rem; }
+    .lux-card__title { font-size: 1.1rem; }
+    .lux-card__quickview { font-size: 0.55rem; letter-spacing: 0.25em; padding: 0.85rem; }
     .lux-catalog__eyebrow::before,
     .lux-catalog__eyebrow::after { width: 1.5rem; }
   }
@@ -509,25 +628,74 @@
     <div class="lux-catalog__divider" aria-hidden="true">
       <span class="lux-catalog__divider-dot"></span>
     </div>
-    <p class="lux-catalog__count">
-      {{ collection.products_count | default: 0 }}
-      {% if collection.products_count == 1 %}Selection{% else %}Selections{% endif %}
-    </p>
   </div>
 
-  {%- if available_concerns_list.size > 0 -%}
-    <div class="lux-filter" data-lux-filter>
-      <span class="lux-filter__label">Filter by skin concern</span>
-      <div class="lux-filter__chips">
-        {%- for concern in available_concerns_list -%}
-          {%- if concern == blank -%}{% continue %}{%- endif -%}
-          {%- assign concern_label = concern | replace: '-', ' ' | capitalize -%}
-          {%- assign is_active = false -%}
-          {%- if current_concerns_list contains concern -%}
-            {%- assign is_active = true -%}
-          {%- endif -%}
+  <div class="lux-filter-bar" data-lux-filter-bar>
+    <div class="lux-filter-bar__main">
+      <div class="lux-filter-bar__chips">
+        <span class="lux-filter-bar__label">Filter by skin concern</span>
+        <div class="lux-chip-row">
+          {%- for concern in available_concerns_list -%}
+            {%- if concern == blank -%}{% continue %}{%- endif -%}
+            {%- assign concern_label = concern | replace: '-', ' ' | capitalize -%}
+            {%- assign is_active = false -%}
+            {%- if current_concerns_list contains concern -%}{%- assign is_active = true -%}{%- endif -%}
 
-          {%- if is_active -%}
+            {%- if is_active -%}
+              {%- assign other_concerns = '' -%}
+              {%- for c in current_concerns_list -%}
+                {%- unless c == concern -%}
+                  {%- if other_concerns == '' -%}
+                    {%- assign other_concerns = c -%}
+                  {%- else -%}
+                    {%- assign other_concerns = other_concerns | append: ',' | append: c -%}
+                  {%- endif -%}
+                {%- endunless -%}
+              {%- endfor -%}
+              {%- if other_concerns != '' -%}
+                <a href="?concerns={{ other_concerns }}{{ sort_fragment }}" class="lux-chip lux-chip--active" data-concern="{{ concern }}">{{ concern_label }}</a>
+              {%- else -%}
+                <a href="?{% if current_sort != 'manual' and current_sort != blank %}sort_by={{ current_sort }}{% endif %}" class="lux-chip lux-chip--active" data-concern="{{ concern }}">{{ concern_label }}</a>
+              {%- endif -%}
+            {%- else -%}
+              {%- assign joined = current_concerns_list | join: ',' -%}
+              {%- if joined != '' -%}
+                {%- assign new_concerns = joined | append: ',' | append: concern -%}
+              {%- else -%}
+                {%- assign new_concerns = concern -%}
+              {%- endif -%}
+              <a href="?concerns={{ new_concerns }}{{ sort_fragment }}" class="lux-chip" data-concern="{{ concern }}">{{ concern_label }}</a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <div class="lux-filter-bar__sort">
+        <span class="lux-filter-bar__label">Sort by</span>
+        <div class="lux-sort-wrap">
+          <select class="lux-sort" data-lux-sort aria-label="Sort products">
+            <option value="manual"{% if current_sort == 'manual' %} selected{% endif %}>Featured</option>
+            <option value="best-selling"{% if current_sort == 'best-selling' %} selected{% endif %}>Best Selling</option>
+            <option value="price-ascending"{% if current_sort == 'price-ascending' %} selected{% endif %}>Price: Low to High</option>
+            <option value="price-descending"{% if current_sort == 'price-descending' %} selected{% endif %}>Price: High to Low</option>
+            <option value="title-ascending"{% if current_sort == 'title-ascending' %} selected{% endif %}>Name: A–Z</option>
+            <option value="title-descending"{% if current_sort == 'title-descending' %} selected{% endif %}>Name: Z–A</option>
+            <option value="created-descending"{% if current_sort == 'created-descending' %} selected{% endif %}>Newest</option>
+          </select>
+          <span class="lux-sort-caret" aria-hidden="true">▾</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="lux-active-row">
+      <div class="lux-active-row__left">
+        <span class="lux-result-count" data-total-count>
+          {{ collection.products_count | default: 0 }} {% if collection.products_count == 1 %}selection{% else %}selections{% endif %}
+        </span>
+        {%- if current_concerns != '' -%}
+          {%- for concern in current_concerns_list -%}
+            {%- if concern == blank -%}{% continue %}{%- endif -%}
+            {%- assign concern_label = concern | replace: '-', ' ' | capitalize -%}
             {%- assign other_concerns = '' -%}
             {%- for c in current_concerns_list -%}
               {%- unless c == concern -%}
@@ -538,30 +706,21 @@
                 {%- endif -%}
               {%- endunless -%}
             {%- endfor -%}
-            <a href="{% if other_concerns != '' %}?concerns={{ other_concerns }}{% else %}?{% endif %}"
-               class="lux-filter__chip lux-filter__chip--active"
-               data-concern="{{ concern }}">{{ concern_label }}</a>
-          {%- else -%}
-            {%- assign joined = current_concerns_list | join: ',' -%}
-            {%- if joined != '' -%}
-              {%- assign new_concerns = joined | append: ',' | append: concern -%}
-            {%- else -%}
-              {%- assign new_concerns = concern -%}
-            {%- endif -%}
-            <a href="?concerns={{ new_concerns }}"
-               class="lux-filter__chip"
-               data-concern="{{ concern }}">{{ concern_label }}</a>
-          {%- endif -%}
-        {%- endfor -%}
+            <a href="?{% if other_concerns != '' %}concerns={{ other_concerns }}{{ sort_fragment }}{% else %}{% if current_sort != 'manual' and current_sort != blank %}sort_by={{ current_sort }}{% endif %}{% endif %}" class="lux-active-pill">
+              <span>{{ concern_label }}</span>
+              <span class="lux-active-pill__x">×</span>
+            </a>
+          {%- endfor -%}
+        {%- endif -%}
       </div>
       {%- if current_concerns != '' -%}
-        <a href="{{ canonical_url | default: request.path }}" class="lux-filter__clear">Clear all filters</a>
+        <a href="{% if current_sort != 'manual' and current_sort != blank %}?sort_by={{ current_sort }}{% else %}{{ canonical_url | default: request.path }}{% endif %}" class="lux-clear-all">Clear all filters</a>
       {%- endif -%}
     </div>
-  {%- endif -%}
+  </div>
 
   {% paginate collection.products by 48 %}
-    {%- comment -%} Collect vendor names from the current page, in order of first appearance, then sort alphabetically {%- endcomment -%}
+    {%- comment -%} Collect vendor names from current page in alphabetical order {%- endcomment -%}
     {%- assign vendor_buf = '' -%}
     {%- for product in collection.products -%}
       {%- assign v = product.vendor | default: 'Other' -%}
@@ -576,13 +735,32 @@
       {%- assign vendor_products = collection.products | where: 'vendor', vendor_name -%}
       {%- if vendor_products.size == 0 -%}{% continue %}{%- endif -%}
 
+      {%- comment -%} Brand tagline mapping {%- endcomment -%}
+      {%- assign brand_tagline = '' -%}
+      {%- case vendor_name -%}
+        {%- when 'Alastin Skincare' -%}{%- assign brand_tagline = 'TriHex Technology · Pre & Post-Procedure' -%}
+        {%- when 'Colorescience' -%}{%- assign brand_tagline = '100% Mineral Sun Protection' -%}
+        {%- when 'EltaMD' -%}{%- assign brand_tagline = 'Dermatologist-Recommended SPF' -%}
+        {%- when 'Hydrinity' -%}{%- assign brand_tagline = 'Supercharged Hyaluronic Acid' -%}
+        {%- when 'Omnilux' -%}{%- assign brand_tagline = 'Clinically Proven LED Therapy' -%}
+        {%- when 'Skinbetter Science' -%}{%- assign brand_tagline = 'AlphaRet Technology' -%}
+        {%- when 'SkinCeuticals' -%}{%- assign brand_tagline = 'Advanced Antioxidant Science' -%}
+        {%- when 'SkinMedica' -%}{%- assign brand_tagline = 'Growth Factor Innovation' -%}
+        {%- when 'ZO Skin Health' -%}{%- assign brand_tagline = 'Dr. Zein Obagi · Therapeutic Skincare' -%}
+      {%- endcase -%}
+
       <section class="lux-brand-group" data-vendor="{{ vendor_name | escape }}">
         <div class="lux-brand-heading">
-          <h2 class="lux-brand-heading__name">{{ vendor_name }}</h2>
-          <span class="lux-brand-heading__count">
-            <span data-visible-count>{{ vendor_products.size }}</span>
-            {% if vendor_products.size == 1 %}Selection{% else %}Selections{% endif %}
-          </span>
+          <div class="lux-brand-heading__row">
+            <h2 class="lux-brand-heading__name">{{ vendor_name }}</h2>
+            <div class="lux-brand-heading__meta">
+              {%- if brand_tagline != '' -%}
+                <span class="lux-brand-heading__tagline">{{ brand_tagline }}</span>
+                <span class="lux-brand-heading__sep">·</span>
+              {%- endif -%}
+              <span><span data-visible-count>{{ vendor_products.size }}</span> {% if vendor_products.size == 1 %}selection{% else %}selections{% endif %}</span>
+            </div>
+          </div>
         </div>
 
         <div class="lux-catalog__grid">
@@ -592,6 +770,8 @@
               {%- assign on_sale = true -%}
             {%- endif -%}
 
+            {%- assign featured_rank = product.metafields.curated.featured_rank | default: 999 -%}
+
             {%- assign product_concerns = '' -%}
             {%- for tag in product.tags -%}
               {%- if tag contains 'concern:' -%}
@@ -600,13 +780,23 @@
               {%- endif -%}
             {%- endfor -%}
 
+            {%- assign secondary_image = product.images[1] -%}
+
             <a href="{{ product.url }}" class="lux-card" data-concerns="{{ product_concerns | strip }}">
               <div class="lux-card__image-wrapper">
-                {% if on_sale %}
-                  <span class="lux-card__badge lux-card__badge--sale">Sale</span>
-                {% elsif product.tags contains 'new' %}
-                  <span class="lux-card__badge">New</span>
-                {% endif %}
+                <div class="lux-badge-cluster">
+                  {%- if featured_rank == 1 -%}
+                    <span class="lux-card__badge lux-card__badge--bestseller">Bestseller</span>
+                  {%- elsif product.tags contains 'new' -%}
+                    <span class="lux-card__badge lux-card__badge--new">New</span>
+                  {%- else -%}
+                    <span></span>
+                  {%- endif -%}
+                  {%- if on_sale -%}
+                    <span class="lux-card__badge lux-card__badge--sale">Sale</span>
+                  {%- endif -%}
+                </div>
+
                 {% if product.featured_image %}
                   <img
                     src="{{ product.featured_image | img_url: '600x' }}"
@@ -617,23 +807,37 @@
                     height="750"
                   >
                 {% endif %}
+
+                {% if secondary_image %}
+                  <img
+                    src="{{ secondary_image | img_url: '600x' }}"
+                    alt=""
+                    aria-hidden="true"
+                    class="lux-card__image--alt"
+                    loading="lazy"
+                    width="600"
+                    height="750"
+                  >
+                {% endif %}
+
+                <div class="lux-card__quickview">View Product</div>
               </div>
 
               <h3 class="lux-card__title">{{ product.title }}</h3>
 
               <div class="lux-card__price{% if on_sale %} lux-card__price--on-sale{% endif %}">
-                {% if product.price_varies and on_sale == false %}
-                  <span class="lux-card__price-from">From</span>
-                {% endif %}
-                <span class="lux-card__price-current">{{ product.price | money }}</span>
-                {% if on_sale %}
+                {%- if on_sale -%}
+                  <span class="lux-card__price-current">{{ product.price | money }}</span>
                   <span class="lux-card__price-compare">{{ product.compare_at_price | money }}</span>
                   {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
-                  <span class="lux-card__price-save">Save {{ savings }}%</span>
-                {% endif %}
+                  <span class="lux-card__price-save">−{{ savings }}%</span>
+                {%- else -%}
+                  {% if product.price_varies %}
+                    <span class="lux-card__price-from">From</span>
+                  {% endif %}
+                  <span class="lux-card__price-current">{{ product.price | money }}</span>
+                {%- endif -%}
               </div>
-
-              <span class="lux-card__btn">View Product</span>
             </a>
           {% endfor %}
         </div>
@@ -685,12 +889,27 @@
     var root = document.querySelector('[data-lux-catalog]');
     if (!root) return;
 
+    // Sort dropdown -> reload with sort_by param, preserving concerns
+    var sortEl = root.querySelector('[data-lux-sort]');
+    if (sortEl) {
+      sortEl.addEventListener('change', function (e) {
+        var url = new URL(window.location.href);
+        url.searchParams.set('sort_by', e.target.value);
+        url.searchParams.delete('page');
+        window.location.href = url.toString();
+      });
+    }
+
+    // Concern filter -> hide non-matching cards on current page
     function applyFilter() {
       var params = new URLSearchParams(window.location.search);
       var concernsParam = params.get('concerns') || '';
-      var active = concernsParam ? concernsParam.split(',').map(function (c) { return c.trim(); }).filter(Boolean) : [];
+      var active = concernsParam
+        ? concernsParam.split(',').map(function (c) { return c.trim(); }).filter(Boolean)
+        : [];
 
-      var totalVisibleAcrossPage = 0;
+      var totalVisible = 0;
+
       root.querySelectorAll('.lux-brand-group').forEach(function (group) {
         var visibleInGroup = 0;
         group.querySelectorAll('.lux-card').forEach(function (card) {
@@ -705,12 +924,18 @@
         group.classList.toggle('lux-brand-group--hidden', visibleInGroup === 0);
         var countEl = group.querySelector('[data-visible-count]');
         if (countEl) countEl.textContent = visibleInGroup;
-        totalVisibleAcrossPage += visibleInGroup;
+        totalVisible += visibleInGroup;
       });
 
-      var noMatchEl = root.querySelector('[data-no-matches]');
-      if (noMatchEl) {
-        noMatchEl.classList.toggle('lux-catalog__no-matches--visible', totalVisibleAcrossPage === 0 && active.length > 0);
+      var noMatch = root.querySelector('[data-no-matches]');
+      if (noMatch) {
+        noMatch.classList.toggle('lux-catalog__no-matches--visible', totalVisible === 0 && active.length > 0);
+      }
+
+      // Update total result count if filtering is active
+      var totalEl = root.querySelector('[data-total-count]');
+      if (totalEl && active.length > 0) {
+        totalEl.textContent = totalVisible + (totalVisible === 1 ? ' selection' : ' selections') + ' matched';
       }
     }
 
