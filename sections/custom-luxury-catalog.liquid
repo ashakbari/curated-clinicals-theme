@@ -7,7 +7,20 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-{%- comment -%} Discover available concerns from all collection tags {%- endcomment -%}
+{%- comment -%} ===== State from URL ===== {%- endcomment -%}
+{%- assign current_concerns = request.params.concerns | default: '' -%}
+{%- assign current_concerns_list = current_concerns | split: ',' -%}
+{%- assign current_brands = request.params.brands | default: '' -%}
+{%- assign current_brands_list = current_brands | split: ',' -%}
+{%- assign current_sort = request.params.sort_by | default: collection.default_sort_by | default: 'manual' -%}
+
+{%- comment -%} ===== Sort fragment helper ===== {%- endcomment -%}
+{%- assign sort_fragment = '' -%}
+{%- if current_sort != 'manual' and current_sort != blank -%}
+  {%- assign sort_fragment = '&sort_by=' | append: current_sort -%}
+{%- endif -%}
+
+{%- comment -%} ===== Available concerns from collection tags ===== {%- endcomment -%}
 {%- assign available_concerns_raw = '' -%}
 {%- for tag in collection.all_tags -%}
   {%- if tag contains 'concern:' -%}
@@ -17,15 +30,9 @@
 {%- endfor -%}
 {%- assign available_concerns_list = available_concerns_raw | split: '|' | uniq | sort -%}
 
-{%- comment -%} Read current state from URL {%- endcomment -%}
-{%- assign current_concerns = request.params.concerns | default: '' -%}
-{%- assign current_concerns_list = current_concerns | split: ',' -%}
-{%- assign current_sort = request.params.sort_by | default: collection.default_sort_by | default: 'manual' -%}
-
-{%- assign sort_fragment = '' -%}
-{%- if current_sort != 'manual' and current_sort != blank -%}
-  {%- assign sort_fragment = '&sort_by=' | append: current_sort -%}
-{%- endif -%}
+{%- comment -%} ===== Known brands (covers full catalogue without paginate limits) ===== {%- endcomment -%}
+{%- assign known_brands_str = 'Alastin Skincare|Colorescience|EltaMD|Hydrinity|Omnilux|Skinbetter Science|SkinCeuticals|SkinMedica|ZO Skin Health' -%}
+{%- assign known_brands = known_brands_str | split: '|' -%}
 
 <style>
   .lux-catalog *, .lux-catalog *::before, .lux-catalog *::after { box-sizing: border-box; }
@@ -56,9 +63,7 @@
     margin: 0;
   }
 
-  /* ============================================================
-     HERO BAND
-     ============================================================ */
+  /* ===== HERO ===== */
   .lux-hero {
     position: relative;
     background: var(--ink-rich);
@@ -76,12 +81,7 @@
       radial-gradient(ellipse at bottom right, rgba(193, 154, 61, 0.08), transparent 50%);
     pointer-events: none;
   }
-  .lux-hero__inner {
-    position: relative;
-    z-index: 1;
-    max-width: 960px;
-    margin: 0 auto;
-  }
+  .lux-hero__inner { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; }
   .lux-hero__eyebrow {
     display: inline-flex;
     align-items: center;
@@ -153,13 +153,8 @@
     color: rgba(250, 246, 237, 0.6);
   }
 
-  /* ============================================================
-     BODY
-     ============================================================ */
-  .lux-body {
-    padding: 6rem 2rem 6rem;
-  }
-
+  /* ===== BODY ===== */
+  .lux-body { padding: 6rem 2rem 6rem; }
   .lux-intro {
     max-width: 760px;
     margin: 0 auto 5rem;
@@ -171,13 +166,13 @@
     color: var(--ink-soft);
   }
 
-  /* ===== FILTER ===== */
+  /* ===== FILTER PANEL ===== */
   .lux-filter {
     max-width: 1400px;
-    margin: 0 auto 3.5rem;
+    margin: 0 auto 3rem;
     background: var(--paper-warm);
     border: 1px solid var(--border);
-    padding: 2.25rem 2.25rem 2rem;
+    padding: 2.25rem;
   }
   .lux-filter__main {
     display: flex;
@@ -186,7 +181,8 @@
     gap: 2.5rem;
     flex-wrap: wrap;
   }
-  .lux-filter__group { flex: 1 1 auto; min-width: 280px; }
+  .lux-filter__filters { flex: 1 1 60%; min-width: 280px; display: flex; flex-direction: column; gap: 1.75rem; }
+  .lux-filter__row { display: flex; flex-direction: column; gap: 1rem; }
   .lux-filter__label {
     display: block;
     font-family: var(--ff-body);
@@ -195,7 +191,6 @@
     letter-spacing: 0.42em;
     text-transform: uppercase;
     color: var(--ink);
-    margin-bottom: 1.1rem;
   }
   .lux-chip-row { display: flex; flex-wrap: wrap; gap: 0.55rem; }
   .lux-chip {
@@ -266,13 +261,7 @@
     gap: 1rem;
     flex-wrap: wrap;
   }
-  .lux-active-row__left {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    flex-wrap: wrap;
-    flex: 1;
-  }
+  .lux-active-row__left { display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap; flex: 1; }
   .lux-result-count {
     font-family: var(--ff-display);
     font-style: italic;
@@ -296,7 +285,14 @@
     border: 1px solid var(--gold-deep);
     transition: all 0.25s ease;
   }
-  .lux-active-pill:hover { background: var(--ink-rich); border-color: var(--ink-rich); }
+  .lux-active-pill--brand {
+    background: var(--ink-rich);
+    border-color: var(--ink-rich);
+  }
+  .lux-active-pill:hover {
+    background: var(--ink);
+    border-color: var(--ink);
+  }
   .lux-active-pill__x { font-size: 1rem; line-height: 1; font-weight: 400; }
   .lux-clear-all {
     font-family: var(--ff-display);
@@ -310,13 +306,8 @@
   }
   .lux-clear-all:hover { color: var(--gold-deep); border-color: var(--gold-deep); }
 
-  /* ============================================================
-     BRAND SECTION
-     ============================================================ */
-  .lux-brand {
-    max-width: 1400px;
-    margin: 0 auto 9rem;
-  }
+  /* ===== BRAND ===== */
+  .lux-brand { max-width: 1400px; margin: 0 auto 9rem; }
   .lux-brand:last-of-type { margin-bottom: 0; }
   .lux-brand--hidden { display: none; }
 
@@ -371,18 +362,14 @@
     margin: 0;
   }
 
-  /* ============================================================
-     GRID — 2 LARGE CARDS PER ROW
-     ============================================================ */
+  /* ===== GRID ===== */
   .lux-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 7rem 5rem;
   }
 
-  /* ============================================================
-     CARD — editorial, large, image-dominant
-     ============================================================ */
+  /* ===== CARD ===== */
   .lux-card {
     position: relative;
     display: flex;
@@ -429,7 +416,6 @@
   }
   .lux-card:hover .lux-card__image { transform: scale(1.05); }
 
-  /* Sale badge */
   .lux-card__sale {
     position: absolute;
     top: 1.5rem;
@@ -445,23 +431,7 @@
     padding: 0.65rem 1.1rem;
   }
 
-  /* Card body */
-  .lux-card__body {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 0 0.5rem;
-  }
-
-  .lux-card__type {
-    font-family: var(--ff-body);
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 0.42em;
-    text-transform: uppercase;
-    color: var(--gold-deep);
-    margin: 0;
-  }
+  .lux-card__body { display: flex; flex-direction: column; gap: 0.85rem; padding: 0 0.5rem; }
   .lux-card__title {
     font-family: var(--ff-display);
     font-size: clamp(1.85rem, 2.4vw, 2.6rem);
@@ -470,6 +440,15 @@
     margin: 0;
     color: var(--ink-rich);
     letter-spacing: -0.005em;
+  }
+  .lux-card__tagline {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: clamp(1rem, 1.15vw, 1.15rem);
+    line-height: 1.5;
+    color: var(--ink-muted);
+    margin: 0;
+    max-width: 36ch;
   }
   .lux-card__price {
     display: flex;
@@ -481,23 +460,12 @@
     font-weight: 600;
     color: var(--ink-rich);
     letter-spacing: 0.02em;
-    margin: 0.25rem 0 0;
+    margin: 0.5rem 0 0;
   }
   .lux-card__price-current { color: var(--ink-rich); font-weight: 600; }
   .lux-card__price--on-sale .lux-card__price-current { color: var(--gold-deep); }
-  .lux-card__price-compare {
-    color: var(--ink-faint);
-    text-decoration: line-through;
-    font-weight: 400;
-    font-size: 1rem;
-  }
-  .lux-card__price-from {
-    font-size: 0.7rem;
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: var(--ink-muted);
-    font-weight: 700;
-  }
+  .lux-card__price-compare { color: var(--ink-faint); text-decoration: line-through; font-weight: 400; font-size: 1rem; }
+  .lux-card__price-from { font-size: 0.7rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--ink-muted); font-weight: 700; }
   .lux-card__price-save {
     display: inline-block;
     margin-left: auto;
@@ -511,12 +479,11 @@
     padding: 0.4rem 0.75rem;
   }
 
-  /* CTA — refined arrow link */
   .lux-card__cta {
     display: inline-flex;
     align-items: center;
     gap: 0.85rem;
-    margin-top: 1.75rem;
+    margin-top: 1.5rem;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid var(--ink-rich);
     font-family: var(--ff-body);
@@ -528,20 +495,12 @@
     align-self: flex-start;
     transition: color 0.3s ease, border-color 0.3s ease, gap 0.4s ease;
   }
-  .lux-card__cta-arrow {
-    font-size: 0.95rem;
-    transition: transform 0.35s ease;
-  }
-  .lux-card:hover .lux-card__cta {
-    color: var(--gold-deep);
-    border-bottom-color: var(--gold-deep);
-    gap: 1.4rem;
-  }
+  .lux-card__cta-arrow { font-size: 0.95rem; transition: transform 0.35s ease; }
+  .lux-card:hover .lux-card__cta { color: var(--gold-deep); border-bottom-color: var(--gold-deep); gap: 1.4rem; }
   .lux-card:hover .lux-card__cta-arrow { transform: translateX(6px); }
 
   /* ===== EMPTY ===== */
-  .lux-empty,
-  .lux-no-matches {
+  .lux-empty, .lux-no-matches {
     grid-column: 1 / -1;
     text-align: center;
     font-family: var(--ff-display);
@@ -555,29 +514,16 @@
   .lux-no-matches { display: none; }
   .lux-no-matches--visible { display: block; }
 
-  /* ============================================================
-     PAGINATION
-     ============================================================ */
+  /* ===== PAGINATION ===== */
   .lux-pagination {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 3rem;
-    max-width: 1400px;
-    margin: 6rem auto 0;
-    padding-top: 4rem;
-    border-top: 1px solid var(--border);
-    flex-wrap: wrap;
+    display: flex; align-items: center; justify-content: center;
+    gap: 3rem; max-width: 1400px; margin: 6rem auto 0;
+    padding-top: 4rem; border-top: 1px solid var(--border); flex-wrap: wrap;
   }
   .lux-pagination__nav {
-    font-family: var(--ff-body);
-    font-size: 0.7rem;
-    font-weight: 700;
-    letter-spacing: 0.4em;
-    text-transform: uppercase;
-    color: var(--ink-rich);
-    text-decoration: none;
-    padding: 0.75rem 0;
+    font-family: var(--ff-body); font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.4em; text-transform: uppercase;
+    color: var(--ink-rich); text-decoration: none; padding: 0.75rem 0;
     border-bottom: 1px solid transparent;
     transition: border-color 0.3s ease, color 0.3s ease;
   }
@@ -585,37 +531,20 @@
   .lux-pagination__nav--disabled { color: var(--ink-faint); opacity: 0.5; cursor: not-allowed; }
   .lux-pagination__pages { display: flex; align-items: center; gap: 1.4rem; }
   .lux-pagination__page {
-    font-family: var(--ff-display);
-    font-size: 1.3rem;
-    font-style: italic;
-    color: var(--ink-muted);
-    text-decoration: none;
-    min-width: 1.5rem;
-    text-align: center;
+    font-family: var(--ff-display); font-size: 1.3rem; font-style: italic;
+    color: var(--ink-muted); text-decoration: none; min-width: 1.5rem; text-align: center;
     transition: color 0.3s ease;
   }
   .lux-pagination__page:hover { color: var(--gold-deep); }
-  .lux-pagination__page--current {
-    color: var(--ink-rich);
-    font-weight: 500;
-    font-size: 1.6rem;
-    position: relative;
-  }
+  .lux-pagination__page--current { color: var(--ink-rich); font-weight: 500; font-size: 1.6rem; position: relative; }
   .lux-pagination__page--current::after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: -0.65rem;
-    width: 7px;
-    height: 7px;
-    background: var(--gold);
+    content: ""; position: absolute; left: 50%; bottom: -0.65rem;
+    width: 7px; height: 7px; background: var(--gold);
     transform: translateX(-50%) rotate(45deg);
   }
   .lux-pagination__page--ellipsis { color: var(--ink-faint); cursor: default; }
 
-  /* ============================================================
-     RESPONSIVE
-     ============================================================ */
+  /* ===== RESPONSIVE ===== */
   @media (max-width: 900px) {
     .lux-filter__main { flex-direction: column; align-items: stretch; }
     .lux-sort-group { align-self: flex-start; }
@@ -629,22 +558,19 @@
     .lux-body { padding: 4rem 1rem 4rem; }
     .lux-intro { margin-bottom: 3rem; font-size: 1rem; }
     .lux-filter { padding: 1.5rem; margin-bottom: 2.5rem; }
+    .lux-filter__filters { gap: 1.25rem; }
     .lux-chip { font-size: 0.65rem; padding: 0.65rem 1rem; letter-spacing: 0.13em; }
     .lux-brand { margin-bottom: 6rem; }
     .lux-brand__header { margin-bottom: 3rem; padding-bottom: 1.75rem; }
     .lux-brand__story { font-size: 1.05rem; }
-    .lux-grid {
-      grid-template-columns: 1fr;
-      gap: 5rem;
-    }
+    .lux-grid { grid-template-columns: 1fr; gap: 5rem; }
     .lux-card__image-wrapper { margin-bottom: 1.5rem; }
     .lux-card__title { font-size: 1.55rem; }
+    .lux-card__tagline { font-size: 0.95rem; }
     .lux-card__price { font-size: 1.05rem; }
     .lux-card__cta { font-size: 0.65rem; letter-spacing: 0.32em; }
   }
-  @media (max-width: 480px) {
-    .lux-grid { gap: 4rem; }
-  }
+  @media (max-width: 480px) { .lux-grid { gap: 4rem; } }
   @media (max-width: 600px) {
     .lux-pagination { gap: 1.5rem; margin-top: 4rem; padding-top: 2.5rem; }
     .lux-pagination__pages { gap: 0.85rem; }
@@ -679,45 +605,78 @@
       <p class="lux-intro">{{ section.settings.intro_text }}</p>
     {%- endif -%}
 
+    {%- comment -%} ===== FILTERS + SORT ===== {%- endcomment -%}
     <div class="lux-filter" data-lux-filter>
       <div class="lux-filter__main">
-        <div class="lux-filter__group">
-          <span class="lux-filter__label">Filter by skin concern</span>
-          <div class="lux-chip-row">
-            {%- for concern in available_concerns_list -%}
-              {%- if concern == blank -%}{% continue %}{%- endif -%}
-              {%- assign concern_label = concern | replace: '-', ' ' | capitalize -%}
-              {%- assign is_active = false -%}
-              {%- if current_concerns_list contains concern -%}{%- assign is_active = true -%}{%- endif -%}
+        <div class="lux-filter__filters">
 
-              {%- if is_active -%}
-                {%- assign other_concerns = '' -%}
-                {%- for c in current_concerns_list -%}
-                  {%- unless c == concern -%}
-                    {%- if other_concerns == '' -%}{%- assign other_concerns = c -%}
-                    {%- else -%}{%- assign other_concerns = other_concerns | append: ',' | append: c -%}{%- endif -%}
-                  {%- endunless -%}
-                {%- endfor -%}
-                {%- if other_concerns != '' -%}
-                  <a href="?concerns={{ other_concerns }}{{ sort_fragment }}" class="lux-chip lux-chip--active" data-concern="{{ concern }}">{{ concern_label }}</a>
+          {%- comment -%} ----- Concern chips ----- {%- endcomment -%}
+          <div class="lux-filter__row">
+            <span class="lux-filter__label">Filter by skin concern</span>
+            <div class="lux-chip-row">
+              {%- for concern in available_concerns_list -%}
+                {%- if concern == blank -%}{% continue %}{%- endif -%}
+                {%- assign concern_label = concern | replace: '-', ' ' | capitalize -%}
+                {%- assign is_active = false -%}
+                {%- if current_concerns_list contains concern -%}{%- assign is_active = true -%}{%- endif -%}
+
+                {%- if is_active -%}
+                  {%- assign other_concerns = '' -%}
+                  {%- for c in current_concerns_list -%}
+                    {%- unless c == concern -%}
+                      {%- if other_concerns == '' -%}{%- assign other_concerns = c -%}
+                      {%- else -%}{%- assign other_concerns = other_concerns | append: ',' | append: c -%}{%- endif -%}
+                    {%- endunless -%}
+                  {%- endfor -%}
+                  <a href="?{% if other_concerns != '' %}concerns={{ other_concerns }}{% endif %}{% if current_brands != '' %}{% if other_concerns != '' %}&{% endif %}brands={{ current_brands }}{% endif %}{% if current_sort != 'manual' and current_sort != blank %}{% if other_concerns != '' or current_brands != '' %}&{% endif %}sort_by={{ current_sort }}{% endif %}" class="lux-chip lux-chip--active">{{ concern_label }}</a>
                 {%- else -%}
-                  <a href="?{% if current_sort != 'manual' and current_sort != blank %}sort_by={{ current_sort }}{% endif %}" class="lux-chip lux-chip--active" data-concern="{{ concern }}">{{ concern_label }}</a>
+                  {%- assign joined = current_concerns_list | join: ',' -%}
+                  {%- if joined != '' -%}
+                    {%- assign new_concerns = joined | append: ',' | append: concern -%}
+                  {%- else -%}
+                    {%- assign new_concerns = concern -%}
+                  {%- endif -%}
+                  <a href="?concerns={{ new_concerns }}{% if current_brands != '' %}&brands={{ current_brands }}{% endif %}{{ sort_fragment }}" class="lux-chip">{{ concern_label }}</a>
                 {%- endif -%}
-              {%- else -%}
-                {%- assign joined = current_concerns_list | join: ',' -%}
-                {%- if joined != '' -%}
-                  {%- assign new_concerns = joined | append: ',' | append: concern -%}
+              {%- endfor -%}
+            </div>
+          </div>
+
+          {%- comment -%} ----- Brand chips ----- {%- endcomment -%}
+          <div class="lux-filter__row">
+            <span class="lux-filter__label">Filter by brand</span>
+            <div class="lux-chip-row">
+              {%- for brand in known_brands -%}
+                {%- if brand == blank -%}{% continue %}{%- endif -%}
+                {%- assign brand_slug = brand | handle -%}
+                {%- assign brand_active = false -%}
+                {%- if current_brands_list contains brand_slug -%}{%- assign brand_active = true -%}{%- endif -%}
+
+                {%- if brand_active -%}
+                  {%- assign other_brands = '' -%}
+                  {%- for b in current_brands_list -%}
+                    {%- unless b == brand_slug -%}
+                      {%- if other_brands == '' -%}{%- assign other_brands = b -%}
+                      {%- else -%}{%- assign other_brands = other_brands | append: ',' | append: b -%}{%- endif -%}
+                    {%- endunless -%}
+                  {%- endfor -%}
+                  <a href="?{% if current_concerns != '' %}concerns={{ current_concerns }}{% endif %}{% if other_brands != '' %}{% if current_concerns != '' %}&{% endif %}brands={{ other_brands }}{% endif %}{% if current_sort != 'manual' and current_sort != blank %}{% if current_concerns != '' or other_brands != '' %}&{% endif %}sort_by={{ current_sort }}{% endif %}" class="lux-chip lux-chip--active">{{ brand }}</a>
                 {%- else -%}
-                  {%- assign new_concerns = concern -%}
+                  {%- assign brands_joined = current_brands_list | join: ',' -%}
+                  {%- if brands_joined != '' -%}
+                    {%- assign new_brands = brands_joined | append: ',' | append: brand_slug -%}
+                  {%- else -%}
+                    {%- assign new_brands = brand_slug -%}
+                  {%- endif -%}
+                  <a href="?{% if current_concerns != '' %}concerns={{ current_concerns }}&{% endif %}brands={{ new_brands }}{{ sort_fragment }}" class="lux-chip">{{ brand }}</a>
                 {%- endif -%}
-                <a href="?concerns={{ new_concerns }}{{ sort_fragment }}" class="lux-chip" data-concern="{{ concern }}">{{ concern_label }}</a>
-              {%- endif -%}
-            {%- endfor -%}
+              {%- endfor -%}
+            </div>
           </div>
         </div>
 
-        <div class="lux-filter__group lux-sort-group">
-          <span class="lux-filter__label">Sort by</span>
+        <div class="lux-sort-group">
+          <span class="lux-filter__label" style="margin-bottom: 1rem; display: block;">Sort by</span>
           <div class="lux-sort-wrap">
             <select class="lux-sort" data-lux-sort aria-label="Sort products">
               <option value="manual"{% if current_sort == 'manual' %} selected{% endif %}>Featured</option>
@@ -734,11 +693,14 @@
       </div>
     </div>
 
+    {%- comment -%} ===== ACTIVE FILTER PILLS ===== {%- endcomment -%}
     <div class="lux-active-row">
       <div class="lux-active-row__left">
         <span class="lux-result-count" data-total-count>
           {{ collection.products_count | default: 0 }} {% if collection.products_count == 1 %}selection{% else %}selections{% endif %}
         </span>
+
+        {%- comment -%} Concern pills {%- endcomment -%}
         {%- if current_concerns != '' -%}
           {%- for concern in current_concerns_list -%}
             {%- if concern == blank -%}{% continue %}{%- endif -%}
@@ -750,14 +712,40 @@
                 {%- else -%}{%- assign other_concerns = other_concerns | append: ',' | append: c -%}{%- endif -%}
               {%- endunless -%}
             {%- endfor -%}
-            <a href="?{% if other_concerns != '' %}concerns={{ other_concerns }}{{ sort_fragment }}{% else %}{% if current_sort != 'manual' and current_sort != blank %}sort_by={{ current_sort }}{% endif %}{% endif %}" class="lux-active-pill">
+            <a href="?{% if other_concerns != '' %}concerns={{ other_concerns }}{% endif %}{% if current_brands != '' %}{% if other_concerns != '' %}&{% endif %}brands={{ current_brands }}{% endif %}{% if current_sort != 'manual' and current_sort != blank %}{% if other_concerns != '' or current_brands != '' %}&{% endif %}sort_by={{ current_sort }}{% endif %}" class="lux-active-pill">
               <span>{{ concern_label }}</span>
               <span class="lux-active-pill__x">×</span>
             </a>
           {%- endfor -%}
         {%- endif -%}
+
+        {%- comment -%} Brand pills {%- endcomment -%}
+        {%- if current_brands != '' -%}
+          {%- for brand_slug in current_brands_list -%}
+            {%- if brand_slug == blank -%}{% continue %}{%- endif -%}
+            {%- assign brand_label = '' -%}
+            {%- for b in known_brands -%}
+              {%- assign b_slug = b | handle -%}
+              {%- if b_slug == brand_slug -%}{%- assign brand_label = b -%}{%- endif -%}
+            {%- endfor -%}
+            {%- if brand_label == '' -%}{%- assign brand_label = brand_slug | replace: '-', ' ' | capitalize -%}{%- endif -%}
+
+            {%- assign other_brands = '' -%}
+            {%- for b in current_brands_list -%}
+              {%- unless b == brand_slug -%}
+                {%- if other_brands == '' -%}{%- assign other_brands = b -%}
+                {%- else -%}{%- assign other_brands = other_brands | append: ',' | append: b -%}{%- endif -%}
+              {%- endunless -%}
+            {%- endfor -%}
+            <a href="?{% if current_concerns != '' %}concerns={{ current_concerns }}{% endif %}{% if other_brands != '' %}{% if current_concerns != '' %}&{% endif %}brands={{ other_brands }}{% endif %}{% if current_sort != 'manual' and current_sort != blank %}{% if current_concerns != '' or other_brands != '' %}&{% endif %}sort_by={{ current_sort }}{% endif %}" class="lux-active-pill lux-active-pill--brand">
+              <span>{{ brand_label }}</span>
+              <span class="lux-active-pill__x">×</span>
+            </a>
+          {%- endfor -%}
+        {%- endif -%}
       </div>
-      {%- if current_concerns != '' -%}
+
+      {%- if current_concerns != '' or current_brands != '' -%}
         <a href="{% if current_sort != 'manual' and current_sort != blank %}?sort_by={{ current_sort }}{% else %}{{ canonical_url | default: request.path }}{% endif %}" class="lux-clear-all">Clear all filters</a>
       {%- endif -%}
     </div>
@@ -777,6 +765,7 @@
         {%- if vendor_name == blank -%}{% continue %}{%- endif -%}
         {%- assign vendor_products = collection.products | where: 'vendor', vendor_name -%}
         {%- if vendor_products.size == 0 -%}{% continue %}{%- endif -%}
+        {%- assign vendor_slug = vendor_name | handle -%}
 
         {%- assign brand_story = '' -%}
         {%- case vendor_name -%}
@@ -800,7 +789,7 @@
             {%- assign brand_story = 'Founded by Dr. Zein Obagi, ZO Skin Health is built around a philosophy of total skin restoration—pairing high-actives with barrier support for visible, lasting change.' -%}
         {%- endcase -%}
 
-        <section class="lux-brand" data-vendor="{{ vendor_name | escape }}">
+        <section class="lux-brand" data-vendor="{{ vendor_name | escape }}" data-vendor-slug="{{ vendor_slug }}">
           <div class="lux-brand__header">
             <div class="lux-brand__header-top">
               <h2 class="lux-brand__name">{{ vendor_name }}</h2>
@@ -826,11 +815,104 @@
                 {%- endif -%}
               {%- endfor -%}
 
+              {%- comment -%} Tagline: metafield override, else hardcoded fallback {%- endcomment -%}
+              {%- assign tagline = product.metafields.curated.tagline -%}
+              {%- if tagline == blank -%}
+                {%- case product.handle -%}
+                  {%- when 'skinceuticals-ce-ferulic' -%}{%- assign tagline = '15% L-ascorbic acid + ferulic acid antioxidant serum' -%}
+                  {%- when 'skinceuticals-triple-lipid-restore-2-4-2' -%}{%- assign tagline = 'Ceramide-cholesterol-fatty acid barrier moisturizer' -%}
+                  {%- when 'skinceuticals-phloretin-cf' -%}{%- assign tagline = 'Daytime antioxidant for oily and combination skin' -%}
+                  {%- when 'skinceuticals-h-a-intensifier' -%}{%- assign tagline = 'Multi-form hyaluronic acid plumping serum' -%}
+                  {%- when 'skinceuticals-silymarin-cf' -%}{%- assign tagline = 'Antioxidant vitamin C for blemish-prone skin' -%}
+                  {%- when 'skinceuticals-hydrating-b5-gel' -%}{%- assign tagline = 'Lightweight hyaluronic acid + B5 moisture gel' -%}
+                  {%- when 'skinceuticals-retinol' -%}{%- assign tagline = 'Pure retinol in three escalating strengths' -%}
+                  {%- when 'skinceuticals-a-g-e-interrupter-advanced' -%}{%- assign tagline = 'Anti-glycation moisturizer for mature skin' -%}
+                  {%- when 'skinceuticals-retexturing-activator' -%}{%- assign tagline = 'Hydrating chemical exfoliant for smoother surface' -%}
+                  {%- when 'skinceuticals-phyto-corrective-gel' -%}{%- assign tagline = 'Botanical calming gel for redness and sensitivity' -%}
+                  {%- when 'skinceuticals-serum-10-aox' -%}{%- assign tagline = 'Gentler 10% vitamin C for sensitive complexions' -%}
+                  {%- when 'skinceuticals-p-tiox-serum' -%}{%- assign tagline = 'Peptide serum that softens expression lines' -%}
+                  {%- when 'skinceuticals-cell-cycle-catalyst-serum' -%}{%- assign tagline = 'Renewal serum for smoother, brighter skin' -%}
+                  {%- when 'skinceuticals-emollience' -%}{%- assign tagline = 'Rich emollient cream for dry, sensitive skin' -%}
+                  {%- when 'skinceuticals-soothing-cleanser' -%}{%- assign tagline = 'Non-foaming cleanser for post-procedure skin' -%}
+                  {%- when 'skinceuticals-tripeptide-r-neck-repair' -%}{%- assign tagline = 'Retinol + peptide treatment for neck and décolleté' -%}
+                  {%- when 'skinceuticals-advanced-rgn-6' -%}{%- assign tagline = 'Laser-inspired regenerating cream for visible aging' -%}
+                  {%- when 'lha-serum' -%}{%- assign tagline = 'Oil-free acid serum for blemish-prone, aging skin' -%}
+                  {%- when 'skinceuticals-aox-lip-repair' -%}{%- assign tagline = 'Antioxidant lip treatment for fine lines' -%}
+                  {%- when 'zo-growth-factor-serum' -%}{%- assign tagline = 'Anti-aging serum with growth factors and retinol' -%}
+                  {%- when 'zo-wrinkle-and-texture-repair' -%}{%- assign tagline = '0.5% retinol nightly treatment' -%}
+                  {%- when 'zo-brightalive-skin-brightener' -%}{%- assign tagline = 'Non-retinol corrector for dark spots and tone' -%}
+                  {%- when 'zo-gentle-cleanser' -%}{%- assign tagline = 'Foaming daily cleanser for all skin types' -%}
+                  {%- when 'zo-exfoliating-polish' -%}{%- assign tagline = 'Micro-magnesium crystal scrub for smoother texture' -%}
+                  {%- when 'zo-complexion-renewal-pads' -%}{%- assign tagline = 'Glycolic acid pads for refined pores and clarity' -%}
+                  {%- when 'zo-aggressive-anti-aging-program' -%}{%- assign tagline = 'Comprehensive multi-step anti-aging system' -%}
+                  {%- when 'zo-daily-skincare-program' -%}{%- assign tagline = 'Foundational four-step daily routine' -%}
+                  {%- when 'zo-growth-factor-serum-eye' -%}{%- assign tagline = 'Growth factor eye serum with cooling tip' -%}
+                  {%- when 'zo-renewal-creme' -%}{%- assign tagline = 'Retinol moisturizer for hydration and tone' -%}
+                  {%- when 'zo-hydrating-creme' -%}{%- assign tagline = 'Barrier cream for dry, compromised skin' -%}
+                  {%- when 'zo-firming-serum' -%}{%- assign tagline = 'Elasticity-supporting daily serum' -%}
+                  {%- when 'zo-exfoliation-accelerator' -%}{%- assign tagline = 'Leave-on exfoliant for accelerated cell turnover' -%}
+                  {%- when 'zo-skin-brightening-program-and-texture-repair' -%}{%- assign tagline = 'Brightening kit with retinol resurfacing' -%}
+                  {%- when 'zo-skin-brightening-program-kit-non-retinol' -%}{%- assign tagline = 'Brightening kit without retinol or hydroquinone' -%}
+                  {%- when 'zo-skin-normalizing-system' -%}{%- assign tagline = 'Multi-step system for oily, acne-prone skin' -%}
+                  {%- when 'zo-dual-action-scrub' -%}{%- assign tagline = 'Physical and chemical exfoliating scrub' -%}
+                  {%- when 'zo-calming-toner' -%}{%- assign tagline = 'Soothing toner for sensitive complexions' -%}
+                  {%- when 'zo-exfoliating-cleanser' -%}{%- assign tagline = 'Daily cleanser with gentle exfoliation' -%}
+                  {%- when 'zo-getting-skin-ready-kit' -%}{%- assign tagline = 'Foundational three-step starter system' -%}
+                  {%- when 'zo-acne-treatment-pads' -%}{%- assign tagline = '2% salicylic acid pads for blemish-prone skin' -%}
+                  {%- when 'zo-skin-brightening-sheet-mask' -%}{%- assign tagline = 'Single-use brightening sheet mask' -%}
+                  {%- when 'zo-gentle-cleanser-travel-size' -%}{%- assign tagline = 'Travel-size daily cleanser for all skin types' -%}
+                  {%- when 'zo-wrinkle-and-texture-repair-travel-size' -%}{%- assign tagline = 'Travel-size 0.5% retinol cream' -%}
+                  {%- when 'zo-exfoliating-cleanser-travel-size' -%}{%- assign tagline = 'Travel-size exfoliating cleanser' -%}
+                  {%- when 'skinbetter-science-alpharet-overnight-cream' -%}{%- assign tagline = 'Patented AHA-retinoid nightly cream' -%}
+                  {%- when 'skinbetter-science-alto-advanced-defense-and-repair' -%}{%- assign tagline = 'Multi-antioxidant defense and repair serum' -%}
+                  {%- when 'skinbetter-science-eyemax-alpharet-overnight' -%}{%- assign tagline = 'AlphaRet nightly eye cream' -%}
+                  {%- when 'skinbetter-science-even-intensive-correcting-serum-face' -%}{%- assign tagline = 'Non-hydroquinone serum for hyperpigmentation' -%}
+                  {%- when 'skinbetter-science-interfuse-treatment-cream-face-neck' -%}{%- assign tagline = 'Collagen-supporting cream for face and neck' -%}
+                  {%- when 'skinbetter-science-mystro-active-balance-serum' -%}{%- assign tagline = 'Adaptogenic balancing serum for reactive skin' -%}
+                  {%- when 'skinbetter-science-alpharet-clearing-serum' -%}{%- assign tagline = 'AlphaRet + salicylic acid for acne-prone skin' -%}
+                  {%- when 'skinbetter-science-trio-luxe-moisture-treatment' -%}{%- assign tagline = 'Rich hydrating cream for very dry skin' -%}
+                  {%- when 'skinbetter-science-hydration-boosting-cream-face' -%}{%- assign tagline = 'Lightweight ceramide daily moisturizer' -%}
+                  {%- when 'skinbetter-science-trio-rebalancing-moisture-treatment' -%}{%- assign tagline = 'Lightweight moisturizer for combo and oily skin' -%}
+                  {%- when 'skinbetter-science-techno-neck-perfecting-cream' -%}{%- assign tagline = 'Nitric oxide complex for neck and décolleté' -%}
+                  {%- when 'skinbetter-science-instant-effect-eye-gel' -%}{%- assign tagline = 'Daily refreshing eye gel for puffiness' -%}
+                  {%- when 'skinbetter-science-interfuse-intensive-treatment-lines' -%}{%- assign tagline = 'Topical hyaluronic acid for deep expression lines' -%}
+                  {%- when 'skinbetter-science-refresh-detoxifying-scrub-mask-face' -%}{%- assign tagline = 'Clay-based scrub and detoxifying mask' -%}
+                  {%- when 'skinmedica-tns-advanced-serum' -%}{%- assign tagline = 'Dual-chamber growth factor anti-aging serum' -%}
+                  {%- when 'skinmedica-ha5®-rejuvenating-hydrator' -%}{%- assign tagline = 'Five-form hyaluronic acid hydrator' -%}
+                  {%- when 'skinmedica-lumivive™-system-day-night' -%}{%- assign tagline = 'Day-and-night environmental defense system' -%}
+                  {%- when 'skinmedica-retinol-complex' -%}{%- assign tagline = 'Progressive-strength retinol night treatment' -%}
+                  {%- when 'skinmedica®lytera-2-0' -%}{%- assign tagline = 'Non-hydroquinone serum for stubborn discoloration' -%}
+                  {%- when 'skinmedica-tns-eye-repair' -%}{%- assign tagline = 'Growth factor eye cream' -%}
+                  {%- when 'skinmedica-dermal-repair-cream' -%}{%- assign tagline = 'Rich antioxidant cream for dry, mature skin' -%}
+                  {%- when 'skinmedica-scar-gel' -%}{%- assign tagline = 'Topical gel to improve appearance of scars' -%}
+                  {%- when 'hydrinity-restorative-ha-serum' -%}{%- assign tagline = 'Comforting HA serum for compromised skin' -%}
+                  {%- when 'hydrinity-renewing-ha-serum' -%}{%- assign tagline = 'Hyaluronic acid serum that supports collagen' -%}
+                  {%- when 'hydrinity-vivid-brightening-serum' -%}{%- assign tagline = 'Multi-active brightening serum for uneven tone' -%}
+                  {%- when 'hydri-c-daily-vitamin-c-moisturizer' -%}{%- assign tagline = 'Stabilized vitamin C daily moisturizer' -%}
+                  {%- when 'hydrinity-hyacyn-active-purifying-mist' -%}{%- assign tagline = 'Hypochlorous acid mist for sensitive skin' -%}
+                  {%- when 'hydrinity-prelude-facial-treatment-cleanser' -%}{%- assign tagline = 'Treatment cleanser that primes for active ingredients' -%}
+                  {%- when 'hydrinity-luxe-lip' -%}{%- assign tagline = 'Plumping, hydrating luxury lip treatment' -%}
+                  {%- when 'alastin-regenerating-skin-nectar' -%}{%- assign tagline = 'TriHex Technology pre- and post-procedure serum' -%}
+                  {%- when 'alastin-restorative-skin-complex' -%}{%- assign tagline = 'TriHex daily moisturizer for firmness and elasticity' -%}
+                  {%- when 'alastin-ultra-nourishing-moisturizer' -%}{%- assign tagline = 'Deeply hydrating moisturizer for dry, sensitive skin' -%}
+                  {%- when 'alastin-inhance-post-injection-serum' -%}{%- assign tagline = 'Post-injectable recovery serum with cooling tip' -%}
+                  {%- when 'colorescience-sunforgettable®-total-protection™-face-shield-spf-50' -%}{%- assign tagline = 'Tinted mineral SPF 50 with environmental defense' -%}
+                  {%- when 'colorescience-sunforgettable-total-protection-brush-on-shield-spf-50' -%}{%- assign tagline = 'Brush-on mineral SPF for easy reapplication' -%}
+                  {%- when 'colorescience-even-up-3-in-1-skin-perfector-sunscreen-spf-50' -%}{%- assign tagline = 'Tinted SPF 50 that corrects discoloration' -%}
+                  {%- when 'colorescience-total-eye-3-in-1-renewal-care' -%}{%- assign tagline = 'Eye treatment with SPF and tinted correction' -%}
+                  {%- when 'colorescience-sunforgettable®-face-shield-flex' -%}{%- assign tagline = 'Flexible tinted mineral SPF for active skin' -%}
+                  {%- when 'colorescience-all-calm-multi-correction-serum' -%}{%- assign tagline = 'Multi-correction serum for redness and sensitivity' -%}
+                  {%- when 'colorescience-no-show-mineral-sunscreen-spf50' -%}{%- assign tagline = 'Mineral SPF that disappears on all skin tones' -%}
+                  {%- when 'elta-md-uv-daily-tinted' -%}{%- assign tagline = 'Lightweight tinted daily mineral SPF 40' -%}
+                  {%- when 'eltamd-uv-sport-broad-spectrum-spf-50' -%}{%- assign tagline = 'Water-resistant athletic mineral SPF 50' -%}
+                  {%- when 'eltamd-uv-sport-spf-50-226g' -%}{%- assign tagline = 'Large water-resistant mineral SPF 50' -%}
+                  {%- when 'omnilux-contour-face-red-light-infrared-light-therapy' -%}{%- assign tagline = 'FDA-cleared red and near-infrared LED mask' -%}
+                {%- endcase -%}
+              {%- endif -%}
+
               <a href="{{ product.url }}" class="lux-card" data-concerns="{{ product_concerns | strip }}">
                 <div class="lux-card__image-wrapper">
-                  {%- if on_sale -%}
-                    <span class="lux-card__sale">Sale</span>
-                  {%- endif -%}
+                  {%- if on_sale -%}<span class="lux-card__sale">Sale</span>{%- endif -%}
                   {% if product.featured_image %}
                     <img
                       src="{{ product.featured_image | img_url: '900x' }}"
@@ -844,11 +926,10 @@
                 </div>
 
                 <div class="lux-card__body">
-                  {%- if product.type != blank -%}
-                    <span class="lux-card__type">{{ product.type }}</span>
-                  {%- endif -%}
-
                   <h3 class="lux-card__title">{{ product.title }}</h3>
+                  {%- if tagline != blank -%}
+                    <p class="lux-card__tagline">{{ tagline }}</p>
+                  {%- endif -%}
 
                   <div class="lux-card__price{% if on_sale %} lux-card__price--on-sale{% endif %}">
                     {%- if on_sale -%}
@@ -857,9 +938,7 @@
                       {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
                       <span class="lux-card__price-save">−{{ savings }}%</span>
                     {%- else -%}
-                      {% if product.price_varies %}
-                        <span class="lux-card__price-from">From</span>
-                      {% endif %}
+                      {% if product.price_varies %}<span class="lux-card__price-from">From</span>{% endif %}
                       <span class="lux-card__price-current">{{ product.price | money }}</span>
                     {%- endif -%}
                   </div>
@@ -880,7 +959,7 @@
       {%- endif -%}
 
       <p class="lux-no-matches" data-no-matches>
-        No products match the selected concerns on this page. Try clearing filters or visiting another page.
+        No products match the selected filters on this page. Try clearing filters or visiting another page.
       </p>
 
       {% if paginate.pages > 1 %}
@@ -890,7 +969,6 @@
           {% else %}
             <span class="lux-pagination__nav lux-pagination__nav--disabled">&larr; Previous</span>
           {% endif %}
-
           <div class="lux-pagination__pages">
             {% for part in paginate.parts %}
               {% if part.is_link %}
@@ -904,7 +982,6 @@
               {% endif %}
             {% endfor %}
           </div>
-
           {% if paginate.next %}
             <a href="{{ paginate.next.url }}" class="lux-pagination__nav">Next &rarr;</a>
           {% else %}
@@ -935,23 +1012,37 @@
     function applyFilter() {
       var params = new URLSearchParams(window.location.search);
       var concernsParam = params.get('concerns') || '';
-      var active = concernsParam
+      var brandsParam = params.get('brands') || '';
+
+      var activeConcerns = concernsParam
         ? concernsParam.split(',').map(function (c) { return c.trim(); }).filter(Boolean)
+        : [];
+      var activeBrands = brandsParam
+        ? brandsParam.split(',').map(function (b) { return b.trim(); }).filter(Boolean)
         : [];
 
       var totalVisible = 0;
 
       root.querySelectorAll('.lux-brand').forEach(function (group) {
+        var vendorSlug = group.dataset.vendorSlug || '';
+        var brandMatches = activeBrands.length === 0 || activeBrands.indexOf(vendorSlug) !== -1;
+
+        if (!brandMatches) {
+          group.classList.add('lux-brand--hidden');
+          return;
+        }
+
         var visibleInGroup = 0;
         group.querySelectorAll('.lux-card').forEach(function (card) {
           var matches = true;
-          if (active.length > 0) {
+          if (activeConcerns.length > 0) {
             var concerns = (card.dataset.concerns || '').split(/\s+/).filter(Boolean);
-            matches = active.some(function (c) { return concerns.indexOf(c) !== -1; });
+            matches = activeConcerns.some(function (c) { return concerns.indexOf(c) !== -1; });
           }
           card.classList.toggle('lux-card--hidden', !matches);
           if (matches) visibleInGroup++;
         });
+
         group.classList.toggle('lux-brand--hidden', visibleInGroup === 0);
         var countEl = group.querySelector('[data-visible-count]');
         if (countEl) countEl.textContent = visibleInGroup;
@@ -960,11 +1051,11 @@
 
       var noMatch = root.querySelector('[data-no-matches]');
       if (noMatch) {
-        noMatch.classList.toggle('lux-no-matches--visible', totalVisible === 0 && active.length > 0);
+        noMatch.classList.toggle('lux-no-matches--visible', totalVisible === 0 && (activeConcerns.length > 0 || activeBrands.length > 0));
       }
 
       var totalEl = root.querySelector('[data-total-count]');
-      if (totalEl && active.length > 0) {
+      if (totalEl && (activeConcerns.length > 0 || activeBrands.length > 0)) {
         totalEl.textContent = totalVisible + (totalVisible === 1 ? ' selection' : ' selections') + ' matched';
       }
     }
