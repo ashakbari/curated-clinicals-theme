@@ -6,6 +6,20 @@
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 
+{%- comment -%} Discover available concerns from all collection tags {%- endcomment -%}
+{%- assign available_concerns_raw = '' -%}
+{%- for tag in collection.all_tags -%}
+  {%- if tag contains 'concern:' -%}
+    {%- assign concern_slug = tag | remove: 'concern:' -%}
+    {%- assign available_concerns_raw = available_concerns_raw | append: concern_slug | append: '|' -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- assign available_concerns_list = available_concerns_raw | split: '|' | uniq | sort -%}
+
+{%- comment -%} Read current concern filter from URL {%- endcomment -%}
+{%- assign current_concerns = request.params.concerns | default: '' -%}
+{%- assign current_concerns_list = current_concerns | split: ',' -%}
+
 <style>
   .lux-catalog *, .lux-catalog *::before, .lux-catalog *::after { box-sizing: border-box; }
   .lux-catalog {
@@ -30,7 +44,7 @@
   /* ===== HEADER ===== */
   .lux-catalog__header {
     text-align: center;
-    margin: 0 auto 5rem;
+    margin: 0 auto 4rem;
     max-width: 880px;
   }
 
@@ -95,13 +109,116 @@
     letter-spacing: 0.05em;
   }
 
+  /* ===== FILTER ===== */
+  .lux-filter {
+    max-width: 1400px;
+    margin: 0 auto 4rem;
+    padding-bottom: 2.5rem;
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+  .lux-filter__label {
+    display: block;
+    font-family: var(--ff-body);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 1.5rem;
+  }
+  .lux-filter__chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+  .lux-filter__chip {
+    display: inline-block;
+    font-family: var(--ff-body);
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-decoration: none;
+    padding: 0.7rem 1.25rem;
+    border: 1px solid var(--border);
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+  }
+  .lux-filter__chip:hover {
+    border-color: var(--gold);
+    color: var(--gold-deep);
+  }
+  .lux-filter__chip--active {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .lux-filter__chip--active:hover {
+    background: var(--gold-deep);
+    border-color: var(--gold-deep);
+    color: var(--paper);
+  }
+  .lux-filter__clear {
+    display: inline-block;
+    margin-top: 1.25rem;
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--ink-soft);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink-soft);
+    padding-bottom: 2px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+  .lux-filter__clear:hover {
+    color: var(--gold-deep);
+    border-color: var(--gold-deep);
+  }
+
+  /* ===== BRAND GROUP ===== */
+  .lux-brand-group {
+    max-width: 1400px;
+    margin: 0 auto 5rem;
+  }
+  .lux-brand-group:last-of-type { margin-bottom: 0; }
+  .lux-brand-group--hidden { display: none; }
+
+  .lux-brand-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .lux-brand-heading__name {
+    font-family: var(--ff-display);
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 300;
+    margin: 0;
+    color: var(--ink);
+    letter-spacing: -0.005em;
+  }
+  .lux-brand-heading__count {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+  }
+
   /* ===== GRID ===== */
   .lux-catalog__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 4rem 2.5rem;
-    max-width: 1400px;
-    margin: 0 auto;
   }
 
   /* ===== CARD ===== */
@@ -113,6 +230,7 @@
     color: inherit;
     padding-top: 1.25rem;
   }
+  .lux-card--hidden { display: none; }
   .lux-card::before {
     content: "";
     position: absolute;
@@ -143,9 +261,7 @@
     transition: border-color 0.4s ease;
     z-index: 1;
   }
-  .lux-card:hover .lux-card__image-wrapper::after {
-    border-color: var(--gold);
-  }
+  .lux-card:hover .lux-card__image-wrapper::after { border-color: var(--gold); }
 
   .lux-card__image {
     width: 100%;
@@ -184,9 +300,9 @@
 
   .lux-card__title {
     font-family: var(--ff-display);
-    font-size: 1.65rem;
+    font-size: 1.5rem;
     font-weight: 400;
-    line-height: 1.15;
+    line-height: 1.2;
     margin: 0 0 1rem 0;
     color: var(--ink);
     letter-spacing: -0.005em;
@@ -271,6 +387,18 @@
     color: var(--ink-soft);
     padding: 4rem 0;
   }
+  .lux-catalog__no-matches {
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 1.3rem;
+    color: var(--ink-soft);
+    padding: 4rem 0;
+    display: none;
+  }
+  .lux-catalog__no-matches--visible { display: block; }
 
   /* ===== PAGINATION ===== */
   .lux-pagination {
@@ -324,9 +452,7 @@
     text-align: center;
     transition: color 0.3s ease;
   }
-  .lux-pagination__page:hover {
-    color: var(--gold-deep);
-  }
+  .lux-pagination__page:hover { color: var(--gold-deep); }
   .lux-pagination__page--current {
     color: var(--ink);
     font-weight: 500;
@@ -338,7 +464,6 @@
     position: absolute;
     left: 50%;
     bottom: -0.5rem;
-    transform: translateX(-50%);
     width: 6px;
     height: 6px;
     background: var(--gold);
@@ -352,12 +477,16 @@
   /* ===== RESPONSIVE ===== */
   @media (max-width: 768px) {
     .lux-catalog { padding: 4rem 1rem 3rem; }
-    .lux-catalog__header { margin-bottom: 3.5rem; }
+    .lux-catalog__header { margin-bottom: 3rem; }
+    .lux-filter { margin-bottom: 3rem; }
+    .lux-filter__chip { font-size: 0.65rem; padding: 0.6rem 1rem; letter-spacing: 0.15em; }
+    .lux-brand-group { margin-bottom: 4rem; }
+    .lux-brand-heading { margin-bottom: 2rem; }
     .lux-catalog__grid {
       grid-template-columns: repeat(2, 1fr);
       gap: 2.5rem 1rem;
     }
-    .lux-card__title { font-size: 1.2rem; }
+    .lux-card__title { font-size: 1.15rem; }
     .lux-card__btn { letter-spacing: 0.25em; padding: 0.9rem 0.5rem; }
     .lux-catalog__eyebrow::before,
     .lux-catalog__eyebrow::after { width: 1.5rem; }
@@ -373,7 +502,7 @@
   }
 </style>
 
-<div class="lux-catalog">
+<div class="lux-catalog" data-lux-catalog>
   <div class="lux-catalog__header">
     <span class="lux-catalog__eyebrow">{{ section.settings.eyebrow_text | default: 'Medical-Grade Skincare' }}</span>
     <h1 class="lux-catalog__title">{{ collection.title | default: 'Our Curated Collection' }}</h1>
@@ -386,57 +515,138 @@
     </p>
   </div>
 
-  {% paginate collection.products by 24 %}
-    <div class="lux-catalog__grid">
-      {% for product in collection.products %}
-        {%- assign on_sale = false -%}
-        {%- if product.compare_at_price > product.price -%}
-          {%- assign on_sale = true -%}
-        {%- endif -%}
+  {%- if available_concerns_list.size > 0 -%}
+    <div class="lux-filter" data-lux-filter>
+      <span class="lux-filter__label">Filter by skin concern</span>
+      <div class="lux-filter__chips">
+        {%- for concern in available_concerns_list -%}
+          {%- if concern == blank -%}{% continue %}{%- endif -%}
+          {%- assign concern_label = concern | replace: '-', ' ' | capitalize -%}
+          {%- assign is_active = false -%}
+          {%- if current_concerns_list contains concern -%}
+            {%- assign is_active = true -%}
+          {%- endif -%}
 
-        <a href="{{ product.url }}" class="lux-card">
-          <div class="lux-card__image-wrapper">
-            {% if on_sale %}
-              <span class="lux-card__badge lux-card__badge--sale">Sale</span>
-            {% elsif product.tags contains 'new' %}
-              <span class="lux-card__badge">New</span>
-            {% endif %}
-            {% if product.featured_image %}
-              <img
-                src="{{ product.featured_image | img_url: '600x' }}"
-                alt="{{ product.title | escape }}"
-                class="lux-card__image"
-                loading="lazy"
-                width="600"
-                height="750"
-              >
-            {% endif %}
-          </div>
-
-          {% if product.vendor != blank %}
-            <div class="lux-card__vendor">{{ product.vendor }}</div>
-          {% endif %}
-
-          <h3 class="lux-card__title">{{ product.title }}</h3>
-
-          <div class="lux-card__price{% if on_sale %} lux-card__price--on-sale{% endif %}">
-            {% if product.price_varies and on_sale == false %}
-              <span class="lux-card__price-from">From</span>
-            {% endif %}
-            <span class="lux-card__price-current">{{ product.price | money }}</span>
-            {% if on_sale %}
-              <span class="lux-card__price-compare">{{ product.compare_at_price | money }}</span>
-              {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
-              <span class="lux-card__price-save">Save {{ savings }}%</span>
-            {% endif %}
-          </div>
-
-          <span class="lux-card__btn">View Product</span>
-        </a>
-      {% else %}
-        <p class="lux-catalog__empty">No products found in this collection.</p>
-      {% endfor %}
+          {%- if is_active -%}
+            {%- assign other_concerns = '' -%}
+            {%- for c in current_concerns_list -%}
+              {%- unless c == concern -%}
+                {%- if other_concerns == '' -%}
+                  {%- assign other_concerns = c -%}
+                {%- else -%}
+                  {%- assign other_concerns = other_concerns | append: ',' | append: c -%}
+                {%- endif -%}
+              {%- endunless -%}
+            {%- endfor -%}
+            <a href="{% if other_concerns != '' %}?concerns={{ other_concerns }}{% else %}?{% endif %}"
+               class="lux-filter__chip lux-filter__chip--active"
+               data-concern="{{ concern }}">{{ concern_label }}</a>
+          {%- else -%}
+            {%- assign joined = current_concerns_list | join: ',' -%}
+            {%- if joined != '' -%}
+              {%- assign new_concerns = joined | append: ',' | append: concern -%}
+            {%- else -%}
+              {%- assign new_concerns = concern -%}
+            {%- endif -%}
+            <a href="?concerns={{ new_concerns }}"
+               class="lux-filter__chip"
+               data-concern="{{ concern }}">{{ concern_label }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      {%- if current_concerns != '' -%}
+        <a href="{{ canonical_url | default: request.path }}" class="lux-filter__clear">Clear all filters</a>
+      {%- endif -%}
     </div>
+  {%- endif -%}
+
+  {% paginate collection.products by 48 %}
+    {%- comment -%} Collect vendor names from the current page, in order of first appearance, then sort alphabetically {%- endcomment -%}
+    {%- assign vendor_buf = '' -%}
+    {%- for product in collection.products -%}
+      {%- assign v = product.vendor | default: 'Other' -%}
+      {%- unless vendor_buf contains v -%}
+        {%- assign vendor_buf = vendor_buf | append: v | append: '|||' -%}
+      {%- endunless -%}
+    {%- endfor -%}
+    {%- assign vendors_on_page = vendor_buf | split: '|||' | sort_natural -%}
+
+    {%- for vendor_name in vendors_on_page -%}
+      {%- if vendor_name == blank -%}{% continue %}{%- endif -%}
+      {%- assign vendor_products = collection.products | where: 'vendor', vendor_name -%}
+      {%- if vendor_products.size == 0 -%}{% continue %}{%- endif -%}
+
+      <section class="lux-brand-group" data-vendor="{{ vendor_name | escape }}">
+        <div class="lux-brand-heading">
+          <h2 class="lux-brand-heading__name">{{ vendor_name }}</h2>
+          <span class="lux-brand-heading__count">
+            <span data-visible-count>{{ vendor_products.size }}</span>
+            {% if vendor_products.size == 1 %}Selection{% else %}Selections{% endif %}
+          </span>
+        </div>
+
+        <div class="lux-catalog__grid">
+          {% for product in vendor_products %}
+            {%- assign on_sale = false -%}
+            {%- if product.compare_at_price > product.price -%}
+              {%- assign on_sale = true -%}
+            {%- endif -%}
+
+            {%- assign product_concerns = '' -%}
+            {%- for tag in product.tags -%}
+              {%- if tag contains 'concern:' -%}
+                {%- assign cslug = tag | remove: 'concern:' -%}
+                {%- assign product_concerns = product_concerns | append: cslug | append: ' ' -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            <a href="{{ product.url }}" class="lux-card" data-concerns="{{ product_concerns | strip }}">
+              <div class="lux-card__image-wrapper">
+                {% if on_sale %}
+                  <span class="lux-card__badge lux-card__badge--sale">Sale</span>
+                {% elsif product.tags contains 'new' %}
+                  <span class="lux-card__badge">New</span>
+                {% endif %}
+                {% if product.featured_image %}
+                  <img
+                    src="{{ product.featured_image | img_url: '600x' }}"
+                    alt="{{ product.title | escape }}"
+                    class="lux-card__image"
+                    loading="lazy"
+                    width="600"
+                    height="750"
+                  >
+                {% endif %}
+              </div>
+
+              <h3 class="lux-card__title">{{ product.title }}</h3>
+
+              <div class="lux-card__price{% if on_sale %} lux-card__price--on-sale{% endif %}">
+                {% if product.price_varies and on_sale == false %}
+                  <span class="lux-card__price-from">From</span>
+                {% endif %}
+                <span class="lux-card__price-current">{{ product.price | money }}</span>
+                {% if on_sale %}
+                  <span class="lux-card__price-compare">{{ product.compare_at_price | money }}</span>
+                  {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+                  <span class="lux-card__price-save">Save {{ savings }}%</span>
+                {% endif %}
+              </div>
+
+              <span class="lux-card__btn">View Product</span>
+            </a>
+          {% endfor %}
+        </div>
+      </section>
+    {%- endfor -%}
+
+    {%- if collection.products.size == 0 -%}
+      <p class="lux-catalog__empty">No products found in this collection.</p>
+    {%- endif -%}
+
+    <p class="lux-catalog__no-matches" data-no-matches>
+      No products match the selected concerns on this page. Try clearing filters or visiting another page.
+    </p>
 
     {% if paginate.pages > 1 %}
       <nav class="lux-pagination" aria-label="Pagination">
@@ -469,6 +679,44 @@
     {% endif %}
   {% endpaginate %}
 </div>
+
+<script>
+  (function () {
+    var root = document.querySelector('[data-lux-catalog]');
+    if (!root) return;
+
+    function applyFilter() {
+      var params = new URLSearchParams(window.location.search);
+      var concernsParam = params.get('concerns') || '';
+      var active = concernsParam ? concernsParam.split(',').map(function (c) { return c.trim(); }).filter(Boolean) : [];
+
+      var totalVisibleAcrossPage = 0;
+      root.querySelectorAll('.lux-brand-group').forEach(function (group) {
+        var visibleInGroup = 0;
+        group.querySelectorAll('.lux-card').forEach(function (card) {
+          var matches = true;
+          if (active.length > 0) {
+            var concerns = (card.dataset.concerns || '').split(/\s+/).filter(Boolean);
+            matches = active.some(function (c) { return concerns.indexOf(c) !== -1; });
+          }
+          card.classList.toggle('lux-card--hidden', !matches);
+          if (matches) visibleInGroup++;
+        });
+        group.classList.toggle('lux-brand-group--hidden', visibleInGroup === 0);
+        var countEl = group.querySelector('[data-visible-count]');
+        if (countEl) countEl.textContent = visibleInGroup;
+        totalVisibleAcrossPage += visibleInGroup;
+      });
+
+      var noMatchEl = root.querySelector('[data-no-matches]');
+      if (noMatchEl) {
+        noMatchEl.classList.toggle('lux-catalog__no-matches--visible', totalVisibleAcrossPage === 0 && active.length > 0);
+      }
+    }
+
+    applyFilter();
+  })();
+</script>
 
 {% schema %}
 {
