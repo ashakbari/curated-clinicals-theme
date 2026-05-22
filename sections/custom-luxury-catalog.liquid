@@ -153,6 +153,195 @@
     color: rgba(250, 246, 237, 0.6);
   }
 
+  /* ===== INTAKE SCREEN ===== */
+  .lux-intake { display: none; }
+  .lux-catalog--intake-mode .lux-intake { display: block; }
+  .lux-catalog--intake-mode .lux-body { display: none; }
+
+  .lux-intake {
+    background: var(--paper-warm);
+    border-bottom: 1px solid var(--border);
+    padding: 6.5rem 2rem 6rem;
+    position: relative;
+  }
+  .lux-intake::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 50%;
+    transform: translateX(-50%);
+    width: 8rem;
+    height: 3px;
+    background: var(--gold);
+  }
+  .lux-intake__inner { max-width: 920px; margin: 0 auto; text-align: center; }
+  .lux-intake__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.2rem;
+    font-family: var(--ff-body);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    margin-bottom: 1.5rem;
+  }
+  .lux-intake__eyebrow::before,
+  .lux-intake__eyebrow::after {
+    content: "";
+    width: 2.5rem;
+    height: 1px;
+    background: var(--gold-deep);
+    opacity: 0.6;
+  }
+  .lux-intake__title {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+    font-weight: 300;
+    margin: 0 0 1.5rem;
+    color: var(--ink-rich);
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .lux-intake__subtitle {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: clamp(1.05rem, 1.3vw, 1.25rem);
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 620px;
+    margin: 0 auto;
+  }
+  .lux-intake__step { margin-top: 4rem; }
+  .lux-intake__step-label {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: clamp(1.3rem, 1.8vw, 1.65rem);
+    font-weight: 400;
+    color: var(--ink-rich);
+    margin: 0 0 1.75rem;
+  }
+  .lux-intake__chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.65rem;
+  }
+  .lux-intake__chip {
+    font-family: var(--ff-body);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-rich);
+    background: var(--paper);
+    border: 1px solid var(--border-strong);
+    padding: 0.85rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .lux-intake__chip:hover {
+    border-color: var(--ink-rich);
+    color: var(--ink-rich);
+  }
+  .lux-intake__chip.is-selected {
+    background: var(--ink-rich);
+    color: var(--paper);
+    border-color: var(--ink-rich);
+    box-shadow: inset 0 0 0 2px var(--gold);
+  }
+  .lux-intake__actions {
+    margin-top: 4.5rem;
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .lux-intake__cta {
+    font-family: var(--ff-body);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 1.2rem 2.5rem;
+    border: 1px solid var(--ink-rich);
+    background: var(--ink-rich);
+    color: var(--paper);
+    transition: all 0.3s ease;
+  }
+  .lux-intake__cta--primary:hover:not(:disabled) {
+    background: var(--gold-deep);
+    border-color: var(--gold-deep);
+  }
+  .lux-intake__cta--primary:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .lux-intake__cta--secondary {
+    background: transparent;
+    color: var(--ink-rich);
+    border: none;
+    border-bottom: 1px solid var(--ink-rich);
+    padding: 1.2rem 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    letter-spacing: 0.35em;
+  }
+  .lux-intake__cta--secondary:hover {
+    color: var(--gold-deep);
+    border-bottom-color: var(--gold-deep);
+  }
+  .lux-intake__cta-arrow {
+    font-size: 0.95rem;
+    transition: transform 0.3s ease;
+  }
+  .lux-intake__cta--secondary:hover .lux-intake__cta-arrow {
+    transform: translateX(5px);
+  }
+
+  /* ===== PERSONALIZE TRIGGER ===== */
+  .lux-personalize {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    font-family: var(--ff-body);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-rich);
+    background: transparent;
+    border: 1px solid var(--ink-rich);
+    padding: 0.6rem 1.1rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+  }
+  .lux-personalize:hover {
+    background: var(--ink-rich);
+    color: var(--paper);
+  }
+  .lux-personalize__icon { font-size: 0.85rem; line-height: 1; }
+
+  .lux-active-row__right {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 768px) {
+    .lux-intake { padding: 4.5rem 1rem 4rem; }
+    .lux-intake__step { margin-top: 3rem; }
+    .lux-intake__actions { margin-top: 3rem; gap: 1.25rem; }
+    .lux-intake__chip { font-size: 0.7rem; padding: 0.7rem 1.2rem; letter-spacing: 0.15em; }
+    .lux-intake__cta { padding: 1rem 2rem; font-size: 0.65rem; letter-spacing: 0.3em; }
+  }
+
   /* ===== BODY ===== */
   .lux-body { padding: 6rem 2rem 6rem; }
   .lux-intro {
@@ -644,6 +833,49 @@
     </div>
   </section>
 
+  {%- comment -%} ============ INTAKE SCREEN ============ {%- endcomment -%}
+  <section class="lux-intake" data-lux-intake>
+    <div class="lux-intake__inner">
+      <span class="lux-intake__eyebrow">Personalize Your Visit</span>
+      <h2 class="lux-intake__title">Tell us where to begin</h2>
+      <p class="lux-intake__subtitle">
+        Choose the concerns you'd like to address and any preferred brands. We'll curate selections from our shelves to match — or you can browse the entire collection.
+      </p>
+
+      <div class="lux-intake__step">
+        <h3 class="lux-intake__step-label">What concerns you most?</h3>
+        <div class="lux-intake__chip-row" data-intake-concerns>
+          {%- for concern in available_concerns_list -%}
+            {%- if concern == blank -%}{% continue %}{%- endif -%}
+            {%- assign concern_label = concern | replace: '-', ' ' | capitalize -%}
+            <button type="button" class="lux-intake__chip" data-value="{{ concern }}">{{ concern_label }}</button>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <div class="lux-intake__step">
+        <h3 class="lux-intake__step-label">Any preferred brands?</h3>
+        <div class="lux-intake__chip-row" data-intake-brands>
+          {%- for brand in known_brands -%}
+            {%- if brand == blank -%}{% continue %}{%- endif -%}
+            {%- assign brand_slug = brand | handle -%}
+            <button type="button" class="lux-intake__chip" data-value="{{ brand_slug }}">{{ brand }}</button>
+          {%- endfor -%}
+        </div>
+      </div>
+
+      <div class="lux-intake__actions">
+        <button type="button" class="lux-intake__cta lux-intake__cta--primary" data-intake-curate disabled>
+          Curate My Selection
+        </button>
+        <button type="button" class="lux-intake__cta lux-intake__cta--secondary" data-intake-skip>
+          Browse Everything
+          <span class="lux-intake__cta-arrow" aria-hidden="true">→</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
   {%- comment -%} ============ BODY ============ {%- endcomment -%}
   <div class="lux-body">
 
@@ -791,9 +1023,15 @@
         {%- endif -%}
       </div>
 
-      {%- if current_concerns != '' or current_brands != '' -%}
-        <a href="{% if current_sort != 'manual' and current_sort != blank %}?sort_by={{ current_sort }}{% else %}{{ canonical_url | default: request.path }}{% endif %}" class="lux-clear-all">Clear all filters</a>
-      {%- endif -%}
+      <div class="lux-active-row__right">
+        <button type="button" class="lux-personalize" data-intake-show>
+          <span class="lux-personalize__icon" aria-hidden="true">↻</span>
+          <span>Personalize</span>
+        </button>
+        {%- if current_concerns != '' or current_brands != '' -%}
+          <a href="{% if current_sort != 'manual' and current_sort != blank %}?sort_by={{ current_sort }}{% else %}{{ canonical_url | default: request.path }}{% endif %}" class="lux-clear-all">Clear all filters</a>
+        {%- endif -%}
+      </div>
     </div>
 
     {%- comment -%} ===== BRAND SECTIONS ===== {%- endcomment -%}
@@ -1159,7 +1397,87 @@
     var root = document.querySelector('[data-lux-catalog]');
     if (!root) return;
 
+    var intake = root.querySelector('[data-lux-intake]');
     var sortEl = root.querySelector('[data-lux-sort]');
+    var personalizeBtn = root.querySelector('[data-intake-show]');
+
+    // ===== Intake initial visibility =====
+    if (intake) {
+      var initParams = new URLSearchParams(window.location.search);
+      var hasFilter = initParams.has('concerns') || initParams.has('brands');
+      var skipFromUrl = initParams.get('view') === 'all';
+      var skipFromStorage = false;
+      try { skipFromStorage = sessionStorage.getItem('cc_intake_skip') === '1'; } catch (e) {}
+
+      if (!hasFilter && !skipFromUrl && !skipFromStorage) {
+        root.classList.add('lux-catalog--intake-mode');
+      }
+
+      var curateBtn = intake.querySelector('[data-intake-curate]');
+      function updateCurateState() {
+        var selected = intake.querySelectorAll('.lux-intake__chip.is-selected').length;
+        if (curateBtn) curateBtn.disabled = selected === 0;
+      }
+      intake.querySelectorAll('.lux-intake__chip').forEach(function (chip) {
+        chip.addEventListener('click', function () {
+          chip.classList.toggle('is-selected');
+          updateCurateState();
+        });
+      });
+      updateCurateState();
+
+      if (curateBtn) {
+        curateBtn.addEventListener('click', function () {
+          var concerns = [];
+          var brands = [];
+          intake.querySelector('[data-intake-concerns]').querySelectorAll('.is-selected').forEach(function (c) {
+            concerns.push(c.dataset.value);
+          });
+          intake.querySelector('[data-intake-brands]').querySelectorAll('.is-selected').forEach(function (c) {
+            brands.push(c.dataset.value);
+          });
+          var p = new URLSearchParams();
+          if (concerns.length > 0) p.set('concerns', concerns.join(','));
+          if (brands.length > 0) p.set('brands', brands.join(','));
+          try { sessionStorage.setItem('cc_intake_skip', '1'); } catch (e) {}
+          var qs = p.toString();
+          window.location.href = window.location.pathname + (qs ? '?' + qs : '');
+        });
+      }
+
+      var skipBtn = intake.querySelector('[data-intake-skip]');
+      if (skipBtn) {
+        skipBtn.addEventListener('click', function () {
+          try { sessionStorage.setItem('cc_intake_skip', '1'); } catch (e) {}
+          root.classList.remove('lux-catalog--intake-mode');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+
+      if (personalizeBtn) {
+        personalizeBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          var p = new URLSearchParams(window.location.search);
+          var curC = (p.get('concerns') || '').split(',').filter(Boolean);
+          var curB = (p.get('brands') || '').split(',').filter(Boolean);
+          intake.querySelectorAll('.lux-intake__chip').forEach(function (c) { c.classList.remove('is-selected'); });
+          curC.forEach(function (val) {
+            var chip = intake.querySelector('[data-intake-concerns] [data-value="' + val + '"]');
+            if (chip) chip.classList.add('is-selected');
+          });
+          curB.forEach(function (val) {
+            var chip = intake.querySelector('[data-intake-brands] [data-value="' + val + '"]');
+            if (chip) chip.classList.add('is-selected');
+          });
+          updateCurateState();
+          try { sessionStorage.removeItem('cc_intake_skip'); } catch (e) {}
+          root.classList.add('lux-catalog--intake-mode');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    }
+
+    // ===== Sort dropdown =====
     if (sortEl) {
       sortEl.addEventListener('change', function (e) {
         var url = new URL(window.location.href);
@@ -1169,18 +1487,13 @@
       });
     }
 
+    // ===== Concern + Brand filter (client-side) =====
     function applyFilter() {
       var params = new URLSearchParams(window.location.search);
       var concernsParam = params.get('concerns') || '';
       var brandsParam = params.get('brands') || '';
-
-      var activeConcerns = concernsParam
-        ? concernsParam.split(',').map(function (c) { return c.trim(); }).filter(Boolean)
-        : [];
-      var activeBrands = brandsParam
-        ? brandsParam.split(',').map(function (b) { return b.trim(); }).filter(Boolean)
-        : [];
-
+      var activeConcerns = concernsParam ? concernsParam.split(',').map(function (c) { return c.trim(); }).filter(Boolean) : [];
+      var activeBrands = brandsParam ? brandsParam.split(',').map(function (b) { return b.trim(); }).filter(Boolean) : [];
       var totalVisible = 0;
 
       root.querySelectorAll('.lux-brand').forEach(function (group) {
