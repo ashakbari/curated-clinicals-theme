@@ -1,0 +1,552 @@
+{% comment %}
+  ============================================================================
+  ABOUT PAGE — luxury editorial layout matching the catalogue aesthetic
+  ============================================================================
+{% endcomment %}
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  .lux-about *, .lux-about *::before, .lux-about *::after { box-sizing: border-box; }
+  .lux-about {
+    --gold: #c19a3d;
+    --gold-deep: #8a6c1e;
+    --ink: #0d0a08;
+    --ink-rich: #1a1411;
+    --ink-soft: #3a342f;
+    --ink-muted: #6b635c;
+    --ink-faint: #9a928a;
+    --paper: #faf6ed;
+    --paper-warm: #f1ebda;
+    --border: #d9d0bb;
+    --border-strong: #b8ab8e;
+    --ff-display: 'Cormorant Garamond', 'Times New Roman', serif;
+    --ff-body: 'DM Sans', system-ui, sans-serif;
+
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--ff-body);
+    padding: 0;
+    margin: 0;
+  }
+
+  /* ===== HERO ===== */
+  .lux-about__hero {
+    position: relative;
+    background: var(--ink-rich);
+    color: var(--paper);
+    padding: 8rem 2rem 7rem;
+    text-align: center;
+    overflow: hidden;
+  }
+  .lux-about__hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at top, rgba(193, 154, 61, 0.18), transparent 60%),
+      radial-gradient(ellipse at bottom right, rgba(193, 154, 61, 0.08), transparent 50%);
+    pointer-events: none;
+  }
+  .lux-about__hero-inner { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; }
+  .lux-about__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.4rem;
+    font-family: var(--ff-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.55em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2.25rem;
+  }
+  .lux-about__eyebrow::before,
+  .lux-about__eyebrow::after {
+    content: "";
+    display: block;
+    width: 3.5rem;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.75;
+  }
+  .lux-about__title {
+    font-family: var(--ff-display);
+    font-size: clamp(3.5rem, 9vw, 7.5rem);
+    font-weight: 300;
+    font-style: italic;
+    margin: 0;
+    line-height: 0.95;
+    letter-spacing: -0.015em;
+    color: var(--paper);
+  }
+  .lux-about__subtitle {
+    margin: 2.5rem auto 0;
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: clamp(1.2rem, 1.6vw, 1.5rem);
+    line-height: 1.55;
+    color: rgba(250, 246, 237, 0.78);
+    max-width: 680px;
+    letter-spacing: 0.01em;
+  }
+
+  /* ===== BODY ===== */
+  .lux-about__body { padding: 7rem 2rem 5rem; max-width: 1200px; margin: 0 auto; }
+
+  .lux-about__section {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 4rem;
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .lux-about__section:first-of-type { padding-top: 0; }
+  .lux-about__section:last-of-type { border-bottom: none; }
+
+  .lux-about__section-label {
+    font-family: var(--ff-body);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    margin: 0;
+    padding-top: 0.4rem;
+  }
+
+  .lux-about__section-body {
+    font-family: var(--ff-display);
+    font-size: clamp(1.2rem, 1.4vw, 1.4rem);
+    line-height: 1.7;
+    color: var(--ink-soft);
+    max-width: 760px;
+  }
+  .lux-about__section-body p {
+    margin: 0 0 1.25rem;
+  }
+  .lux-about__section-body p:last-child { margin-bottom: 0; }
+  .lux-about__section-body strong { color: var(--ink-rich); font-weight: 500; }
+  .lux-about__section-body em { font-style: italic; }
+  .lux-about__section-body a {
+    color: var(--gold-deep);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold-deep);
+    padding-bottom: 2px;
+    transition: color 0.25s ease, border-color 0.25s ease;
+  }
+  .lux-about__section-body a:hover {
+    color: var(--ink-rich);
+    border-bottom-color: var(--ink-rich);
+  }
+
+  /* ===== CONTACT CARD ===== */
+  .lux-about__contact {
+    background: var(--paper-warm);
+    border: 1px solid var(--border);
+    padding: 2.25rem 2.5rem;
+    margin-top: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    font-family: var(--ff-body);
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+  }
+  .lux-about__contact-item-label {
+    display: block;
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.55rem;
+  }
+  .lux-about__contact-item-value {
+    color: var(--ink-rich);
+    font-weight: 500;
+  }
+  .lux-about__contact-item-value a {
+    color: var(--ink-rich);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink-rich);
+    padding-bottom: 2px;
+    transition: color 0.25s ease, border-color 0.25s ease;
+  }
+  .lux-about__contact-item-value a:hover {
+    color: var(--gold-deep);
+    border-bottom-color: var(--gold-deep);
+  }
+
+  /* ===== POLICY LINKS ===== */
+  .lux-about__policies {
+    margin-top: 1.75rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+  }
+  .lux-about__policy-link {
+    font-family: var(--ff-body);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--ink-rich);
+    text-decoration: none;
+    padding: 0.7rem 1.2rem;
+    border: 1px solid var(--ink-rich);
+    transition: all 0.25s ease;
+  }
+  .lux-about__policy-link:hover {
+    background: var(--ink-rich);
+    color: var(--paper);
+  }
+
+  /* ===== DISCLAIMER FOOTER ===== */
+  .lux-about__disclaimer {
+    background: var(--paper-warm);
+    padding: 4rem 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .lux-about__disclaimer-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    font-family: var(--ff-body);
+    font-size: 0.85rem;
+    line-height: 1.65;
+    color: var(--ink-muted);
+    text-align: center;
+  }
+  .lux-about__disclaimer-inner p { margin: 0 0 1rem; }
+  .lux-about__disclaimer-inner p:last-child { margin-bottom: 0; }
+  .lux-about__disclaimer-label {
+    display: block;
+    font-family: var(--ff-body);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    margin-bottom: 1.25rem;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 768px) {
+    .lux-about__hero { padding: 5.5rem 1.25rem 5rem; }
+    .lux-about__eyebrow::before,
+    .lux-about__eyebrow::after { width: 1.75rem; }
+    .lux-about__body { padding: 4rem 1rem 3rem; }
+    .lux-about__section {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding: 3rem 0;
+    }
+    .lux-about__section-label { padding-top: 0; }
+    .lux-about__section-body { font-size: 1.1rem; line-height: 1.65; }
+    .lux-about__contact {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding: 1.75rem;
+    }
+    .lux-about__disclaimer { padding: 3rem 1rem; }
+  }
+</style>
+
+<div class="lux-about">
+
+  {%- comment -%} ============ HERO ============ {%- endcomment -%}
+  <section class="lux-about__hero">
+    <div class="lux-about__hero-inner">
+      <span class="lux-about__eyebrow">{{ section.settings.hero_eyebrow | default: 'Our Story' }}</span>
+      <h1 class="lux-about__title">{{ section.settings.hero_title | default: 'About Curated Clinicals' }}</h1>
+      {%- if section.settings.hero_subtitle != blank -%}
+        <p class="lux-about__subtitle">{{ section.settings.hero_subtitle }}</p>
+      {%- endif -%}
+    </div>
+  </section>
+
+  {%- comment -%} ============ BODY ============ {%- endcomment -%}
+  <div class="lux-about__body">
+
+    {%- comment -%} Who we are {%- endcomment -%}
+    {%- if section.settings.who_body != blank -%}
+      <section class="lux-about__section">
+        <h2 class="lux-about__section-label">{{ section.settings.who_label | default: 'Who We Are' }}</h2>
+        <div class="lux-about__section-body">{{ section.settings.who_body }}</div>
+      </section>
+    {%- endif -%}
+
+    {%- comment -%} What we offer {%- endcomment -%}
+    {%- if section.settings.what_body != blank -%}
+      <section class="lux-about__section">
+        <h2 class="lux-about__section-label">{{ section.settings.what_label | default: 'What We Offer' }}</h2>
+        <div class="lux-about__section-body">{{ section.settings.what_body }}</div>
+      </section>
+    {%- endif -%}
+
+    {%- comment -%} How we work {%- endcomment -%}
+    {%- if section.settings.how_body != blank -%}
+      <section class="lux-about__section">
+        <h2 class="lux-about__section-label">{{ section.settings.how_label | default: 'How We Work' }}</h2>
+        <div class="lux-about__section-body">{{ section.settings.how_body }}</div>
+      </section>
+    {%- endif -%}
+
+    {%- comment -%} Contact {%- endcomment -%}
+    <section class="lux-about__section">
+      <h2 class="lux-about__section-label">{{ section.settings.contact_label | default: 'Get In Touch' }}</h2>
+      <div class="lux-about__section-body">
+        {%- if section.settings.contact_intro != blank -%}
+          {{ section.settings.contact_intro }}
+        {%- endif -%}
+
+        <div class="lux-about__contact">
+          {%- if section.settings.contact_email != blank -%}
+            <div>
+              <span class="lux-about__contact-item-label">Email</span>
+              <span class="lux-about__contact-item-value">
+                <a href="mailto:{{ section.settings.contact_email }}">{{ section.settings.contact_email }}</a>
+              </span>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.contact_hours != blank -%}
+            <div>
+              <span class="lux-about__contact-item-label">Customer Service Hours</span>
+              <span class="lux-about__contact-item-value">{{ section.settings.contact_hours }}</span>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.contact_response != blank -%}
+            <div>
+              <span class="lux-about__contact-item-label">Response Time</span>
+              <span class="lux-about__contact-item-value">{{ section.settings.contact_response }}</span>
+            </div>
+          {%- endif -%}
+          {%- if section.settings.contact_shipping_region != blank -%}
+            <div>
+              <span class="lux-about__contact-item-label">We Ship To</span>
+              <span class="lux-about__contact-item-value">{{ section.settings.contact_shipping_region }}</span>
+            </div>
+          {%- endif -%}
+        </div>
+
+        {%- if section.settings.shipping_url != blank or section.settings.returns_url != blank or section.settings.privacy_url != blank or section.settings.terms_url != blank -%}
+          <div class="lux-about__policies">
+            {%- if section.settings.shipping_url != blank -%}
+              <a href="{{ section.settings.shipping_url }}" class="lux-about__policy-link">{{ section.settings.shipping_label | default: 'Shipping Policy' }}</a>
+            {%- endif -%}
+            {%- if section.settings.returns_url != blank -%}
+              <a href="{{ section.settings.returns_url }}" class="lux-about__policy-link">{{ section.settings.returns_label | default: 'Returns & Refunds' }}</a>
+            {%- endif -%}
+            {%- if section.settings.privacy_url != blank -%}
+              <a href="{{ section.settings.privacy_url }}" class="lux-about__policy-link">{{ section.settings.privacy_label | default: 'Privacy Policy' }}</a>
+            {%- endif -%}
+            {%- if section.settings.terms_url != blank -%}
+              <a href="{{ section.settings.terms_url }}" class="lux-about__policy-link">{{ section.settings.terms_label | default: 'Terms of Service' }}</a>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </section>
+
+  </div>
+
+  {%- comment -%} ============ DISCLAIMER ============ {%- endcomment -%}
+  {%- if section.settings.disclaimer_body != blank -%}
+    <section class="lux-about__disclaimer">
+      <div class="lux-about__disclaimer-inner">
+        <span class="lux-about__disclaimer-label">Important Disclaimers</span>
+        {{ section.settings.disclaimer_body }}
+      </div>
+    </section>
+  {%- endif -%}
+
+</div>
+
+{% schema %}
+{
+  "name": "About Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "hero_eyebrow",
+      "label": "Eyebrow",
+      "default": "Our Story"
+    },
+    {
+      "type": "text",
+      "id": "hero_title",
+      "label": "Title",
+      "default": "About Curated Clinicals"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_subtitle",
+      "label": "Subtitle",
+      "default": "An independent online marketplace for medical-grade skincare — bringing professional-grade formulas direct to your door from authorized distributors."
+    },
+
+    {
+      "type": "header",
+      "content": "Who we are"
+    },
+    {
+      "type": "text",
+      "id": "who_label",
+      "label": "Section label",
+      "default": "Who We Are"
+    },
+    {
+      "type": "richtext",
+      "id": "who_body",
+      "label": "Section body",
+      "default": "<p>Curated Clinicals is an independent online marketplace specializing in medical-grade skincare. We are <strong>not a clinic, a dermatology practice, or a product manufacturer</strong>. We are an online retailer that brings together the world's most clinically rigorous skincare brands in one place, so you can browse, compare, and purchase without needing an in-office consultation.</p><p>We curate our selection from brands typically sold through dermatologists, plastic surgeons, and medical spas — making professional-grade skincare more accessible to anyone who wants it.</p>"
+    },
+
+    {
+      "type": "header",
+      "content": "What we offer"
+    },
+    {
+      "type": "text",
+      "id": "what_label",
+      "label": "Section label",
+      "default": "What We Offer"
+    },
+    {
+      "type": "richtext",
+      "id": "what_body",
+      "label": "Section body",
+      "default": "<p>Our shelves include products from globally respected medical-grade skincare brands. Every product on this site is sourced through <strong>authorized distribution channels</strong>, meaning the formulas are authentic, properly stored, and within their shelf life.</p><p>We do not manufacture any of the products we sell. We are not officially affiliated with, sponsored by, or endorsed by any of the brands carried on this site beyond standard authorized-retailer relationships. All product images, names, and trademarks are the property of their respective owners.</p>"
+    },
+
+    {
+      "type": "header",
+      "content": "How we work"
+    },
+    {
+      "type": "text",
+      "id": "how_label",
+      "label": "Section label",
+      "default": "How We Work"
+    },
+    {
+      "type": "richtext",
+      "id": "how_body",
+      "label": "Section body",
+      "default": "<p><strong>Sourcing.</strong> We work with authorized distributors and brand partners to ensure every product you receive is genuine and sealed.</p><p><strong>Shipping.</strong> Orders are processed within 1–2 business days and shipped via tracked courier. Estimated delivery times and exact shipping regions are detailed in our Shipping Policy.</p><p><strong>Returns.</strong> Most unopened products can be returned within 30 days of delivery. Full details — including exclusions for opened skincare, hygiene reasons, and final-sale items — are in our Returns &amp; Refunds Policy.</p><p><strong>Customer service.</strong> A real person reads every email. We aim to respond within one business day during weekdays.</p>"
+    },
+
+    {
+      "type": "header",
+      "content": "Contact"
+    },
+    {
+      "type": "text",
+      "id": "contact_label",
+      "label": "Section label",
+      "default": "Get In Touch"
+    },
+    {
+      "type": "richtext",
+      "id": "contact_intro",
+      "label": "Intro text",
+      "default": "<p>Questions about a product, an order, or a recommendation? We'd love to hear from you.</p>"
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Contact email",
+      "default": "hello@curatedclinicals.com",
+      "info": "Required for Google Ads compliance — visitors must have a clear way to contact you."
+    },
+    {
+      "type": "text",
+      "id": "contact_hours",
+      "label": "Customer service hours",
+      "default": "Monday – Friday, 9am – 5pm EST"
+    },
+    {
+      "type": "text",
+      "id": "contact_response",
+      "label": "Response time",
+      "default": "Within 1 business day"
+    },
+    {
+      "type": "text",
+      "id": "contact_shipping_region",
+      "label": "Shipping region",
+      "default": "Canada and the United States"
+    },
+
+    {
+      "type": "header",
+      "content": "Policy links"
+    },
+    {
+      "type": "text",
+      "id": "shipping_label",
+      "label": "Shipping link label",
+      "default": "Shipping Policy"
+    },
+    {
+      "type": "url",
+      "id": "shipping_url",
+      "label": "Shipping policy URL"
+    },
+    {
+      "type": "text",
+      "id": "returns_label",
+      "label": "Returns link label",
+      "default": "Returns & Refunds"
+    },
+    {
+      "type": "url",
+      "id": "returns_url",
+      "label": "Returns policy URL"
+    },
+    {
+      "type": "text",
+      "id": "privacy_label",
+      "label": "Privacy link label",
+      "default": "Privacy Policy"
+    },
+    {
+      "type": "url",
+      "id": "privacy_url",
+      "label": "Privacy policy URL"
+    },
+    {
+      "type": "text",
+      "id": "terms_label",
+      "label": "Terms link label",
+      "default": "Terms of Service"
+    },
+    {
+      "type": "url",
+      "id": "terms_url",
+      "label": "Terms of service URL"
+    },
+
+    {
+      "type": "header",
+      "content": "Disclaimers"
+    },
+    {
+      "type": "richtext",
+      "id": "disclaimer_body",
+      "label": "Disclaimer text",
+      "default": "<p><em>Curated Clinicals is an independent online retailer. We are not affiliated with, endorsed by, or sponsored by any brand listed on this site beyond standard retail relationships. All product names, logos, and trademarks are the property of their respective owners.</em></p><p><em>The products sold on this site are not intended to diagnose, treat, cure, or prevent any disease. Information provided on this site is for general informational and educational purposes only and is not a substitute for professional medical, dermatological, or skincare advice. Always consult a qualified healthcare provider for guidance regarding your specific skin concerns or before beginning any new skincare regimen.</em></p><p><em>Results from skincare products vary by individual. Statements made about products on this site have not been evaluated by Health Canada, the U.S. Food and Drug Administration, or any other regulatory authority unless explicitly stated.</em></p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "About Page",
+      "category": "Custom Content"
+    }
+  ]
+}
+{% endschema %}
