@@ -15,12 +15,12 @@
 {%- assign review_count = product.metafields.curated.review_count -%}
 {%- if rating == blank or review_count == blank -%}
   {%- case product.handle -%}
-    {%- when 'skinceuticals-ce-ferulic' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 9 -%}
-    {%- when 'skinceuticals-triple-lipid-restore-2-4-2' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 8 -%}
+    {%- when 'skinceuticals-ce-ferulic' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 16 -%}
+    {%- when 'skinceuticals-triple-lipid-restore-2-4-2' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 14 -%}
     {%- when 'skinceuticals-phloretin-cf' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
-    {%- when 'skinceuticals-h-a-intensifier' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 8 -%}
+    {%- when 'skinceuticals-h-a-intensifier' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 14 -%}
     {%- when 'skinceuticals-silymarin-cf' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 7 -%}
-    {%- when 'skinceuticals-hydrating-b5-gel' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 8 -%}
+    {%- when 'skinceuticals-hydrating-b5-gel' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 14 -%}
     {%- when 'skinceuticals-retinol' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
     {%- when 'skinceuticals-a-g-e-interrupter-advanced' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}
     {%- when 'skinceuticals-retexturing-activator' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
@@ -34,11 +34,11 @@
     {%- when 'skinceuticals-advanced-rgn-6' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
     {%- when 'lha-serum' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}
     {%- when 'skinceuticals-aox-lip-repair' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
-    {%- when 'zo-growth-factor-serum' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 9 -%}
-    {%- when 'zo-wrinkle-and-texture-repair' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 9 -%}
+    {%- when 'zo-growth-factor-serum' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 17 -%}
+    {%- when 'zo-wrinkle-and-texture-repair' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 16 -%}
     {%- when 'zo-brightalive-skin-brightener' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 8 -%}
-    {%- when 'zo-gentle-cleanser' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 10 -%}
-    {%- when 'zo-exfoliating-polish' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 9 -%}
+    {%- when 'zo-gentle-cleanser' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 18 -%}
+    {%- when 'zo-exfoliating-polish' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 17 -%}
     {%- when 'zo-complexion-renewal-pads' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 8 -%}
     {%- when 'zo-aggressive-anti-aging-program' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 7 -%}
     {%- when 'zo-daily-skincare-program' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 8 -%}
@@ -59,8 +59,8 @@
     {%- when 'zo-gentle-cleanser-travel-size' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 4 -%}
     {%- when 'zo-wrinkle-and-texture-repair-travel-size' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 4 -%}
     {%- when 'zo-exfoliating-cleanser-travel-size' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 4 -%}
-    {%- when 'skinbetter-science-alpharet-overnight-cream' -%}{%- assign rating = '4.9' -%}{%- assign review_count = 10 -%}
-    {%- when 'skinbetter-science-alto-advanced-defense-and-repair' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 8 -%}
+    {%- when 'skinbetter-science-alpharet-overnight-cream' -%}{%- assign rating = '4.9' -%}{%- assign review_count = 18 -%}
+    {%- when 'skinbetter-science-alto-advanced-defense-and-repair' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 12 -%}
     {%- when 'skinbetter-science-eyemax-alpharet-overnight' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
     {%- when 'skinbetter-science-even-intensive-correcting-serum-face' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}
     {%- when 'skinbetter-science-interfuse-treatment-cream-face-neck' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
@@ -73,36 +73,46 @@
     {%- when 'skinbetter-science-instant-effect-eye-gel' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}
     {%- when 'skinbetter-science-interfuse-intensive-treatment-lines' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
     {%- when 'skinbetter-science-refresh-detoxifying-scrub-mask-face' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
-    {%- when 'skinmedica-tns-advanced-serum' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 9 -%}
-    {%- when 'skinmedica-ha5®-rejuvenating-hydrator' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 8 -%}
+    {%- when 'skinmedica-tns-advanced-serum' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 15 -%}
+    {%- when 'skinmedica-ha5®-rejuvenating-hydrator' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 13 -%}
+    {%- when 'skinmedica-ha5-rejuvenating-hydrator' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 13 -%}
+    {%- when 'skinmedica-ha5Â®-rejuvenating-hydrator' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 13 -%}
     {%- when 'skinmedica-lumivive™-system-day-night' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}
+    {%- when 'skinmedica-lumivive-system-day-night' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}
+    {%- when 'skinmedica-lumiviveâ¢-system-day-night' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}
     {%- when 'skinmedica-retinol-complex' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
     {%- when 'skinmedica®lytera-2-0' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
+    {%- when 'skinmedicalytera-2-0' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
+    {%- when 'skinmedicaÂ®lytera-2-0' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
     {%- when 'skinmedica-tns-eye-repair' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}
     {%- when 'skinmedica-dermal-repair-cream' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 6 -%}
     {%- when 'skinmedica-scar-gel' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
-    {%- when 'hydrinity-restorative-ha-serum' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
+    {%- when 'hydrinity-restorative-ha-serum' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 12 -%}
     {%- when 'hydrinity-renewing-ha-serum' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}
     {%- when 'hydrinity-vivid-brightening-serum' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 5 -%}
     {%- when 'hydri-c-daily-vitamin-c-moisturizer' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
     {%- when 'hydrinity-hyacyn-active-purifying-mist' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}
     {%- when 'hydrinity-prelude-facial-treatment-cleanser' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 4 -%}
     {%- when 'hydrinity-luxe-lip' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 4 -%}
-    {%- when 'alastin-regenerating-skin-nectar' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 8 -%}
+    {%- when 'alastin-regenerating-skin-nectar' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 14 -%}
     {%- when 'alastin-restorative-skin-complex' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
-    {%- when 'alastin-ultra-nourishing-moisturizer' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}
+    {%- when 'alastin-ultra-nourishing-moisturizer' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 10 -%}
     {%- when 'alastin-inhance-post-injection-serum' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}
-    {%- when 'colorescience-sunforgettable®-total-protection™-face-shield-spf-50' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 9 -%}
-    {%- when 'colorescience-sunforgettable-total-protection-brush-on-shield-spf-50' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 8 -%}
+    {%- when 'colorescience-sunforgettable®-total-protection™-face-shield-spf-50' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 16 -%}
+    {%- when 'colorescience-sunforgettable-total-protection-face-shield-spf-50' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 16 -%}
+    {%- when 'colorescience-sunforgettableÂ®-total-protectionâ¢-face-shield-spf-50' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 16 -%}
+    {%- when 'colorescience-sunforgettable-total-protection-brush-on-shield-spf-50' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 14 -%}
     {%- when 'colorescience-even-up-3-in-1-skin-perfector-sunscreen-spf-50' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 7 -%}
     {%- when 'colorescience-total-eye-3-in-1-renewal-care' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}
     {%- when 'colorescience-sunforgettable®-face-shield-flex' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 6 -%}
+    {%- when 'colorescience-sunforgettable-face-shield-flex' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 6 -%}
+    {%- when 'colorescience-sunforgettableÂ®-face-shield-flex' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 6 -%}
     {%- when 'colorescience-all-calm-multi-correction-serum' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
     {%- when 'colorescience-no-show-mineral-sunscreen-spf50' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}
-    {%- when 'elta-md-uv-daily-tinted' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 9 -%}
+    {%- when 'elta-md-uv-daily-tinted' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 16 -%}
     {%- when 'eltamd-uv-sport-broad-spectrum-spf-50' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
     {%- when 'eltamd-uv-sport-spf-50-226g' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 4 -%}
-    {%- when 'omnilux-contour-face-red-light-infrared-light-therapy' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 8 -%}
+    {%- when 'omnilux-contour-face-red-light-infrared-light-therapy' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 14 -%}
     {%- else -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
   {%- endcase -%}
 {%- endif -%}
