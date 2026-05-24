@@ -493,29 +493,56 @@
     var handle = opts.handle || 'unknown';
     var count = opts.count || 50;
     var targetRating = parseFloat(opts.rating) || 4.5;
-    var concerns = (opts.concerns || '').split(/\s+/).filter(Boolean);
-    var brand = opts.brand || '';
-    var product = PRODUCT_CONTEXT[handle] || FALLBACK_CONTEXT;
 
     var seed = hashString(handle);
     var rng = mulberry32(seed);
+    var reviews = [];
 
+    /* Prefer hand-written reviews from the content file when available.
+       Each entry already has its own rating and body; we just decorate
+       with a name, date, and verified-buyer flag. */
+    var handwritten = (typeof window !== 'undefined' && window.LUX_PRODUCT_REVIEWS)
+      ? window.LUX_PRODUCT_REVIEWS[handle]
+      : null;
+
+    if (handwritten && handwritten.length) {
+      for (var i = 0; i < handwritten.length; i++) {
+        var entry = handwritten[i];
+        var name = pick(FIRST_NAMES, rng) + ' ' + pick(LAST_INITIALS, rng);
+        var verified = rng() < 0.82;
+        var date = generateDate(rng);
+        reviews.push({
+          id: i,
+          name: name,
+          rating: entry.r,
+          date: date,
+          dateFormatted: formatDate(date),
+          verified: verified,
+          body: entry.b
+        });
+      }
+      return reviews;
+    }
+
+    /* Fallback: template generation for products without hand-written
+       content. Kept for graceful degradation. */
+    var concerns = (opts.concerns || '').split(/\s+/).filter(Boolean);
+    var brand = opts.brand || '';
+    var product = PRODUCT_CONTEXT[handle] || FALLBACK_CONTEXT;
     var ratings = distributeRatings(targetRating, count, rng);
     var ctx = { concerns: concerns, brand: brand, product: product };
-
-    var reviews = [];
-    for (var i = 0; i < count; i++) {
-      var name = pick(FIRST_NAMES, rng) + ' ' + pick(LAST_INITIALS, rng);
-      var verified = rng() < 0.82;
-      var date = generateDate(rng);
-      var body = buildBody(ratings[i], ctx, rng);
+    for (var j = 0; j < count; j++) {
+      var nm = pick(FIRST_NAMES, rng) + ' ' + pick(LAST_INITIALS, rng);
+      var ver = rng() < 0.82;
+      var dt = generateDate(rng);
+      var body = buildBody(ratings[j], ctx, rng);
       reviews.push({
-        id: i,
-        name: name,
-        rating: ratings[i],
-        date: date,
-        dateFormatted: formatDate(date),
-        verified: verified,
+        id: j,
+        name: nm,
+        rating: ratings[j],
+        date: dt,
+        dateFormatted: formatDate(dt),
+        verified: ver,
         body: body
       });
     }
