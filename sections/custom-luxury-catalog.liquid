@@ -554,8 +554,11 @@
   /* ===== GRID ===== */
   .lux-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 7rem 5rem;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5.5rem 3rem;
+  }
+  @media (max-width: 1100px) {
+    .lux-grid { grid-template-columns: repeat(2, 1fr); gap: 5rem 2.5rem; }
   }
 
   /* ===== CARD ===== */
@@ -623,9 +626,9 @@
   .lux-card__body { display: flex; flex-direction: column; gap: 0.85rem; padding: 0 0.5rem; }
   .lux-card__title {
     font-family: var(--ff-display);
-    font-size: clamp(1.85rem, 2.4vw, 2.6rem);
+    font-size: clamp(1.5rem, 1.9vw, 2.1rem);
     font-weight: 400;
-    line-height: 1.1;
+    line-height: 1.15;
     margin: 0;
     color: var(--ink-rich);
     letter-spacing: -0.005em;
