@@ -1,0 +1,883 @@
+{% comment %}
+  ============================================================================
+  CONTACT PAGE — luxury editorial layout with form, contact card, FAQ
+  ============================================================================
+{% endcomment %}
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+<style>
+  .lux-contact *, .lux-contact *::before, .lux-contact *::after { box-sizing: border-box; }
+  .lux-contact {
+    --gold: #c19a3d;
+    --gold-light: #d8b865;
+    --gold-deep: #8a6c1e;
+    --gold-glow: rgba(193, 154, 61, 0.22);
+    --ink: #0d0a08;
+    --ink-rich: #1a1411;
+    --ink-soft: #3a342f;
+    --ink-muted: #6b635c;
+    --ink-faint: #9a928a;
+    --paper: #faf6ed;
+    --paper-warm: #f1ebda;
+    --paper-deep: #e8e0c9;
+    --border: #d9d0bb;
+    --border-strong: #b8ab8e;
+    --ff-display: 'Cormorant Garamond', 'Times New Roman', serif;
+    --ff-body: 'DM Sans', system-ui, sans-serif;
+
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--ff-body);
+    padding: 0;
+    margin: 0;
+  }
+
+  /* ===== HERO ===== */
+  .lux-contact__hero {
+    position: relative;
+    background: var(--ink-rich);
+    color: var(--paper);
+    padding: 8rem 2rem 7rem;
+    text-align: center;
+    overflow: hidden;
+  }
+  .lux-contact__hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at top, rgba(193, 154, 61, 0.18), transparent 60%),
+      radial-gradient(ellipse at bottom right, rgba(193, 154, 61, 0.08), transparent 50%);
+    pointer-events: none;
+  }
+  .lux-contact__hero-inner { position: relative; z-index: 1; max-width: 960px; margin: 0 auto; }
+  .lux-contact__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.4rem;
+    font-family: var(--ff-body);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.55em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 2.25rem;
+  }
+  .lux-contact__eyebrow::before,
+  .lux-contact__eyebrow::after {
+    content: "";
+    display: block;
+    width: 3.5rem;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.75;
+  }
+  .lux-contact__title {
+    font-family: var(--ff-display);
+    font-size: clamp(3.5rem, 9vw, 7.5rem);
+    font-weight: 300;
+    font-style: italic;
+    margin: 0;
+    line-height: 0.95;
+    letter-spacing: -0.015em;
+    color: var(--paper);
+  }
+  .lux-contact__subtitle {
+    margin: 2.5rem auto 0;
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: clamp(1.2rem, 1.6vw, 1.5rem);
+    line-height: 1.55;
+    color: rgba(250, 246, 237, 0.78);
+    max-width: 680px;
+    letter-spacing: 0.01em;
+  }
+
+  /* ===== BODY ===== */
+  .lux-contact__body { padding: 6rem 2rem 5rem; max-width: 1300px; margin: 0 auto; }
+
+  .lux-contact__main {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 5rem;
+    margin-bottom: 7rem;
+  }
+
+  /* ===== FORM COLUMN ===== */
+  .lux-contact__form-heading {
+    font-family: var(--ff-display);
+    font-size: clamp(2rem, 3vw, 2.75rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--ink-rich);
+    margin: 0 0 1rem 0;
+    line-height: 1.05;
+    letter-spacing: -0.005em;
+  }
+  .lux-contact__form-intro {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 1.2rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin: 0 0 2.5rem 0;
+    max-width: 600px;
+  }
+
+  .lux-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .lux-form-row { display: flex; flex-direction: column; gap: 0.55rem; }
+  .lux-form-row--full { grid-column: 1 / -1; }
+  .lux-form-label {
+    font-family: var(--ff-body);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .lux-form-required { color: var(--gold-deep); }
+
+  .lux-form-input,
+  .lux-form-textarea,
+  .lux-form-select {
+    width: 100%;
+    font-family: var(--ff-body);
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--ink-rich);
+    background: #fff;
+    border: 1px solid var(--border-strong);
+    padding: 0.95rem 1.1rem;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    -webkit-appearance: none;
+    appearance: none;
+    border-radius: 0;
+  }
+  .lux-form-input:focus,
+  .lux-form-textarea:focus,
+  .lux-form-select:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px var(--gold-glow);
+  }
+  .lux-form-textarea {
+    min-height: 180px;
+    resize: vertical;
+    line-height: 1.55;
+  }
+  .lux-form-select-wrap { position: relative; }
+  .lux-form-select { padding-right: 2.75rem; cursor: pointer; }
+  .lux-form-select-caret {
+    position: absolute;
+    right: 1.1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.7rem;
+    color: var(--ink);
+    pointer-events: none;
+  }
+
+  .lux-form-submit-wrap {
+    grid-column: 1 / -1;
+    margin-top: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+  .lux-form-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-family: var(--ff-body);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink-rich);
+    border: 1px solid var(--ink-rich);
+    padding: 1.15rem 2.5rem;
+    cursor: pointer;
+    transition: all 0.35s ease;
+  }
+  .lux-form-submit:hover {
+    background: var(--gold-deep);
+    border-color: var(--gold-deep);
+    transform: translateY(-2px);
+  }
+  .lux-form-submit-arrow { font-size: 0.95rem; transition: transform 0.3s ease; }
+  .lux-form-submit:hover .lux-form-submit-arrow { transform: translateX(4px); }
+  .lux-form-required-note {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ink-faint);
+  }
+
+  /* ===== FORM SUCCESS / ERRORS ===== */
+  .lux-form-success {
+    background: var(--paper-warm);
+    border: 1px solid var(--gold);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+  .lux-form-success-eyebrow {
+    display: block;
+    font-family: var(--ff-body);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    margin-bottom: 1rem;
+  }
+  .lux-form-success-title {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 2rem;
+    color: var(--ink-rich);
+    margin: 0 0 0.75rem 0;
+    line-height: 1.1;
+  }
+  .lux-form-success-text {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--ink-soft);
+    margin: 0;
+    line-height: 1.55;
+  }
+
+  .lux-form-errors {
+    background: rgba(193, 154, 61, 0.08);
+    border-left: 3px solid var(--gold-deep);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2rem;
+    font-family: var(--ff-body);
+    font-size: 0.9rem;
+    color: var(--ink-rich);
+  }
+  .lux-form-errors-title {
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    margin: 0 0 0.5rem 0;
+    color: var(--gold-deep);
+  }
+  .lux-form-errors ul { margin: 0; padding-left: 1.25rem; }
+  .lux-form-errors li { margin-bottom: 0.25rem; }
+
+  /* ===== SIDEBAR ===== */
+  .lux-contact__sidebar-card {
+    background: var(--paper-warm);
+    border: 1px solid var(--border);
+    padding: 2.25rem;
+    position: relative;
+  }
+  .lux-contact__sidebar-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6rem;
+    height: 2px;
+    background: var(--gold);
+  }
+  .lux-contact__card-eyebrow {
+    display: block;
+    font-family: var(--ff-body);
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    margin-bottom: 1rem;
+  }
+  .lux-contact__card-heading {
+    font-family: var(--ff-display);
+    font-size: 1.75rem;
+    font-weight: 400;
+    color: var(--ink-rich);
+    margin: 0 0 1.75rem 0;
+    line-height: 1.15;
+  }
+  .lux-contact__card-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .lux-contact__card-item:last-of-type { border-bottom: none; }
+  .lux-contact__card-label {
+    display: block;
+    font-family: var(--ff-body);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.55rem;
+  }
+  .lux-contact__card-value {
+    font-family: var(--ff-body);
+    font-size: 1rem;
+    color: var(--ink-rich);
+    font-weight: 500;
+  }
+  .lux-contact__card-value a {
+    color: var(--ink-rich);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink-rich);
+    padding-bottom: 2px;
+    transition: color 0.3s ease, border-color 0.3s ease;
+  }
+  .lux-contact__card-value a:hover {
+    color: var(--gold-deep);
+    border-bottom-color: var(--gold-deep);
+  }
+
+  .lux-contact__policy-links {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+  .lux-contact__policy-link {
+    font-family: var(--ff-body);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--ink-rich);
+    text-decoration: none;
+    padding: 0.6rem 0.95rem;
+    border: 1px solid var(--ink-rich);
+    transition: all 0.25s ease;
+  }
+  .lux-contact__policy-link:hover {
+    background: var(--ink-rich);
+    color: var(--paper);
+  }
+
+  /* ===== FAQ ===== */
+  .lux-faq { max-width: 1100px; margin: 0 auto 6rem; }
+  .lux-faq__header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .lux-faq__eyebrow {
+    display: inline-block;
+    font-family: var(--ff-body);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    margin-bottom: 1.25rem;
+  }
+  .lux-faq__heading {
+    font-family: var(--ff-display);
+    font-size: clamp(2.25rem, 4vw, 3.25rem);
+    font-style: italic;
+    font-weight: 300;
+    margin: 0;
+    color: var(--ink-rich);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+
+  .lux-faq__list { display: flex; flex-direction: column; }
+  .lux-faq__item {
+    border-top: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .lux-faq__item:last-of-type { border-bottom: 1px solid var(--border); }
+
+  .lux-faq__question {
+    list-style: none;
+    cursor: pointer;
+    padding: 2rem 1rem 2rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    font-family: var(--ff-display);
+    font-size: clamp(1.25rem, 1.8vw, 1.65rem);
+    font-weight: 400;
+    color: var(--ink-rich);
+    transition: color 0.3s ease;
+  }
+  .lux-faq__question::-webkit-details-marker { display: none; }
+  .lux-faq__question:hover { color: var(--gold-deep); }
+  .lux-faq__chevron {
+    font-family: var(--ff-body);
+    font-weight: 300;
+    font-size: 1.5rem;
+    color: var(--gold);
+    line-height: 1;
+    flex-shrink: 0;
+    transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+    display: inline-block;
+  }
+  .lux-faq__item[open] .lux-faq__chevron { transform: rotate(45deg); }
+  .lux-faq__item[open] .lux-faq__question { color: var(--gold-deep); }
+
+  .lux-faq__answer {
+    padding: 0 1rem 2rem 0;
+    max-width: 760px;
+    font-family: var(--ff-display);
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .lux-faq__answer p { margin: 0 0 1rem 0; }
+  .lux-faq__answer p:last-child { margin-bottom: 0; }
+  .lux-faq__answer a {
+    color: var(--gold-deep);
+    text-decoration: none;
+    border-bottom: 1px solid var(--gold-deep);
+    padding-bottom: 1px;
+  }
+  .lux-faq__answer a:hover {
+    color: var(--ink-rich);
+    border-bottom-color: var(--ink-rich);
+  }
+
+  /* ===== CLOSING CTA ===== */
+  .lux-contact__cta {
+    background: var(--ink-rich);
+    color: var(--paper);
+    padding: 5rem 2rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .lux-contact__cta::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(193, 154, 61, 0.15), transparent 60%);
+    pointer-events: none;
+  }
+  .lux-contact__cta-inner { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+  .lux-contact__cta-eyebrow {
+    display: inline-block;
+    font-family: var(--ff-body);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+  .lux-contact__cta-heading {
+    font-family: var(--ff-display);
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 300;
+    font-style: italic;
+    margin: 0 0 1.25rem 0;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    color: var(--paper);
+  }
+  .lux-contact__cta-subtitle {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 1.2rem;
+    line-height: 1.55;
+    color: rgba(250, 246, 237, 0.78);
+    margin: 0 0 2.5rem 0;
+  }
+  .lux-contact__cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.95rem;
+    font-family: var(--ff-body);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--ink-rich);
+    background: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 1.15rem 2.5rem;
+    text-decoration: none;
+    transition: all 0.35s ease;
+  }
+  .lux-contact__cta-button:hover {
+    background: var(--paper);
+    border-color: var(--paper);
+    color: var(--ink-rich);
+    transform: translateY(-2px);
+  }
+  .lux-contact__cta-arrow { font-size: 0.95rem; transition: transform 0.3s ease; }
+  .lux-contact__cta-button:hover .lux-contact__cta-arrow { transform: translateX(4px); }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1000px) {
+    .lux-contact__main {
+      grid-template-columns: 1fr;
+      gap: 3.5rem;
+    }
+  }
+  @media (max-width: 768px) {
+    .lux-contact__hero { padding: 5.5rem 1.25rem 5rem; }
+    .lux-contact__eyebrow::before,
+    .lux-contact__eyebrow::after { width: 1.75rem; }
+    .lux-contact__body { padding: 4rem 1rem 3rem; }
+    .lux-form-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+    .lux-contact__sidebar-card { padding: 1.75rem; }
+    .lux-contact__card-heading { font-size: 1.5rem; }
+    .lux-faq { margin-bottom: 4rem; }
+    .lux-faq__header { margin-bottom: 2.5rem; }
+    .lux-faq__question { padding: 1.5rem 0; font-size: 1.15rem; }
+    .lux-faq__answer { padding: 0 0 1.5rem 0; font-size: 1.05rem; }
+    .lux-contact__cta { padding: 4rem 1.25rem; }
+    .lux-contact__cta-subtitle { font-size: 1.05rem; }
+  }
+</style>
+
+<div class="lux-contact">
+
+  {%- comment -%} ============ HERO ============ {%- endcomment -%}
+  <section class="lux-contact__hero">
+    <div class="lux-contact__hero-inner">
+      <span class="lux-contact__eyebrow">{{ section.settings.hero_eyebrow | default: 'Talk To Us' }}</span>
+      <h1 class="lux-contact__title">{{ section.settings.hero_title | default: "We're Here to Help" }}</h1>
+      {%- if section.settings.hero_subtitle != blank -%}
+        <p class="lux-contact__subtitle">{{ section.settings.hero_subtitle }}</p>
+      {%- endif -%}
+    </div>
+  </section>
+
+  {%- comment -%} ============ BODY ============ {%- endcomment -%}
+  <div class="lux-contact__body">
+
+    <div class="lux-contact__main">
+
+      {%- comment -%} ----- Form column ----- {%- endcomment -%}
+      <div class="lux-contact__form-col">
+        {%- if section.settings.form_heading != blank -%}
+          <h2 class="lux-contact__form-heading">{{ section.settings.form_heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.form_intro != blank -%}
+          <p class="lux-contact__form-intro">{{ section.settings.form_intro }}</p>
+        {%- endif -%}
+
+        {% form 'contact', class: 'lux-form' %}
+          {%- if form.posted_successfully? -%}
+            <div class="lux-form-success">
+              <span class="lux-form-success-eyebrow">Message Received</span>
+              <h3 class="lux-form-success-title">Thank you</h3>
+              <p class="lux-form-success-text">A real person will get back to you within one business day.</p>
+            </div>
+          {%- else -%}
+
+            {%- if form.errors -%}
+              <div class="lux-form-errors">
+                <p class="lux-form-errors-title">Please correct the following</p>
+                <ul>
+                  {%- for field in form.errors -%}
+                    <li>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endif -%}
+
+            <div class="lux-form-grid">
+              <div class="lux-form-row">
+                <label class="lux-form-label" for="ContactName">Name <span class="lux-form-required">*</span></label>
+                <input
+                  type="text"
+                  id="ContactName"
+                  name="contact[name]"
+                  class="lux-form-input"
+                  value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+                  required
+                  autocomplete="name"
+                >
+              </div>
+
+              <div class="lux-form-row">
+                <label class="lux-form-label" for="ContactEmail">Email <span class="lux-form-required">*</span></label>
+                <input
+                  type="email"
+                  id="ContactEmail"
+                  name="contact[email]"
+                  class="lux-form-input"
+                  value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                  required
+                  autocomplete="email"
+                >
+              </div>
+
+              <div class="lux-form-row">
+                <label class="lux-form-label" for="ContactTopic">Topic</label>
+                <div class="lux-form-select-wrap">
+                  <select id="ContactTopic" name="contact[topic]" class="lux-form-select">
+                    <option value="General inquiry">General inquiry</option>
+                    <option value="Order question">Order question</option>
+                    <option value="Product recommendation">Product recommendation</option>
+                    <option value="Return or refund">Return or refund</option>
+                    <option value="Shipping question">Shipping question</option>
+                    <option value="Wholesale or partnership">Wholesale or partnership</option>
+                    <option value="Other">Other</option>
+                  </select>
+                  <span class="lux-form-select-caret" aria-hidden="true">▾</span>
+                </div>
+              </div>
+
+              <div class="lux-form-row">
+                <label class="lux-form-label" for="ContactOrder">Order number <em style="font-style: normal; color: var(--ink-faint); font-weight: 400; text-transform: none; letter-spacing: 0;">(if applicable)</em></label>
+                <input
+                  type="text"
+                  id="ContactOrder"
+                  name="contact[order_number]"
+                  class="lux-form-input"
+                  value="{% if form.order_number %}{{ form.order_number }}{% endif %}"
+                  placeholder="e.g. #1042"
+                >
+              </div>
+
+              <div class="lux-form-row lux-form-row--full">
+                <label class="lux-form-label" for="ContactMessage">Message <span class="lux-form-required">*</span></label>
+                <textarea
+                  id="ContactMessage"
+                  name="contact[body]"
+                  class="lux-form-textarea"
+                  required
+                >{% if form.body %}{{ form.body }}{% endif %}</textarea>
+              </div>
+
+              <div class="lux-form-submit-wrap">
+                <span class="lux-form-required-note">* Required</span>
+                <button type="submit" class="lux-form-submit">
+                  <span>Send Message</span>
+                  <span class="lux-form-submit-arrow" aria-hidden="true">→</span>
+                </button>
+              </div>
+            </div>
+
+          {%- endif -%}
+        {% endform %}
+      </div>
+
+      {%- comment -%} ----- Sidebar ----- {%- endcomment -%}
+      <aside class="lux-contact__sidebar">
+        <div class="lux-contact__sidebar-card">
+          <span class="lux-contact__card-eyebrow">Direct Contact</span>
+          <h3 class="lux-contact__card-heading">{{ section.settings.card_heading | default: 'Reach Us Directly' }}</h3>
+
+          {%- if section.settings.contact_email != blank -%}
+            <div class="lux-contact__card-item">
+              <span class="lux-contact__card-label">Email</span>
+              <span class="lux-contact__card-value">
+                <a href="mailto:{{ section.settings.contact_email }}">{{ section.settings.contact_email }}</a>
+              </span>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.contact_hours != blank -%}
+            <div class="lux-contact__card-item">
+              <span class="lux-contact__card-label">Hours</span>
+              <span class="lux-contact__card-value">{{ section.settings.contact_hours }}</span>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.contact_response != blank -%}
+            <div class="lux-contact__card-item">
+              <span class="lux-contact__card-label">Response Time</span>
+              <span class="lux-contact__card-value">{{ section.settings.contact_response }}</span>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.contact_ship_from != blank -%}
+            <div class="lux-contact__card-item">
+              <span class="lux-contact__card-label">Ships From</span>
+              <span class="lux-contact__card-value">{{ section.settings.contact_ship_from }}</span>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.shipping_url != blank or section.settings.returns_url != blank or section.settings.privacy_url != blank or section.settings.terms_url != blank -%}
+            <div class="lux-contact__policy-links">
+              {%- if section.settings.shipping_url != blank -%}
+                <a href="{{ section.settings.shipping_url }}" class="lux-contact__policy-link">{{ section.settings.shipping_label | default: 'Shipping' }}</a>
+              {%- endif -%}
+              {%- if section.settings.returns_url != blank -%}
+                <a href="{{ section.settings.returns_url }}" class="lux-contact__policy-link">{{ section.settings.returns_label | default: 'Returns' }}</a>
+              {%- endif -%}
+              {%- if section.settings.privacy_url != blank -%}
+                <a href="{{ section.settings.privacy_url }}" class="lux-contact__policy-link">{{ section.settings.privacy_label | default: 'Privacy' }}</a>
+              {%- endif -%}
+              {%- if section.settings.terms_url != blank -%}
+                <a href="{{ section.settings.terms_url }}" class="lux-contact__policy-link">{{ section.settings.terms_label | default: 'Terms' }}</a>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+        </div>
+      </aside>
+
+    </div>
+
+    {%- comment -%} ============ FAQ ============ {%- endcomment -%}
+    {%- if section.blocks.size > 0 -%}
+      <section class="lux-faq">
+        <div class="lux-faq__header">
+          {%- if section.settings.faq_eyebrow != blank -%}
+            <span class="lux-faq__eyebrow">{{ section.settings.faq_eyebrow }}</span>
+          {%- endif -%}
+          {%- if section.settings.faq_heading != blank -%}
+            <h2 class="lux-faq__heading">{{ section.settings.faq_heading }}</h2>
+          {%- endif -%}
+        </div>
+
+        <div class="lux-faq__list">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'faq' -%}
+              <details class="lux-faq__item" {{ block.shopify_attributes }}>
+                <summary class="lux-faq__question">
+                  <span>{{ block.settings.question }}</span>
+                  <span class="lux-faq__chevron" aria-hidden="true">+</span>
+                </summary>
+                <div class="lux-faq__answer">{{ block.settings.answer }}</div>
+              </details>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </section>
+    {%- endif -%}
+
+  </div>
+
+  {%- comment -%} ============ CLOSING CTA ============ {%- endcomment -%}
+  {%- if section.settings.show_cta -%}
+    <section class="lux-contact__cta">
+      <div class="lux-contact__cta-inner">
+        {%- if section.settings.cta_eyebrow != blank -%}
+          <span class="lux-contact__cta-eyebrow">{{ section.settings.cta_eyebrow }}</span>
+        {%- endif -%}
+        {%- if section.settings.cta_heading != blank -%}
+          <h2 class="lux-contact__cta-heading">{{ section.settings.cta_heading }}</h2>
+        {%- endif -%}
+        {%- if section.settings.cta_subtitle != blank -%}
+          <p class="lux-contact__cta-subtitle">{{ section.settings.cta_subtitle }}</p>
+        {%- endif -%}
+        {%- if section.settings.cta_button_label != blank -%}
+          <a href="{{ section.settings.cta_button_url | default: '/collections/all' }}" class="lux-contact__cta-button">
+            <span>{{ section.settings.cta_button_label }}</span>
+            <span class="lux-contact__cta-arrow" aria-hidden="true">→</span>
+          </a>
+        {%- endif -%}
+      </div>
+    </section>
+  {%- endif -%}
+
+</div>
+
+{% schema %}
+{
+  "name": "Contact Page",
+  "settings": [
+    { "type": "header", "content": "Hero" },
+    { "type": "text", "id": "hero_eyebrow", "label": "Eyebrow", "default": "Talk To Us" },
+    { "type": "text", "id": "hero_title", "label": "Title", "default": "We're Here to Help" },
+    { "type": "textarea", "id": "hero_subtitle", "label": "Subtitle", "default": "Have a question about a product, an order, or a recommendation? A real person reads every message — and replies within one business day." },
+
+    { "type": "header", "content": "Form section" },
+    { "type": "text", "id": "form_heading", "label": "Form heading", "default": "Send a Message" },
+    { "type": "textarea", "id": "form_intro", "label": "Form intro", "default": "Tell us what you need. We'll get back to you within one business day, Monday through Friday." },
+
+    { "type": "header", "content": "Contact card (sidebar)" },
+    { "type": "text", "id": "card_heading", "label": "Card heading", "default": "Reach Us Directly" },
+    { "type": "text", "id": "contact_email", "label": "Email address", "default": "info@curatedclinicals.com" },
+    { "type": "text", "id": "contact_hours", "label": "Customer service hours", "default": "Monday – Friday, 9am – 5pm PST" },
+    { "type": "text", "id": "contact_response", "label": "Response time", "default": "Within 1 business day" },
+    { "type": "text", "id": "contact_ship_from", "label": "Ships from", "default": "Vancouver, BC, Canada" },
+
+    { "type": "header", "content": "Policy link buttons" },
+    { "type": "text", "id": "shipping_label", "label": "Shipping label", "default": "Shipping" },
+    { "type": "url", "id": "shipping_url", "label": "Shipping policy URL" },
+    { "type": "text", "id": "returns_label", "label": "Returns label", "default": "Returns" },
+    { "type": "url", "id": "returns_url", "label": "Returns policy URL" },
+    { "type": "text", "id": "privacy_label", "label": "Privacy label", "default": "Privacy" },
+    { "type": "url", "id": "privacy_url", "label": "Privacy policy URL" },
+    { "type": "text", "id": "terms_label", "label": "Terms label", "default": "Terms" },
+    { "type": "url", "id": "terms_url", "label": "Terms URL" },
+
+    { "type": "header", "content": "FAQ" },
+    { "type": "text", "id": "faq_eyebrow", "label": "FAQ eyebrow", "default": "Common Questions" },
+    { "type": "text", "id": "faq_heading", "label": "FAQ heading", "default": "Before You Reach Out" },
+
+    { "type": "header", "content": "Closing CTA band" },
+    { "type": "checkbox", "id": "show_cta", "label": "Show closing CTA", "default": true },
+    { "type": "text", "id": "cta_eyebrow", "label": "CTA eyebrow", "default": "Looking for a Recommendation?" },
+    { "type": "text", "id": "cta_heading", "label": "CTA heading", "default": "Browse the Catalogue" },
+    { "type": "textarea", "id": "cta_subtitle", "label": "CTA subtitle", "default": "Filter by skin concern or brand to find clinically-vetted products tailored to your needs." },
+    { "type": "text", "id": "cta_button_label", "label": "Button label", "default": "View All Products" },
+    { "type": "url", "id": "cta_button_url", "label": "Button URL" }
+  ],
+  "blocks": [
+    {
+      "type": "faq",
+      "name": "FAQ item",
+      "settings": [
+        { "type": "text", "id": "question", "label": "Question", "default": "Question goes here?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Answer goes here.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact Page",
+      "category": "Custom Content",
+      "blocks": [
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Are your products authentic?",
+            "answer": "<p>Yes — every product on our site is sourced through authorized distribution channels for that brand. Formulas are genuine, properly stored, and within their shelf life. If you ever have a concern about a product's authenticity, contact us with photos and the lot number and we will investigate.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "How long does shipping take?",
+            "answer": "<p>All orders ship from Vancouver, BC via Canada Post Express with tracking. Typical delivery times are 1–2 business days within BC, 2–4 business days across Canada, and 3–7 business days to the United States. Free shipping applies to orders over $150 CAD. Full details on our Shipping Policy page.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Can I return an opened product?",
+            "answer": "<p>For health, safety, and hygiene reasons, we cannot accept returns on opened skincare. Items must be returned within 14 days of delivery, unused, with all factory seals intact. Damaged or defective products are handled separately — see our Returns &amp; Refunds Policy for the full process.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Do you ship to the United States?",
+            "answer": "<p>Yes. We ship across Canada and the United States via Canada Post Express. U.S. orders may be subject to customs duties or import taxes determined by U.S. Customs and Border Protection, which are the responsibility of the recipient. Most U.S. orders arrive within 3–7 business days after dispatch.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "Can you recommend products for my skin concern?",
+            "answer": "<p>Yes — within reason. We're an online retailer, not a clinic, so we can share general guidance based on a product's documented use cases and the brand's research, but we cannot diagnose skin conditions or replace a consultation with a qualified medical professional. For specific concerns, we recommend speaking with a dermatologist or aesthetician.</p>"
+          }
+        },
+        {
+          "type": "faq",
+          "settings": {
+            "question": "My package shows as delivered but I can't find it. What do I do?",
+            "answer": "<p>First, check with neighbours, building concierge, your leasing office, and your local Canada Post depot — packages are often signed for nearby. If you still can't locate it after 1–2 days, contact us at <a href=\"mailto:info@curatedclinicals.com\">info@curatedclinicals.com</a> and we'll open a service ticket with Canada Post on your behalf. Please note that once Canada Post confirms delivery to the address provided at checkout, we are unable to issue a refund or replacement — see our Shipping Policy for full details on carrier liability.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
