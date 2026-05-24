@@ -25,7 +25,17 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'My OB gave me the okay during pregnancy. Felt good to maintain at least one part of my routine through morning sickness.' },
     { r: 4, b: 'Worth the splurge but I wait for sale events. Two bottles at 15% off get me through the year.' },
     { r: 5, b: 'I keep mine in the medicine cabinet, not the bathroom counter. Light degrades it. Worth the precaution.' },
-    { r: 5, b: 'The brown bottle is a tell when you go to someone\'s house. Skincare people clock each other this way.' }
+    { r: 5, b: 'The brown bottle is a tell when you go to someone\'s house. Skincare people clock each other this way.' },
+    { r: 5, b: 'I bought my first bottle for my 30th birthday because someone told me start using vitamin C now. I am now 39 and have never been off it.' },
+    { r: 5, b: 'My acne scars from my teens have visibly faded after a year of daily use. I had given up on those.' },
+    { r: 4, b: 'I do not love how heavy the glass bottle is in my carry-on. I bring it anyway. The serum is worth the weight.' },
+    { r: 5, b: 'I asked my sister what changed about her skin. She said this. I bought one that day.' },
+    { r: 5, b: 'Three drops in the morning under my SPF. The math is four drops too many because the dropper is finicky. Use a clean fingertip.' },
+    { r: 4, b: 'I rotate this with my Phloretin in the summer when I am oilier. Two SkinCeuticals C serums in rotation feels excessive but works.' },
+    { r: 5, b: 'My wedding skincare started with this six months out. The morning-of photographer commented on my glow.' },
+    { r: 5, b: 'I am 51 and the sun damage on my chest is fading. Took six months but the consistency paid off.' },
+    { r: 5, b: 'Sample size from a Sephora gift with purchase got me hooked. Full bottle within a month.' },
+    { r: 4, b: 'The smell is divisive. I have come to find it grounding. My partner cannot stand it.' }
   ],
 
   'skinceuticals-triple-lipid-restore-2-4-2': [
@@ -42,7 +52,15 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'I rotate this with my retinol nights. Barrier support and active treatment in balance.' },
     { r: 4, b: 'A pump dispenses just the right amount for full face. Jar lasts about three months at nightly use.' },
     { r: 5, b: 'Mid 30s and starting to see lipid loss in my skin. This restores what age is taking.' },
-    { r: 5, b: 'My esthetician calls this her desert island moisturizer.' }
+    { r: 5, b: 'My esthetician calls this her desert island moisturizer.' },
+    { r: 5, b: 'Switched from La Mer for the math and the science. I do not miss the jar in Tiffany blue. I do not miss the spend either.' },
+    { r: 5, b: 'I had a barrier issue from a too-aggressive in-office peel. Two weeks of this nightly and my skin came back.' },
+    { r: 5, b: 'My friend gave me a sample after my divorce. Said your face needs a hug. She was right.' },
+    { r: 5, b: 'The jar is plain. The ingredients are not. This is what gets you through your 50s.' },
+    { r: 4, b: 'Heavy in summer humidity. I save it for fall through spring. In summer I drop down to lighter creams.' },
+    { r: 5, b: 'I press the cream in until it disappears. About a minute of light pressing. The absorption is part of the ritual.' },
+    { r: 5, b: 'I went off this for three months trying a cheaper alternative. My skin made me come back. Lesson learned for the second time.' },
+    { r: 5, b: 'Postpartum dry skin is a different category. This is the cream that handles it.' }
   ],
 
   'skinceuticals-phloretin-cf': [
@@ -69,7 +87,16 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'Layers under my SPF without pilling. Silky texture, no residue.' },
     { r: 5, b: 'I bought a backup bottle because I was halfway through my first and panicked at the thought of running out.' },
     { r: 5, b: 'My grandmother is 76 and started using this on my recommendation. Best gift I have given her.' },
-    { r: 4, b: 'A pump per side of the face. The bottle goes far. Worth the price over time.' }
+    { r: 4, b: 'A pump per side of the face. The bottle goes far. Worth the price over time.' },
+    { r: 5, b: 'I started this in my late 30s after my injector said I was a few years from needing filler. Two years on this and I am still putting off filler.' },
+    { r: 5, b: 'My cheek hollows are noticeably plumper. The mirror does not lie. The bottle does not either.' },
+    { r: 4, b: 'I expected immediate gratification at this price. Got patient gratification instead. Worth the recalibration.' },
+    { r: 5, b: 'The serum-gel texture is what makes it different. Not a watery HA, not a sticky one.' },
+    { r: 5, b: 'I keep it in the bedside drawer and apply on damp skin right after my shower. Best application moment.' },
+    { r: 5, b: 'My laugh lines were getting deep. Three months in they are visibly less pronounced.' },
+    { r: 4, b: 'A bottle lasts me about ten weeks at twice daily. I plan my orders to overlap.' },
+    { r: 5, b: 'The proxylane technology actually works. I read the studies and the studies were not lying.' },
+    { r: 5, b: 'I have used this through three pregnancies. My OB approved it each time.' }
   ],
 
   'skinceuticals-silymarin-cf': [
@@ -96,7 +123,14 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'Disappears into damp skin. Best applied right after cleansing while my face is still wet.' },
     { r: 5, b: 'I gifted the spare to my mom. She texts me when she runs low so I can order us both more.' },
     { r: 5, b: 'My skin barrier is the calmest it has been since my 20s. I credit this entirely.' },
-    { r: 4, b: 'Pricier than the drugstore hyaluronic serums I tried for a year. The texture and absorption are not comparable.' }
+    { r: 4, b: 'Pricier than the drugstore hyaluronic serums I tried for a year. The texture and absorption are not comparable.' },
+    { r: 5, b: 'I run hot in summer and this gel is the only thing that does not feel like I am layering on a sweat blanket.' },
+    { r: 5, b: 'Best summer routine starter. Cool, lightweight, and your actives layer perfectly on top.' },
+    { r: 5, b: 'I keep one in my desk for mid-day hydration boost. Wash my hands, apply, layer over SPF gently. Works.' },
+    { r: 4, b: 'Travel size would be great. Until then I decant into a small bottle for my carry-on.' },
+    { r: 5, b: 'My acne-prone teen uses this morning and night. Best gateway into a real routine for her.' },
+    { r: 5, b: 'Texture is more like a watery jelly than a gel. Surprising the first time you pump it.' },
+    { r: 5, b: 'My esthetician gave me a sample and now I am five bottles in. Best decision she made for my skin.' }
   ],
 
   'skinceuticals-retinol': [
@@ -232,7 +266,16 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'I bought this after my injector said it would extend my Botox. Honestly does. I stretch my appointments an extra month now.' },
     { r: 5, b: 'Every other night with my retinol on alternate nights. The routine works.' },
     { r: 4, b: 'Bottle lasts about ten weeks for me. I budget for it like rent now.' },
-    { r: 5, b: 'Six months in and my skin tone is more even and bright in a way I can not get from a serum alone.' }
+    { r: 5, b: 'Six months in and my skin tone is more even and bright in a way I can not get from a serum alone.' },
+    { r: 5, b: 'I went to my facialist for a touch up and she asked if I had stopped retinoling. I had not, but my skin looks calmer because of this serum. We laughed.' },
+    { r: 5, b: 'My ZO program started with this and the gentle cleanser. Two years later it is still the keystone product.' },
+    { r: 5, b: 'I split a bottle with my mother. She is 65 and I am 38. Both of us see results on our different skin.' },
+    { r: 5, b: 'The pump dispenses a single pea worth which is the right amount for full face plus neck. Generous bottle.' },
+    { r: 4, b: 'Pricey when you total it up annually. I do anyway because there is no equivalent under $200.' },
+    { r: 5, b: 'I tried to economize by skipping a month. My skin punished me for it. Not making that mistake again.' },
+    { r: 5, b: 'My med-spa nurse uses this herself. That is honestly all the validation I needed before buying.' },
+    { r: 5, b: 'The pearlescent finish disappears into the skin. Not white-cast, not heavy. Premium feeling product.' },
+    { r: 5, b: 'I gave one to my MIL for Christmas. She is now a customer for life and brings it up at every family dinner.' }
   ],
 
   'zo-wrinkle-and-texture-repair': [
@@ -251,7 +294,16 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 4, b: 'A pea size for full face. Press into damp skin. No drama with consistent use.' },
     { r: 5, b: 'My esthetician swears by this and now I do too. We compare notes at every appointment.' },
     { r: 4, b: 'A tube lasts me three months at every other night. The math works.' },
-    { r: 5, b: 'My friend started this on my push and her skin texture transformation has been the talk of our group chat.' }
+    { r: 5, b: 'My friend started this on my push and her skin texture transformation has been the talk of our group chat.' },
+    { r: 5, b: 'I have had a tube of this in my cabinet continuously since 2020. I do not let it run out.' },
+    { r: 5, b: 'The retinol burn is a thing of the past for me. I peeled for two weeks initially and that was the worst of it.' },
+    { r: 5, b: 'I bought my husband one and now he is using it every night too. He had not done skincare before this.' },
+    { r: 5, b: 'My med-spa recommended this when I asked about the next step after my Wrinkle and Texture Repair was working but I wanted more. They suggested doubling down on the same product.' },
+    { r: 5, b: 'After two children I lost the firmness around my mouth. This is the only thing that has visibly brought it back.' },
+    { r: 5, b: 'My esthetician told me to use it on my upper lip and chin for hormonal texture. Worked within weeks.' },
+    { r: 4, b: 'A solid tube. Best in the ZO line for the price tier. The wrinkle-and-texture combination delivers.' },
+    { r: 5, b: 'I avoided retinol for years thinking I could not tolerate it. This is the one that proved me wrong.' },
+    { r: 5, b: 'Used this for my pre-wedding skincare for six months. Looked the best of my life on the day. Will use again for big events.' }
   ],
 
   'zo-brightalive-skin-brightener': [
@@ -287,7 +339,16 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'My esthetician suggested this when my old cleanser was breaking me out. Saved my skin.' },
     { r: 4, b: 'Removes my SPF without a double cleanse needed most nights. Worth its weight.' },
     { r: 5, b: 'I keep a bottle at the gym too. Always available.' },
-    { r: 5, b: 'After a bad reaction to a cleanser years ago, this was the first one I trusted again. Loyal since.' }
+    { r: 5, b: 'After a bad reaction to a cleanser years ago, this was the first one I trusted again. Loyal since.' },
+    { r: 5, b: 'I have been buying this in bulk from my med-spa for four years. Always have a backup in the cabinet.' },
+    { r: 5, b: 'My makeup artist used this on me before a shoot. I asked what it was, bought one the same day.' },
+    { r: 5, b: 'I cleanse with this morning and night. Skin never feels stripped, never feels filmy. Just clean.' },
+    { r: 4, b: 'I wish it came in a refillable format. Otherwise no notes.' },
+    { r: 5, b: 'Pre and post workouts. The only cleanser my reactive skin tolerates that frequently.' },
+    { r: 5, b: 'My mom is 73 and uses this. Whole family situation now. Three generations on one cleanser.' },
+    { r: 5, b: 'I do a damp-skin application and let it sit for a full minute before rinsing. Like a mini treatment.' },
+    { r: 5, b: 'Travel-friendly when you decant. Or you can buy the actual travel size and not bother decanting.' },
+    { r: 5, b: 'After trying high-end and drugstore cleansers for years, this is the one that ended my search.' }
   ],
 
   'zo-exfoliating-polish': [
@@ -306,7 +367,16 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 4, b: 'A tub lasts me six months at regular use. Worth every dollar.' },
     { r: 5, b: 'My makeup applies better on polish nights. A real side benefit.' },
     { r: 5, b: 'Tried a cheaper version. There is no comparison. Coming back to this.' },
-    { r: 5, b: 'Best part is how my skin feels for the next two days. Soft like baby skin.' }
+    { r: 5, b: 'Best part is how my skin feels for the next two days. Soft like baby skin.' },
+    { r: 5, b: 'I dampen my skin, mix half a teaspoon with water in my palm, and use it in circles for about a minute. Best scrub technique I know.' },
+    { r: 5, b: 'My makeup artist uses this on shoot days. The base she gives me looks airbrushed and I think this is most of why.' },
+    { r: 5, b: 'I started this in my 20s and am now 41. Same product, two decades of use. Best skincare relationship I have.' },
+    { r: 4, b: 'Slightly drying in winter. I follow with my Triple Lipid the same night and balance is restored.' },
+    { r: 5, b: 'My esthetician calls this physician-strength microderm in a jar. I see why.' },
+    { r: 5, b: 'I use this before any peel, mask, or other treatment. It primes my skin like nothing else.' },
+    { r: 4, b: 'Container looks dated. The product is timeless.' },
+    { r: 5, b: 'Three times a week and my skin is its best version. Less makeup needed, less filter needed.' },
+    { r: 5, b: 'I gave a tub to my brother in law who had been complaining about texture. He texts me when he is running low.' }
   ],
 
   'zo-complexion-renewal-pads': [
@@ -526,7 +596,16 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'Texture is rich enough that you do not need a separate moisturizer on top. Easy single step.' },
     { r: 5, b: 'My friend tried this on my recommendation and now she is on her sixth jar.' },
     { r: 4, b: 'Worth the splurge. I plan my orders around when I will run out and never let the inventory go to zero.' },
-    { r: 5, b: 'The AlphaRet molecule is actually different. I felt the difference within two weeks of switching from my old retinol.' }
+    { r: 5, b: 'The AlphaRet molecule is actually different. I felt the difference within two weeks of switching from my old retinol.' },
+    { r: 5, b: 'My med-spa carries this and I trust them to know what works. Three years on it and counting.' },
+    { r: 5, b: 'I asked my injector what she uses at night. This was her one-word answer. Then I bought it.' },
+    { r: 5, b: 'After two children my forty year old skin needed something. This was the something.' },
+    { r: 4, b: 'Jar packaging means contamination over time is a concern. I use a small spatula to keep it clean.' },
+    { r: 5, b: 'I have given samples to seven friends and four of them are now buying it themselves. Best converter in my routine.' },
+    { r: 5, b: 'The first month was the adjustment. Months two through twelve were the payoff.' },
+    { r: 5, b: 'My esthetician asked if I had switched my skincare. I said I added this. She said you can stop adding now.' },
+    { r: 4, b: 'Worth the splurge if you have the budget. I budget for it like a streaming service. Monthly cost works out.' },
+    { r: 5, b: 'I use it on my chest and the décolletage area looks visibly firmer too. Bonus body use.' }
   ],
 
   'skinbetter-science-alto-advanced-defense-and-repair': [
@@ -541,7 +620,12 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'I work in a polluted city. This is my morning shield. My skin looks brighter for it.' },
     { r: 5, b: 'My esthetician suggested this for environmental defense. Three months in I see the difference.' },
     { r: 4, b: 'Layers under my SPF easily. Silky texture, no pilling.' },
-    { r: 4, b: 'A bottle lasts about four months at one pump per morning. Worth the investment over time.' }
+    { r: 4, b: 'A bottle lasts about four months at one pump per morning. Worth the investment over time.' },
+    { r: 5, b: 'I use this on cloudy days when I am tempted to skip antioxidant defense. The reminder of investment keeps me consistent.' },
+    { r: 5, b: 'After a year on this my morning skin is calmer and brighter. Compound effect is real.' },
+    { r: 5, b: 'My esthetician carries this and I asked why. She said it is the smartest formula on her shelf. I bought one.' },
+    { r: 4, b: 'Best layered with a vitamin C serum. The two together are my daytime defense pair.' },
+    { r: 5, b: 'Slightly slick on application, absorbs in under two minutes. Plays well under SPF.' }
   ],
 
   'skinbetter-science-eyemax-alpharet-overnight': [
@@ -677,7 +761,13 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'My derm uses this in her practice. That was my final push to buy it. No regrets.' },
     { r: 4, b: 'Bottle lasts me ten weeks at twice daily. The math works out reasonably.' },
     { r: 5, b: 'Best growth factor serum I have used. Worth the price tier.' },
-    { r: 5, b: 'My esthetician noticed the difference at my last facial. Asked what changed in my routine.' }
+    { r: 5, b: 'My esthetician noticed the difference at my last facial. Asked what changed in my routine.' },
+    { r: 5, b: 'The dual chamber dispenses one pump of each side together. The TNS-MR plus RSC formula application is the routine.' },
+    { r: 5, b: 'I have used this since the original TNS Essential days. Advanced+ is the upgrade I waited years for.' },
+    { r: 5, b: 'My partner started using mine and now we have two bottles in rotation. Couple\'s skincare commitment.' },
+    { r: 4, b: 'Pricey but it does what it claims. I track my photos every six months and the difference is undeniable.' },
+    { r: 5, b: 'My dermatologist uses this in office and at home. Triple endorsement, including her own face.' },
+    { r: 4, b: 'The dispenser took some getting used to. Hold over the palm, press once, transfer to face.' }
   ],
 
   'skinmedica-ha5-rejuvenating-hydrator': [
@@ -692,7 +782,13 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'Five different HA molecules in one bottle means I have not needed to layer multiple HA products anymore.' },
     { r: 5, b: 'My makeup applies smoother on top of this. Hydrated base, better finish.' },
     { r: 5, b: 'I rotate this with my morning vitamin C. Plays well in any routine.' },
-    { r: 4, b: 'A bottle lasts about three months at twice daily. Worth the spot.' }
+    { r: 4, b: 'A bottle lasts about three months at twice daily. Worth the spot.' },
+    { r: 5, b: 'I press this into damp skin after my serums and let it sit before sunscreen. The order matters.' },
+    { r: 5, b: 'My face looks plumper within ten minutes of application. The instant gratification is part of why I keep buying.' },
+    { r: 5, b: 'A pump for my face, a half pump for my neck. The bottle dispenses precisely.' },
+    { r: 4, b: 'I expected another hyaluronic to feel like another hyaluronic. The five different forms actually do something distinct.' },
+    { r: 5, b: 'My grandmother is on her sixth tube. We share notes on this product across generations.' },
+    { r: 5, b: 'Best hydrating layer for my morning routine. Everything sinks in better with this as the base.' }
   ],
 
   'skinmedica-lumivive-system-day-night': [
@@ -773,7 +869,12 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'After my barrier crashed last fall, this brought me back in weeks.' },
     { r: 5, b: 'A few drops per use is plenty. Bottle goes far.' },
     { r: 5, b: 'No pilling, no weird interactions with anything else in my routine.' },
-    { r: 5, b: 'Best HA serum I have used. The difference from standard formulas is noticeable from week one.' }
+    { r: 5, b: 'Best HA serum I have used. The difference from standard formulas is noticeable from week one.' },
+    { r: 5, b: 'My medspa carries this and recommended it post-Morpheus. Sped my recovery noticeably.' },
+    { r: 5, b: 'I have layered this under every other HA I have tried. None of the others compare to using this one alone.' },
+    { r: 5, b: 'A few drops on damp skin morning and night. The bottle lasts about three months at that pace.' },
+    { r: 4, b: 'The dropper is precise which is rare for this kind of bottle. Single drop control.' },
+    { r: 5, b: 'My skin tolerance for actives improved noticeably after a month on this. Barrier-first approach pays off.' }
   ],
 
   'hydrinity-renewing-ha-serum': [
@@ -847,7 +948,14 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'Daily use even without procedures. The firming benefit compounds over time.' },
     { r: 4, b: 'A bottle lasts me about three months at twice daily. Worth the cost for the recovery benefit alone.' },
     { r: 5, b: 'TriHex Technology aside, the texture and absorption are luxurious.' },
-    { r: 5, b: 'My dermatologist sent me home with this after my Morpheus 8 session. Best advice I got that month.' }
+    { r: 5, b: 'My dermatologist sent me home with this after my Morpheus 8 session. Best advice I got that month.' },
+    { r: 5, b: 'I had four IPL sessions over six months. Two with this product, two without. The recovery difference was unmissable.' },
+    { r: 5, b: 'My med-spa stocks this at the front desk. They sell out regularly. I see why.' },
+    { r: 5, b: 'I use this nightly between procedures and the skin maintenance is noticeable. Less recovery time when I do go in.' },
+    { r: 5, b: 'My esthetician calls this the "do not skip" product in her practice. Hard agree.' },
+    { r: 5, b: 'A pump goes a long way. The bottle is sized right for the price tier.' },
+    { r: 4, b: 'The texture is light enough for morning use under SPF. I use it twice daily for max benefit.' },
+    { r: 5, b: 'Best post-procedure product I have used in 15 years of getting treatments.' }
   ],
 
   'alastin-restorative-skin-complex': [
@@ -905,7 +1013,14 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'Three years of daily use. My pigmentation has barely budged since starting. Best SPF defense I have.' },
     { r: 4, b: 'Pricey but earns it. The texture is the selling point. Disappears on skin.' },
     { r: 5, b: 'My partner finally switched to mineral SPF after watching me use this. Now we share.' },
-    { r: 5, b: 'I keep one in my desk drawer for mid-day touch ups. Mineral SPF that I actually want to reapply.' }
+    { r: 5, b: 'I keep one in my desk drawer for mid-day touch ups. Mineral SPF that I actually want to reapply.' },
+    { r: 5, b: 'I tried it because of an Instagram derm I follow. Bought it the same day she posted. No regrets.' },
+    { r: 5, b: 'My skin reacts to every chemical SPF I have used. This is the mineral that finally agreed with me.' },
+    { r: 5, b: 'A small pump per side of the face. The bottle lasts me three months at daily use.' },
+    { r: 5, b: 'I gifted four bottles last holiday season. All four friends became repeat customers.' },
+    { r: 5, b: 'Classic shade matches my fair skin without any pink or yellow undertone issue.' },
+    { r: 4, b: 'The Glow finish is more pearl than dewy. I tried it once and went back to Classic.' },
+    { r: 5, b: 'Best SPF I have ever owned. I am 41 and I wish I had been using this from my 20s.' }
   ],
 
   'colorescience-sunforgettable-total-protection-brush-on-shield-spf-50': [
@@ -922,7 +1037,13 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'I bring this to outdoor weddings. Reapply between cocktails and dinner. No one notices.' },
     { r: 4, b: 'A pot lasts about three months at daily use over my morning cream SPF.' },
     { r: 5, b: 'My esthetician put me onto this. Now I never go without one in my bag.' },
-    { r: 4, b: 'The shade match on Medium worked for my tone. Worth confirming with a sample if you can.' }
+    { r: 4, b: 'The shade match on Medium worked for my tone. Worth confirming with a sample if you can.' },
+    { r: 5, b: 'My daughter borrows mine for school. Now I have to keep two on hand because she is using mine before classes.' },
+    { r: 5, b: 'Best beach reapplication tool. Brush over makeup, no smearing, no streaking.' },
+    { r: 5, b: 'I am out the door faster with this in my routine. SPF reapplication used to feel like a chore.' },
+    { r: 4, b: 'The brush sheds slightly after a few months of heavy use. I switch to a new one quarterly to keep it fresh.' },
+    { r: 5, b: 'I keep one in my golf bag. Reapply at the turn after nine holes. Skin survives full rounds in the sun.' },
+    { r: 5, b: 'After a melanoma scare for my sister, I take SPF reapplication seriously. This makes it actually happen.' }
   ],
 
   'colorescience-even-up-3-in-1-skin-perfector-sunscreen-spf-50': [
@@ -990,7 +1111,14 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'I wear this alone on no-makeup days. Looks like skin, only better.' },
     { r: 4, b: 'My esthetician sells these by the box. I see why. Best entry SPF for someone new to mineral.' },
     { r: 4, b: 'A tube lasts me about ten weeks at daily face and neck application.' },
-    { r: 5, b: 'Recommended by literally every dermatologist I have ever seen. The consensus is real for a reason.' }
+    { r: 5, b: 'Recommended by literally every dermatologist I have ever seen. The consensus is real for a reason.' },
+    { r: 5, b: 'I started using this in residency for the long hours under fluorescent lighting. Eight years later I am a permanent customer.' },
+    { r: 5, b: 'My makeup artist friends carry this on every shoot. It is the SPF used in editorial production.' },
+    { r: 5, b: 'I am 53 and my skin tone is the most even it has been since my 30s. Daily SPF is the unsung hero of skincare.' },
+    { r: 4, b: 'Slight tint can read warm on cool undertones. I mix in a drop of my regular moisturizer to balance it.' },
+    { r: 5, b: 'I bought a six pack on sale and gave them as bridesmaid gifts. They all switched to it after.' },
+    { r: 5, b: 'My toddler reaches for my "moisturizer" every morning. I let her dab a tiny amount on her cheeks. Pediatrician approved.' },
+    { r: 5, b: 'I tracked the difference in my forehead pigmentation over a year of daily UV Daily. Photos do not lie.' }
   ],
 
   'eltamd-uv-sport-broad-spectrum-spf-50': [
@@ -1029,7 +1157,13 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'FDA cleared was the selling point for me. I wanted the clinical data behind the price tag.' },
     { r: 5, b: 'My esthetician uses the professional Omnilux in her practice. This at-home version is comparable.' },
     { r: 5, b: 'Replaced my LED facial appointments. Saving about $400 a year and getting more frequent treatment than the spa.' },
-    { r: 4, b: 'Worth the upfront cost. Use it consistently and it pays for itself within months.' }
+    { r: 4, b: 'Worth the upfront cost. Use it consistently and it pays for itself within months.' },
+    { r: 5, b: 'I had been going to a spa for LED facials at $150 a session. Bought this and have saved roughly $1200 in my first year.' },
+    { r: 5, b: 'I do four sessions a week, ten minutes each. After three months my pores look smaller and my skin tone is more uniform.' },
+    { r: 5, b: 'The flexibility of the silicone mask is the unsung feature. It conforms perfectly to my face including the nose and chin.' },
+    { r: 5, b: 'Charged it once a week at the start, now I charge it as needed. Battery has held up over a year of regular use.' },
+    { r: 4, b: 'Pricey investment but cheaper than ongoing in-office LED treatments. I treat it like a one-time gym membership.' },
+    { r: 5, b: 'My acne scars have softened noticeably with consistent use. Six months in and the texture difference is in photos.' }
   ]
 };
 
