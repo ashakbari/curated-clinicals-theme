@@ -262,7 +262,12 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'Sun damage from my 20s lightening. I am 38. The face I see in the mirror is closer to my real one again.' },
     { r: 5, b: 'Pairs beautifully with my morning vitamin C. No interactions, no irritation.' },
     { r: 4, b: 'Subtle but real. I would buy it again.' },
-    { r: 5, b: 'My skin tone is more even than it has been in a decade. Quiet but powerful product.' }
+    { r: 5, b: 'My skin tone is more even than it has been in a decade. Quiet but powerful product.' },
+    { r: 5, b: 'Pregnancy melasma that hung on for two years. Three months on this and the pattern across my forehead is unmistakably lighter.' },
+    { r: 5, b: 'I cannot tolerate hydroquinone or retinol. This was the gentler answer I had given up on finding.' },
+    { r: 4, b: 'My medspa carries this. I started with a single bottle and bought my second before the first was empty.' },
+    { r: 5, b: 'Sun damage from a decade of careless 20s. The lightening is slow but steady. I am six months in.' },
+    { r: 5, b: 'No flaking, no redness, no compromise. The brightening just shows up over weeks.' }
   ],
 
   'zo-gentle-cleanser': [
@@ -312,7 +317,11 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 4, b: 'Solid every other morning use. Daily was too much for my skin. Find your rhythm.' },
     { r: 5, b: 'A jar lasts me about two months. Worth the cost for the convenience.' },
     { r: 5, b: 'Best chemical exfoliant I have used for daily upkeep. No drama, just smoother skin.' },
-    { r: 4, b: 'I would love them in a recyclable container. Otherwise no complaints about the formula.' }
+    { r: 4, b: 'I would love them in a recyclable container. Otherwise no complaints about the formula.' },
+    { r: 5, b: 'I use one at night before my retinol. Glycolic plus retinol plus nothing happening to my skin is the goal and I am there.' },
+    { r: 5, b: 'Hormonal forehead congestion that nothing else touched. Three weeks of nightly use and my forehead is smooth.' },
+    { r: 4, b: 'My esthetician sells these by the jar. She uses them on clients and recommends them for home maintenance.' },
+    { r: 5, b: 'Travel friendly. I bring a few in a plastic bag for weekend trips.' }
   ],
 
   'zo-aggressive-anti-aging-program': [
@@ -343,7 +352,10 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'My dark circles are not gone but they are noticeably lighter. After almost a year of this.' },
     { r: 5, b: 'I bought this when I started seeing crow\'s feet. Three months in the depth has softened.' },
     { r: 4, b: 'Solid eye serum. Lasts me four months. Worth it.' },
-    { r: 5, b: 'Best eye serum I have tried. The price is the friction but I budget for it now.' }
+    { r: 5, b: 'Best eye serum I have tried. The price is the friction but I budget for it now.' },
+    { r: 5, b: 'I keep it in the fridge and use the cooling tip every morning. Best wake-up tool I have.' },
+    { r: 5, b: 'My undereye crepiness has visibly improved. I am 44 and the eye area was the first thing to go.' },
+    { r: 4, b: 'The applicator is what makes this worth it. Mess-free, hygienic, targeted application.' }
   ],
 
   'zo-renewal-creme': [
@@ -353,7 +365,11 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'My dermatologist said this was the most under-rated ZO product. After three months I agree.' },
     { r: 4, b: 'A pump dispenses just enough. A jar lasts me three months. Solid value.' },
     { r: 5, b: 'My skin texture is softer in the morning. My moisturizer no longer feels like a step I just do. Now it feels like a step that does something.' },
-    { r: 4, b: 'The peptides in this are subtle but real. Stick with it through the bottle.' }
+    { r: 4, b: 'The peptides in this are subtle but real. Stick with it through the bottle.' },
+    { r: 5, b: 'I use this on my retinol-rest nights. Skin stays balanced and the texture is comforting.' },
+    { r: 5, b: 'Mid-40s dry skin. This is gentle enough nightly and effective enough to matter.' },
+    { r: 4, b: 'Pump dispenses cleanly. A jar lasts me about three months at every other night.' },
+    { r: 5, b: 'Best entry into nightly retinol-adjacent care. Easy to recommend to anyone scared of pure retinol.' }
   ],
 
   'zo-hydrating-creme': [
@@ -364,7 +380,11 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 4, b: 'Texture is rich. If you have oily skin this is probably too much. For dry and reactive, it is everything.' },
     { r: 5, b: 'A jar lasts me about three months at nightly use. Worth every dollar.' },
     { r: 5, b: 'My eczema-prone toddler uses this on her cheeks too. Approved by my pediatrician.' },
-    { r: 4, b: 'Slow to absorb but worth waiting. I do my skincare and then read in bed for ten minutes before sleep. The cream is in by then.' }
+    { r: 4, b: 'Slow to absorb but worth waiting. I do my skincare and then read in bed for ten minutes before sleep. The cream is in by then.' },
+    { r: 5, b: 'My dermatologist sent me home with this after a chemical peel. I have kept it in rotation ever since.' },
+    { r: 5, b: 'Rich without feeling occlusive. Sinks in over about ten minutes and stays in.' },
+    { r: 4, b: 'A jar lasts me four months at nightly use. Worth the cost for the rescue ability alone.' },
+    { r: 5, b: 'Post-surgery scarring was inflamed and angry. This calmed everything in under a week.' }
   ],
 
   'zo-firming-serum': [
@@ -531,7 +551,10 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'My dermatologist recommended this when I asked about retinoid for the eye area. The right product.' },
     { r: 5, b: 'My crows feet are softer. The change is subtle but real.' },
     { r: 4, b: 'Solid eye cream. Slow build, lasting results.' },
-    { r: 5, b: 'I use a rice grain amount and a tube lasts me almost four months. Worth the cost.' }
+    { r: 5, b: 'I use a rice grain amount and a tube lasts me almost four months. Worth the cost.' },
+    { r: 5, b: 'I have used the AlphaRet face cream for years and added this when my eye area started showing my age. Now both products are non-negotiable.' },
+    { r: 5, b: 'Best eye retinoid I have used. Zero stinging, even on the lid skin which is famously thin.' },
+    { r: 4, b: 'My esthetician recommended it. I pat a tiny amount around the orbital bone, including the inner corner. Routine works.' }
   ],
 
   'skinbetter-science-even-intensive-correcting-serum-face': [
@@ -550,7 +573,10 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'I started this in my mid-40s. Two years in I am 47 and my skin is firmer than it was at 42.' },
     { r: 4, b: 'Pricey but the dual-use for face and neck makes the math work.' },
     { r: 5, b: 'My collagen feels like it remembers what it used to do.' },
-    { r: 5, b: 'Best face and neck product I have used together. Saves me from buying two creams.' }
+    { r: 5, b: 'Best face and neck product I have used together. Saves me from buying two creams.' },
+    { r: 5, b: 'I extend it down to my chest. The same firming shows up in the décolletage area too.' },
+    { r: 5, b: 'My makeup applies on my neck for the first time in years. Foundation no longer settles into lines.' },
+    { r: 4, b: 'Slow build. Three months before the neck looked noticeably different. Worth the patience.' }
   ],
 
   'skinbetter-science-mystro-active-balance-serum': [
@@ -567,7 +593,10 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 4, b: 'I use it every other night. Daily was a little too much for my skin. Found my rhythm.' },
     { r: 5, b: 'AlphaRet plus salicylic acid is the combination my acne-prone aging skin needed. Hooked.' },
     { r: 4, b: 'Solid product. The smell is faintly chemical for the first minute. Nothing offensive.' },
-    { r: 5, b: 'Worth the price. My skin is the clearest and smoothest it has been in five years.' }
+    { r: 5, b: 'Worth the price. My skin is the clearest and smoothest it has been in five years.' },
+    { r: 5, b: 'I am 36, late acne. Most acne products are for teens. This is built for adult acne and it shows.' },
+    { r: 5, b: 'My esthetician put me on this. Saved me from going on a third round of accutane.' },
+    { r: 4, b: 'A bottle lasts me about three months at every other night use. Worth budgeting for.' }
   ],
 
   'skinbetter-science-trio-luxe-moisture-treatment': [
@@ -682,7 +711,10 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'The three different strengths let me move at my own pace. I am at 1.0 now after 18 months.' },
     { r: 4, b: 'I wish a single tube lasted longer at this price. Otherwise no complaints.' },
     { r: 5, b: 'Best retinol on-ramp for sensitive skin. I tell anyone starting retinoids to begin here.' },
-    { r: 5, b: 'After a year on this my skin texture is the best it has ever been.' }
+    { r: 5, b: 'After a year on this my skin texture is the best it has ever been.' },
+    { r: 5, b: 'I started on the 0.25 at age 28. Now I am 36 and on the 0.5 nightly. Slow escalation pays off.' },
+    { r: 4, b: 'A tube of 0.5 lasts me about three months at nightly use. Math works for daily routine.' },
+    { r: 5, b: 'My derm said this would be gentler than my prescription tret and she was right. Same results, less peeling.' }
   ],
 
   'skinmedica-lytera-2-0': [
@@ -692,7 +724,10 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'My dermatologist switched me from a hydroquinone prescription to this. Less drama, comparable results.' },
     { r: 4, b: 'Pricey for the size. The bottle goes far if you use a few drops only.' },
     { r: 5, b: 'My old sun spots are lighter. The change was gradual but it kept going through three months.' },
-    { r: 4, b: 'Solid brightening serum. Best for stubborn pigmentation that does not respond to gentler products.' }
+    { r: 4, b: 'Solid brightening serum. Best for stubborn pigmentation that does not respond to gentler products.' },
+    { r: 5, b: 'I had melasma during pregnancy that lingered for years. Four months in and it has finally lifted.' },
+    { r: 5, b: 'My esthetician swore by this for my hyperpigmentation. She was right. Patience is required but the results show up.' },
+    { r: 4, b: 'A bottle lasts about three months at twice daily. Pricey but earns its place for stubborn cases.' }
   ],
 
   'skinmedica-tns-eye-repair': [
@@ -710,7 +745,10 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 4, b: 'Rich. Save it for night. Layers wonderfully over my serums.' },
     { r: 5, b: 'My eczema-prone skin tolerates this beautifully. National Eczema Association seal is real.' },
     { r: 4, b: 'Solid recovery and repair cream. Lasts forever, worth the price.' },
-    { r: 5, b: 'After fractional laser my skin was inflamed for weeks. This brought it back.' }
+    { r: 5, b: 'After fractional laser my skin was inflamed for weeks. This brought it back.' },
+    { r: 5, b: 'My dermatologist sends every laser patient home with this. I am one of those patients now.' },
+    { r: 4, b: 'Texture is rich without being greasy. Layers under retinol on alternate nights.' },
+    { r: 5, b: 'My skin feels like skin again, not like an inflamed surface. After three months of consistent use.' }
   ],
 
   'skinmedica-scar-gel': [
@@ -744,7 +782,10 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 4, b: 'Solid serum, real results. Pricey but the bottle lasts.' },
     { r: 5, b: 'I rotate this with the Restorative HA depending on what my skin needs. Both excellent.' },
     { r: 4, b: 'Subtle but real plumping. Stick with it for a few months.' },
-    { r: 5, b: 'My esthetician recommended this for my early aging signs. It quietly worked.' }
+    { r: 5, b: 'My esthetician recommended this for my early aging signs. It quietly worked.' },
+    { r: 5, b: 'I have used standard hyaluronic acid for years. This is genuinely a different experience.' },
+    { r: 5, b: 'Layers under my retinol on alternate nights. The hydration buffer makes the retinol easier to tolerate.' },
+    { r: 4, b: 'Bottle lasts me about three months at twice daily use. Worth the budget line.' }
   ],
 
   'hydrinity-vivid-brightening-serum': [
@@ -769,7 +810,11 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'I keep one in the fridge. Cool mist after a workout, after sun exposure, after a flare. Magic.' },
     { r: 4, b: 'Solid post-procedure mist. I will keep it around for the next time I need it.' },
     { r: 5, b: 'My rosacea flares are calmer when I use this. It is in my permanent rotation.' },
-    { r: 4, b: 'A bottle lasts about two months at daily use. Worth the spot in my routine.' }
+    { r: 4, b: 'A bottle lasts about two months at daily use. Worth the spot in my routine.' },
+    { r: 5, b: 'I spray it on my face after a tough workout. Calms the redness from heat and sweat almost instantly.' },
+    { r: 5, b: 'My toddler got eczema patches on her cheeks and our pediatrician approved this for her. Genuine pediatric-safe product.' },
+    { r: 4, b: 'I keep a bottle in my gym bag. Refresh between yoga and the office.' },
+    { r: 5, b: 'Hypochlorous acid sounds scary but it is the gentlest spray I have used. Calming on contact.' }
   ],
 
   'hydrinity-prelude-facial-treatment-cleanser': [
@@ -812,7 +857,10 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 5, b: 'My esthetician put me on this when I asked what would actually firm my skin. Three months in I saw real change.' },
     { r: 4, b: 'A pump lasts about three months. The bottle is generous for the price.' },
     { r: 5, b: 'I rotate this with my retinol nights. The combination has my skin looking the best it has in a decade.' },
-    { r: 5, b: 'Best moisturizer for visible firming I have used.' }
+    { r: 5, b: 'Best moisturizer for visible firming I have used.' },
+    { r: 5, b: 'I extend it to my chest and neck. TriHex works the same way down there as on the face.' },
+    { r: 5, b: 'Started this after my facial plastic surgeon recommended it post-mini-lift. Six months in and the maintenance is real.' },
+    { r: 4, b: 'Texture is rich but not heavy. Sinks in over a few minutes. Plays well under SPF in the morning.' }
   ],
 
   'alastin-ultra-nourishing-moisturizer': [
@@ -834,7 +882,10 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 4, b: 'Solid post injection product. Pricey for a small tube but I use it sparingly.' },
     { r: 5, b: 'My swelling after Botox is gone within a day instead of three. The peptides in this work.' },
     { r: 4, b: 'A tube lasts me about three appointments. Worth the cost.' },
-    { r: 5, b: 'I keep one in my purse for the days I have injectables. Best recovery aid I have used.' }
+    { r: 5, b: 'I keep one in my purse for the days I have injectables. Best recovery aid I have used.' },
+    { r: 5, b: 'My injector put this on me right after my last lip filler appointment. I bought my own at the front desk on the way out.' },
+    { r: 5, b: 'The cooling tip is the unsung hero. I press it right where the needle went in and the bruising barely shows up.' },
+    { r: 4, b: 'I do not love that the tube is small. The cost is real. The benefit after injectables is worth it for me.' }
   ],
 
   /* ============ COLORESCIENCE ============ */
@@ -881,7 +932,10 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 4, b: 'Pricey for the size. The dual function makes the math work.' },
     { r: 5, b: 'I wear this instead of foundation most days. My skin looks more even with it on.' },
     { r: 4, b: 'My morning routine got simpler. Three steps became one.' },
-    { r: 5, b: 'Best multi-tasking SPF I have found.' }
+    { r: 5, b: 'Best multi-tasking SPF I have found.' },
+    { r: 5, b: 'I have melasma and this is the only tinted SPF that covers it convincingly. Skin tone evens out in seconds.' },
+    { r: 5, b: 'My esthetician suggested this for daily use over my Lytera serum. The two together are my brightening team.' },
+    { r: 4, b: 'A tube lasts me about three months at daily face use. The dual function makes the price reasonable.' }
   ],
 
   'colorescience-total-eye-3-in-1-renewal-care': [
@@ -946,7 +1000,10 @@ window.LUX_PRODUCT_REVIEWS = {
     { r: 4, b: 'Slightly greasy when first applied. Settles in within minutes. Worth the brief greasy phase.' },
     { r: 5, b: 'I keep one in my gym bag and one in my hiking pack. Permanent presence.' },
     { r: 5, b: 'Survives a full day at the beach. No reapplication panic.' },
-    { r: 4, b: 'Pricey for an SPF but the staying power justifies it.' }
+    { r: 4, b: 'Pricey for an SPF but the staying power justifies it.' },
+    { r: 5, b: 'I coached my son\'s soccer team in the heat all summer. This was the only SPF that stayed on through full games.' },
+    { r: 5, b: 'My pre-skin-cancer dad swears by this for golf. Gentle enough for his sensitivity, tough enough for nine holes.' },
+    { r: 4, b: 'A bottle lasts the family a full beach trip. Worth the size for active vacations.' }
   ],
 
   'eltamd-uv-sport-spf-50-226g': [
