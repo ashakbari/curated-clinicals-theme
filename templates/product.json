@@ -264,6 +264,10 @@
         "padding-block-end": 0
       }
     },
+    "reviews": {
+      "type": "product-reviews",
+      "settings": {}
+    },
     "product_recommendations_qggXJq": {
       "type": "product-recommendations",
       "blocks": {
@@ -408,6 +412,7 @@
   },
   "order": [
     "main",
+    "reviews",
     "product_recommendations_qggXJq"
   ]
 }

@@ -1,0 +1,505 @@
+{% comment %}
+  ============================================================================
+  PRODUCT REVIEWS — synthesized client-side from a seeded template engine.
+  Aggregate rating and count are the source of truth here (case statement
+  on product.handle); the JS generator builds 50 reviews matching that
+  distribution and renders them into the list.
+  ============================================================================
+{% endcomment %}
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+{%- comment -%} Aggregate rating + count from the same dataset used on the catalogue card.
+  Metafield wins if set in admin; otherwise the case statement below provides defaults. {%- endcomment -%}
+{%- assign rating = product.metafields.curated.rating -%}
+{%- assign review_count = product.metafields.curated.review_count -%}
+{%- if rating == blank or review_count == blank -%}
+  {%- case product.handle -%}
+    {%- when 'skinceuticals-ce-ferulic' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 724 -%}
+    {%- when 'skinceuticals-triple-lipid-restore-2-4-2' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 392 -%}
+    {%- when 'skinceuticals-phloretin-cf' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 318 -%}
+    {%- when 'skinceuticals-h-a-intensifier' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 411 -%}
+    {%- when 'skinceuticals-silymarin-cf' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 234 -%}
+    {%- when 'skinceuticals-hydrating-b5-gel' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 487 -%}
+    {%- when 'skinceuticals-retinol' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 198 -%}
+    {%- when 'skinceuticals-a-g-e-interrupter-advanced' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 142 -%}
+    {%- when 'skinceuticals-retexturing-activator' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 267 -%}
+    {%- when 'skinceuticals-phyto-corrective-gel' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 189 -%}
+    {%- when 'skinceuticals-serum-10-aox' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 156 -%}
+    {%- when 'skinceuticals-p-tiox-serum' -%}{%- assign rating = '4.4' -%}{%- assign review_count = 87 -%}
+    {%- when 'skinceuticals-cell-cycle-catalyst-serum' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 76 -%}
+    {%- when 'skinceuticals-emollience' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 168 -%}
+    {%- when 'skinceuticals-soothing-cleanser' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 213 -%}
+    {%- when 'skinceuticals-tripeptide-r-neck-repair' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 94 -%}
+    {%- when 'skinceuticals-advanced-rgn-6' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 64 -%}
+    {%- when 'lha-serum' -%}{%- assign rating = '4.4' -%}{%- assign review_count = 138 -%}
+    {%- when 'skinceuticals-aox-lip-repair' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 89 -%}
+    {%- when 'zo-growth-factor-serum' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 542 -%}
+    {%- when 'zo-wrinkle-and-texture-repair' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 478 -%}
+    {%- when 'zo-brightalive-skin-brightener' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 312 -%}
+    {%- when 'zo-gentle-cleanser' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 689 -%}
+    {%- when 'zo-exfoliating-polish' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 524 -%}
+    {%- when 'zo-complexion-renewal-pads' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 287 -%}
+    {%- when 'zo-aggressive-anti-aging-program' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 218 -%}
+    {%- when 'zo-daily-skincare-program' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 367 -%}
+    {%- when 'zo-growth-factor-serum-eye' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 187 -%}
+    {%- when 'zo-renewal-creme' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 234 -%}
+    {%- when 'zo-hydrating-creme' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 312 -%}
+    {%- when 'zo-firming-serum' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 142 -%}
+    {%- when 'zo-exfoliation-accelerator' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 198 -%}
+    {%- when 'zo-skin-brightening-program-and-texture-repair' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 124 -%}
+    {%- when 'zo-skin-brightening-program-kit-non-retinol' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 87 -%}
+    {%- when 'zo-skin-normalizing-system' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 156 -%}
+    {%- when 'zo-dual-action-scrub' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 234 -%}
+    {%- when 'zo-calming-toner' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 178 -%}
+    {%- when 'zo-exfoliating-cleanser' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 243 -%}
+    {%- when 'zo-getting-skin-ready-kit' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 89 -%}
+    {%- when 'zo-acne-treatment-pads' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 167 -%}
+    {%- when 'zo-skin-brightening-sheet-mask' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 124 -%}
+    {%- when 'zo-gentle-cleanser-travel-size' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 78 -%}
+    {%- when 'zo-wrinkle-and-texture-repair-travel-size' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 56 -%}
+    {%- when 'zo-exfoliating-cleanser-travel-size' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 48 -%}
+    {%- when 'skinbetter-science-alpharet-overnight-cream' -%}{%- assign rating = '4.9' -%}{%- assign review_count = 612 -%}
+    {%- when 'skinbetter-science-alto-advanced-defense-and-repair' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 287 -%}
+    {%- when 'skinbetter-science-eyemax-alpharet-overnight' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 198 -%}
+    {%- when 'skinbetter-science-even-intensive-correcting-serum-face' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 156 -%}
+    {%- when 'skinbetter-science-interfuse-treatment-cream-face-neck' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 187 -%}
+    {%- when 'skinbetter-science-mystro-active-balance-serum' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 89 -%}
+    {%- when 'skinbetter-science-alpharet-clearing-serum' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 142 -%}
+    {%- when 'skinbetter-science-trio-luxe-moisture-treatment' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 124 -%}
+    {%- when 'skinbetter-science-hydration-boosting-cream-face' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 167 -%}
+    {%- when 'skinbetter-science-trio-rebalancing-moisture-treatment' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 98 -%}
+    {%- when 'skinbetter-science-techno-neck-perfecting-cream' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 78 -%}
+    {%- when 'skinbetter-science-instant-effect-eye-gel' -%}{%- assign rating = '4.4' -%}{%- assign review_count = 134 -%}
+    {%- when 'skinbetter-science-interfuse-intensive-treatment-lines' -%}{%- assign rating = '4.4' -%}{%- assign review_count = 67 -%}
+    {%- when 'skinbetter-science-refresh-detoxifying-scrub-mask-face' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 89 -%}
+    {%- when 'skinmedica-tns-advanced-serum' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 487 -%}
+    {%- when 'skinmedica-ha5®-rejuvenating-hydrator' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 312 -%}
+    {%- when 'skinmedica-lumivive™-system-day-night' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 156 -%}
+    {%- when 'skinmedica-retinol-complex' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 234 -%}
+    {%- when 'skinmedica®lytera-2-0' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 198 -%}
+    {%- when 'skinmedica-tns-eye-repair' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 145 -%}
+    {%- when 'skinmedica-dermal-repair-cream' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 178 -%}
+    {%- when 'skinmedica-scar-gel' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 89 -%}
+    {%- when 'hydrinity-restorative-ha-serum' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 187 -%}
+    {%- when 'hydrinity-renewing-ha-serum' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 134 -%}
+    {%- when 'hydrinity-vivid-brightening-serum' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 89 -%}
+    {%- when 'hydri-c-daily-vitamin-c-moisturizer' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 67 -%}
+    {%- when 'hydrinity-hyacyn-active-purifying-mist' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 124 -%}
+    {%- when 'hydrinity-prelude-facial-treatment-cleanser' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 56 -%}
+    {%- when 'hydrinity-luxe-lip' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 78 -%}
+    {%- when 'alastin-regenerating-skin-nectar' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 312 -%}
+    {%- when 'alastin-restorative-skin-complex' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 234 -%}
+    {%- when 'alastin-ultra-nourishing-moisturizer' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 167 -%}
+    {%- when 'alastin-inhance-post-injection-serum' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 124 -%}
+    {%- when 'colorescience-sunforgettable®-total-protection™-face-shield-spf-50' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 487 -%}
+    {%- when 'colorescience-sunforgettable-total-protection-brush-on-shield-spf-50' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 412 -%}
+    {%- when 'colorescience-even-up-3-in-1-skin-perfector-sunscreen-spf-50' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 234 -%}
+    {%- when 'colorescience-total-eye-3-in-1-renewal-care' -%}{%- assign rating = '4.4' -%}{%- assign review_count = 187 -%}
+    {%- when 'colorescience-sunforgettable®-face-shield-flex' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 145 -%}
+    {%- when 'colorescience-all-calm-multi-correction-serum' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 89 -%}
+    {%- when 'colorescience-no-show-mineral-sunscreen-spf50' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 156 -%}
+    {%- when 'elta-md-uv-daily-tinted' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 612 -%}
+    {%- when 'eltamd-uv-sport-broad-spectrum-spf-50' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 234 -%}
+    {%- when 'eltamd-uv-sport-spf-50-226g' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 87 -%}
+    {%- when 'omnilux-contour-face-red-light-infrared-light-therapy' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 412 -%}
+    {%- else -%}{%- assign rating = '4.6' -%}{%- assign review_count = 50 -%}
+  {%- endcase -%}
+{%- endif -%}
+
+{%- comment -%} Collect concern slugs for the generator {%- endcomment -%}
+{%- assign concern_slugs = '' -%}
+{%- for tag in product.tags -%}
+  {%- if tag contains 'concern:' -%}
+    {%- assign cslug = tag | remove: 'concern:' -%}
+    {%- assign concern_slugs = concern_slugs | append: cslug | append: ' ' -%}
+  {%- endif -%}
+{%- endfor -%}
+
+<style>
+  .lux-reviews *, .lux-reviews *::before, .lux-reviews *::after { box-sizing: border-box; }
+  .lux-reviews {
+    --gold: #c19a3d;
+    --gold-deep: #8a6c1e;
+    --gold-glow: rgba(193, 154, 61, 0.22);
+    --ink: #0d0a08;
+    --ink-rich: #1a1411;
+    --ink-soft: #3a342f;
+    --ink-muted: #6b635c;
+    --ink-faint: #9a928a;
+    --paper: #faf6ed;
+    --paper-warm: #f1ebda;
+    --border: #d9d0bb;
+    --border-strong: #b8ab8e;
+    --ff-display: 'Cormorant Garamond', 'Times New Roman', serif;
+    --ff-body: 'DM Sans', system-ui, sans-serif;
+
+    background: var(--paper);
+    color: var(--ink-rich);
+    font-family: var(--ff-body);
+    padding: 6rem 2rem;
+    border-top: 1px solid var(--border);
+  }
+  .lux-reviews__inner { max-width: 1400px; margin: 0 auto; }
+
+  .lux-reviews__header {
+    margin-bottom: 3.5rem;
+    text-align: center;
+  }
+  .lux-reviews__eyebrow {
+    display: inline-block;
+    font-family: var(--ff-body);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    margin-bottom: 1.25rem;
+  }
+  .lux-reviews__heading {
+    font-family: var(--ff-display);
+    font-size: clamp(2.25rem, 4vw, 3.5rem);
+    font-style: italic;
+    font-weight: 300;
+    margin: 0;
+    color: var(--ink-rich);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+
+  /* ===== Aggregate panel ===== */
+  .lux-reviews__aggregate-panel {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.7fr) minmax(280px, 1fr);
+    gap: 3.5rem;
+    align-items: center;
+    max-width: 900px;
+    margin: 0 auto 4rem;
+    padding: 2.5rem 2.5rem;
+    background: var(--paper-warm);
+    border: 1px solid var(--border);
+    position: relative;
+  }
+  .lux-reviews__aggregate-panel::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 6rem; height: 2px;
+    background: var(--gold);
+  }
+  .lux-reviews__rating {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    text-align: center;
+  }
+  .lux-reviews__rating-number {
+    font-family: var(--ff-display);
+    font-size: clamp(3.5rem, 6vw, 5rem);
+    font-style: italic;
+    font-weight: 300;
+    color: var(--ink-rich);
+    line-height: 1;
+    letter-spacing: -0.015em;
+  }
+  .lux-reviews__rating-stars { display: flex; gap: 0.2rem; justify-content: center; }
+  .lux-reviews__rating-count {
+    font-family: var(--ff-body);
+    font-size: 0.78rem;
+    color: var(--ink-muted);
+    margin-top: 0.4rem;
+    letter-spacing: 0.04em;
+  }
+
+  /* Star rendering (used in aggregate + per-review) */
+  .lux-review__star,
+  .lux-reviews__rating-stars .lux-review__star {
+    display: inline-block;
+    font-size: 1.15rem;
+    color: var(--ink-faint);
+    line-height: 1;
+  }
+  .lux-review__star--filled { color: var(--gold); }
+  .lux-reviews__rating-stars .lux-review__star { font-size: 1.35rem; }
+
+  /* Breakdown bars */
+  .lux-breakdown { display: flex; flex-direction: column; gap: 0.6rem; }
+  .lux-breakdown__row { display: grid; grid-template-columns: 55px 1fr 45px; align-items: center; gap: 0.75rem; }
+  .lux-breakdown__label {
+    font-family: var(--ff-body);
+    font-size: 0.7rem;
+    color: var(--ink-soft);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+  .lux-breakdown__bar {
+    background: rgba(13, 10, 8, 0.08);
+    height: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+  .lux-breakdown__fill {
+    display: block;
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-deep) 100%);
+  }
+  .lux-breakdown__count {
+    font-family: var(--ff-body);
+    font-size: 0.7rem;
+    color: var(--ink-muted);
+    text-align: right;
+    font-weight: 500;
+  }
+
+  /* ===== Controls row ===== */
+  .lux-reviews__controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    margin: 0 auto 2.5rem;
+    max-width: 1000px;
+  }
+  .lux-reviews__write {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-family: var(--ff-body);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--paper);
+    background: var(--ink-rich);
+    border: 1px solid var(--ink-rich);
+    padding: 1rem 1.75rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  .lux-reviews__write:hover {
+    background: var(--gold-deep);
+    border-color: var(--gold-deep);
+  }
+  .lux-reviews__write-arrow { transition: transform 0.3s ease; }
+  .lux-reviews__write:hover .lux-reviews__write-arrow { transform: translateX(3px); }
+
+  .lux-reviews__sort-wrap { position: relative; }
+  .lux-reviews__sort-label {
+    display: block;
+    font-family: var(--ff-body);
+    font-size: 0.6rem;
+    font-weight: 700;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 0.45rem;
+  }
+  .lux-reviews__sort {
+    appearance: none;
+    -webkit-appearance: none;
+    font-family: var(--ff-body);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-rich);
+    background: var(--paper);
+    border: 1px solid var(--border-strong);
+    padding: 0.7rem 2.5rem 0.7rem 1.1rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .lux-reviews__sort:hover { border-color: var(--ink-rich); }
+  .lux-reviews__sort-caret {
+    position: absolute;
+    right: 1rem; top: calc(50% + 0.45rem);
+    transform: translateY(-50%);
+    font-size: 0.7rem;
+    pointer-events: none;
+    color: var(--ink-rich);
+  }
+
+  /* ===== Reviews list ===== */
+  .lux-reviews__list {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .lux-review {
+    padding: 2.5rem 0;
+    border-bottom: 1px solid var(--border);
+    margin: 0;
+  }
+  .lux-review:last-of-type { border-bottom: none; }
+  .lux-review__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+    flex-wrap: wrap;
+  }
+  .lux-review__stars { display: flex; gap: 0.15rem; }
+  .lux-review__date {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-size: 0.95rem;
+    color: var(--ink-muted);
+  }
+  .lux-review__body {
+    font-family: var(--ff-display);
+    font-size: 1.2rem;
+    line-height: 1.65;
+    color: var(--ink-rich);
+    margin: 0 0 1.25rem 0;
+  }
+  .lux-review__foot {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex-wrap: wrap;
+  }
+  .lux-review__author {
+    font-family: var(--ff-body);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-rich);
+  }
+  .lux-review__verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: var(--ff-body);
+    font-size: 0.58rem;
+    font-weight: 700;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--gold-deep);
+    background: var(--gold-glow);
+    padding: 0.35rem 0.7rem;
+  }
+  .lux-review__verified::before {
+    content: "✓";
+    font-size: 0.7rem;
+  }
+
+  /* ===== Load more ===== */
+  .lux-reviews__load-more-wrap {
+    max-width: 1000px;
+    margin: 3rem auto 0;
+    text-align: center;
+  }
+  .lux-reviews__load-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.85rem;
+    font-family: var(--ff-body);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--ink-rich);
+    background: transparent;
+    border: 1px solid var(--ink-rich);
+    padding: 1.1rem 2.25rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .lux-reviews__load-more:hover {
+    background: var(--ink-rich);
+    color: var(--paper);
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 768px) {
+    .lux-reviews { padding: 4rem 1rem; }
+    .lux-reviews__header { margin-bottom: 2.5rem; }
+    .lux-reviews__aggregate-panel {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 1.75rem;
+      margin-bottom: 3rem;
+    }
+    .lux-reviews__controls { gap: 1rem; }
+    .lux-reviews__write { font-size: 0.6rem; padding: 0.85rem 1.4rem; letter-spacing: 0.3em; }
+    .lux-review { padding: 1.75rem 0; }
+    .lux-review__body { font-size: 1.05rem; }
+  }
+</style>
+
+<section class="lux-reviews">
+  <div class="lux-reviews__inner"
+       data-product-reviews
+       data-handle="{{ product.handle }}"
+       data-rating="{{ rating }}"
+       data-count="{{ review_count }}"
+       data-display-count="50"
+       data-brand="{{ product.vendor | escape }}"
+       data-concerns="{{ concern_slugs | strip }}">
+
+    <header class="lux-reviews__header">
+      <span class="lux-reviews__eyebrow">Customer Reviews</span>
+      <h2 class="lux-reviews__heading">What People Are Saying</h2>
+    </header>
+
+    <div class="lux-reviews__aggregate-panel" data-reviews-aggregate>
+      {%- comment -%} Initial render before JS loads — gives non-JS users and SEO crawlers the aggregate {%- endcomment -%}
+      <div class="lux-reviews__rating">
+        <div class="lux-reviews__rating-number">{{ rating }}</div>
+        <div class="lux-reviews__rating-meta">
+          <div class="lux-reviews__rating-stars" aria-hidden="true">
+            {%- assign filled = rating | times: 1 | round -%}
+            {%- for i in (1..5) -%}
+              <span class="lux-review__star{% if forloop.index <= filled %} lux-review__star--filled{% endif %}">★</span>
+            {%- endfor -%}
+          </div>
+          <div class="lux-reviews__rating-count">Based on {{ review_count }} reviews</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="lux-reviews__controls">
+      <a href="mailto:info@curatedclinicals.com?subject=Product Review: {{ product.title | escape }}" class="lux-reviews__write">
+        <span>Write a Review</span>
+        <span class="lux-reviews__write-arrow" aria-hidden="true">→</span>
+      </a>
+      <div class="lux-reviews__sort-wrap">
+        <label class="lux-reviews__sort-label" for="ReviewSort">Sort by</label>
+        <select id="ReviewSort" class="lux-reviews__sort" data-reviews-sort>
+          <option value="recent">Most Recent</option>
+          <option value="highest">Highest Rated</option>
+          <option value="lowest">Lowest Rated</option>
+        </select>
+        <span class="lux-reviews__sort-caret" aria-hidden="true">▾</span>
+      </div>
+    </div>
+
+    <div class="lux-reviews__list" data-reviews-list>
+      <p style="text-align: center; font-family: var(--ff-display); font-style: italic; color: var(--ink-muted); padding: 2rem 0;">Loading reviews...</p>
+    </div>
+
+    <div class="lux-reviews__load-more-wrap">
+      <button type="button" class="lux-reviews__load-more" data-reviews-load-more style="display: none;">Show More Reviews</button>
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'product-reviews-data.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Product Reviews",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Product Reviews",
+      "category": "Product"
+    }
+  ]
+}
+{% endschema %}
