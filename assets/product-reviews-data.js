@@ -237,138 +237,156 @@
     'sun-protection': RESULT_PHRASES_SUN
   };
 
-  /* Openers, middles, and closers reference {format}, {ingredient},
-     {feature}, and {short} placeholders. These get filled with the
-     product-specific values from PRODUCT_CONTEXT at render time. */
+  /* Full review templates. Each is a complete body keyed by rating
+     (5 / 4 / 3 only — no truly negative reviews). Most templates do
+     not mention the product by name; reviewers refer to it as "this"
+     or "it" the way real customers write. Roughly a quarter of
+     templates include {short}, {format}, {ingredient}, or {feature}
+     placeholders for natural product-specific moments. Placeholders
+     {timeframe}, {skin_type}, and {result} get filled with values
+     varied per-review. */
 
-  var OPENERS_5 = [
-    '{short} is a holy grail.',
-    'Worth every dollar for {feature}.',
-    'I cannot live without {short} anymore.',
-    'Best {format} I have bought in years.',
-    '{short} genuinely changed my routine.',
-    'Five stars for {feature} alone.',
-    '{short} is the real deal.',
-    '{short} is my forever {format}.',
-    'I keep coming back to {short}.',
-    '{short} is a permanent fixture now.',
-    'Absolutely worth the splurge on {short}.',
-    'I tell everyone about {short}.',
-    'My esthetician was right about {short}.',
-    'Could not recommend {short} more highly.',
-    'I am obsessed with {short}.',
-    '{feature} sold me from day one.',
-    'The hype on {short} is fully earned.'
+  var REVIEW_TEMPLATES = [
+
+    /* ============ 5-STAR ============ */
+    { r: 5, b: 'Best skincare investment I have made in the last two years. The texture difference is real and visible.' },
+    { r: 5, b: 'Combination skin, late 30s. Six weeks in and people keep asking what I am doing differently.' },
+    { r: 5, b: 'Got this on my esthetician\'s recommendation. She was right about everything.' },
+    { r: 5, b: 'I am a chronic try-everything skincare person and this is the one I will not switch from.' },
+    { r: 5, b: 'Bought it with low expectations. Three months later I am buying my second bottle.' },
+    { r: 5, b: 'Dry skin, mid-40s. The way this performs in winter is unmatched.' },
+    { r: 5, b: 'After menopause I struggled to find anything that worked. This finally does.' },
+    { r: 5, b: 'Pump dispenses generously and a bottle lasts me about two months with twice-daily use.' },
+    { r: 5, b: 'My partner started using mine, now we both have one. Recommendation is implicit.' },
+    { r: 5, b: 'Worth the price tag. Lasts longer than I expected too.' },
+    { r: 5, b: 'I have been a brand loyalist for years but this product specifically is non-negotiable in my routine.' },
+    { r: 5, b: 'Picked this up after my dermatologist showed me her own counter. That sold me before I tried it.' },
+    { r: 5, b: 'Skin tone is more even, less makeup needed, and my pores look smaller. Consistent use is key.' },
+    { r: 5, b: '{result_cap} after about a month. {timeframe_cap} in, I am a believer.' },
+    { r: 5, b: 'Layers under everything I use. No weird interactions with my other products.' },
+    { r: 5, b: 'I gave a tube to my mother and she is now buying her own. Family-tested.' },
+    { r: 5, b: 'The {ingredient} delivers exactly what it promises. I get the hype now.' },
+    { r: 5, b: 'Pricey, but a bottle lasts me three months at daily use. Cost per use is not bad at all.' },
+    { r: 5, b: 'Brought this on a two-week trip and my skin actually held up better than at home.' },
+    { r: 5, b: 'Three years into using this brand. {short} is the one that converted me originally.' },
+    { r: 5, b: 'Started seeing results faster than the brand claims. By week two I was sold.' },
+    { r: 5, b: 'I have sensitive reactive skin and this is one of very few things I have never had an issue with.' },
+    { r: 5, b: 'Switched from a more expensive product to this and honestly have not looked back.' },
+    { r: 5, b: 'My partner does not notice my skincare usually. He noticed this.' },
+    { r: 5, b: '{feature_cap} is what makes it worth it for me.' },
+    { r: 5, b: 'Pre-procedure skincare prep got me hooked. Now using daily anyway.' },
+    { r: 5, b: 'Best texture-improving product I have used. By a wide margin.' },
+    { r: 5, b: 'Glow showed up in week three. Still showing up six months later.' },
+    { r: 5, b: 'Cheaper than the procedure my derm wanted to do. Also cheaper than the prescription.' },
+    { r: 5, b: 'Two bottles deep. The honeymoon has not ended.' },
+    { r: 5, b: 'Was hesitant because of the price. The result-per-dollar is actually fair.' },
+    { r: 5, b: 'My skin tolerates other actives much better when this is in the mix.' },
+    { r: 5, b: 'Bought this for myself on my birthday. Best gift I have given myself in a while.' },
+    { r: 5, b: 'Repurchase locked in. I plan my orders around when I will run out.' },
+    { r: 5, b: 'Goes on smooth, sinks in fast, never irritated my skin once. Five stars.' },
+    { r: 5, b: 'I broke up with my prescription routine for this. Zero regrets.' },
+    { r: 5, b: 'Tried the drugstore knock-off first. Lesson learned, came back to this.' },
+    { r: 5, b: 'Travel-friendly, fits in my carry-on. Works as well at altitude as at home.' },
+    { r: 5, b: 'Bought it for a specific concern, kept it because of how it makes my skin feel overall.' },
+    { r: 5, b: 'My only complaint is how fast I go through it. That is a compliment.' },
+    { r: 5, b: 'I rotate through a lot of products and this one stays in rotation always.' },
+    { r: 5, b: 'After a year of using this regularly, my skin is the best it has been in adulthood.' },
+    { r: 5, b: 'Started seeing real change around week four. I am now four months in and the change has stuck.' },
+    { r: 5, b: 'Eight weeks in. I do not want to know who I would be without this.' },
+    { r: 5, b: 'Older skin appreciates this. My grandmother started using it after I showed her mine.' },
+    { r: 5, b: 'If I had to cut my routine to one bottle this would be it.' },
+    { r: 5, b: 'Bought this after a string of disappointing skincare purchases. Restored my faith.' },
+    { r: 5, b: 'Acne-prone since teens, late 20s now. This and a good SPF and my skin has finally stabilized.' },
+    { r: 5, b: 'Glass-skin texture is real and earned slowly. I am here for the slow earn.' },
+    { r: 5, b: 'Honestly skeptical going in, fully converted going out.' },
+    { r: 5, b: 'The way this layers under sunscreen and makeup is what makes it daily.' },
+    { r: 5, b: 'Bought this twice in two months. That is how much I love it.' },
+    { r: 5, b: 'Three months in. Skin barrier is the best it has ever been, including in my early 20s.' },
+    { r: 5, b: 'Used to spend more on inferior products. The math works out.' },
+    { r: 5, b: 'Will not run out of this. Will figure out the budget elsewhere.' },
+    { r: 5, b: 'Tried this at a friend\'s house, ordered my own within the week.' },
+    { r: 5, b: 'Esthetician used it on me in a facial and I left with a receipt-worthy glow. Bought it that night.' },
+    { r: 5, b: 'I am 32, dry/combo skin, hormonal acne flares once a month. This keeps everything steady.' },
+    { r: 5, b: 'Best skincare routine addition I have made all year. By far.' },
+    { r: 5, b: '{result_cap} after {timeframe}. Worth saying out loud.' },
+    { r: 5, b: 'My only regret is not finding this sooner.' },
+    { r: 5, b: 'Quit two other serums after starting this. Did not need them anymore.' },
+    { r: 5, b: 'Do not even let it run low anymore. Reorder when I hit the halfway mark.' },
+    { r: 5, b: 'Pump is precise, packaging feels premium, and the formula does what it claims. Top tier.' },
+    { r: 5, b: 'Couple weeks into using this. Already see the difference my friend keeps mentioning.' },
+    { r: 5, b: 'My skin has not looked this calm in years. I credit this entirely.' },
+    { r: 5, b: 'Real glow, not just dewy filter. Earned over weeks not minutes.' },
+    { r: 5, b: 'Coworker asked what I am using. Told her. She bought it next day.' },
+    { r: 5, b: 'I have been buying this consistently for almost two years now. Loyal.' },
+    { r: 5, b: 'Mid-30s, {skin_type} skin. {result_cap} after {timeframe}.' },
+    { r: 5, b: 'Was put on a strict skincare regimen by my derm. This is the only piece I added myself, and it stuck.' },
+    { r: 5, b: 'Bought it on sale. Will pay full price next time. That says it all.' },
+    { r: 5, b: 'My makeup applies better when this is in the routine. Side benefit, but a real one.' },
+    { r: 5, b: 'Bought it twice. About to buy the bigger size. Time efficiency over savings.' },
+    { r: 5, b: 'Three friends use this. Three friends recommended it. Now I am the fourth.' },
+    { r: 5, b: 'My skin has its rhythm again. After months of trying to find something that worked, this clicked.' },
+
+    /* ============ 4-STAR ============ */
+    { r: 4, b: 'Solid product. Results are real, just took longer than I expected.' },
+    { r: 4, b: 'Doing what it claims, slowly. Will finish the bottle.' },
+    { r: 4, b: 'Texture is a touch heavier than I prefer but the results are there. Three weeks in.' },
+    { r: 4, b: 'Wish it came in a bigger size at this price point. Otherwise no real complaints.' },
+    { r: 4, b: 'Bought on a recommendation. Working as advertised. {feature_cap} is real.' },
+    { r: 4, b: 'Decent but not a breakthrough. Adding to my rotation, not building my routine around it.' },
+    { r: 4, b: 'Took longer than I hoped to see anything. Showing up now though.' },
+    { r: 4, b: 'Good product, slightly overpromised marketing. Still glad I tried it.' },
+    { r: 4, b: 'Scent is a thing. Not unpleasant, just present. Heads up if you are sensitive to that.' },
+    { r: 4, b: 'Layers fine, absorbs fine, works fine. The price is what is making me hesitate on a repurchase.' },
+    { r: 4, b: 'Glad I bought it. Probably will not repurchase though, working through several similar products.' },
+    { r: 4, b: 'Pump situation could be better. I get less per push than I want.' },
+    { r: 4, b: 'Got me through a rough winter for my skin. Crediting where credit is due.' },
+    { r: 4, b: 'Subtle improvement, consistent improvement. I am a fan.' },
+    { r: 4, b: 'Not life-changing, very lifestyle-fitting. Daily use is easy and my skin appreciates it.' },
+    { r: 4, b: 'Slightly pricier than I would budget for normally but it earned the spot.' },
+    { r: 4, b: 'First bottle took the full eight weeks before I noticed something. Worth the wait.' },
+    { r: 4, b: 'Good as a complement to my prescription. Not a replacement, but a nice add.' },
+    { r: 4, b: 'Combination skin, mid-30s. Works well in my AM routine, did not love it at night.' },
+    { r: 4, b: 'Adding to my rotation, removing one star because the price keeps me from making it a daily forever.' },
+    { r: 4, b: 'Decent results, would be five stars at a more reasonable price.' },
+    { r: 4, b: '{feature_cap} is the standout. The rest is solid.' },
+    { r: 4, b: 'Slow burn but real. Do not expect miracles in the first month.' },
+    { r: 4, b: 'Better than I expected for a non-prescription product.' },
+    { r: 4, b: 'Texture took some getting used to. Glad I stuck with it.' },
+    { r: 4, b: 'Solid daily use. The {format} format works well for my routine.' },
+    { r: 4, b: 'Got me back into a consistent routine, which alone earned the stars.' },
+    { r: 4, b: 'Bottle empty after a few months. Mostly happy, would probably try the next iteration.' },
+    { r: 4, b: 'Earned its keep in my routine. Not a knockout, but a steady performer.' },
+    { r: 4, b: 'More subtle than the marketing implies. That said, real.' },
+    { r: 4, b: 'My esthetician put this on me during a facial and I bought it that week. Solid, even if not life-changing.' },
+    { r: 4, b: 'Decent, deserves the four stars. Would be five if the bottle were bigger.' },
+    { r: 4, b: 'Honestly happy with this. The {feature} took me by surprise.' },
+    { r: 4, b: 'Slow start, real finish. Six weeks of consistent use brought results.' },
+    { r: 4, b: 'Skincare routine plug-and-play. Easy to use, gentle, results show up.' },
+
+    /* ============ 3-STAR ============ */
+    { r: 3, b: 'Fine. Subtle results. Would not say it changed my skin.' },
+    { r: 3, b: 'Reasonable. Not sure if I would repurchase at this price.' },
+    { r: 3, b: 'Hard to say if it is this or my whole routine improving. End of the bottle will tell.' },
+    { r: 3, b: 'Middle of the road for me. Maybe better suited for someone whose skin needs more help than mine.' },
+    { r: 3, b: 'Okay. Not bad. Not blown away.' },
+    { r: 3, b: 'I expected a bit more given the hype but it is a decent addition to a routine.' },
+    { r: 3, b: 'Slow to show anything. Six weeks in, results are mild.' },
+    { r: 3, b: 'Average. The price-to-results ratio just is not there for me.' },
+    { r: 3, b: 'Lukewarm. Probably better in a routine than I gave it.' },
+    { r: 3, b: 'Working slowly. I think my issue might be deeper than skincare can solve.' },
+    { r: 3, b: 'Not bad, not great. Would I buy it again? Maybe not.' },
+    { r: 3, b: 'Solid for what it is, but I am not sure it is worth the spot in my routine.' },
+    { r: 3, b: 'Subtle. Maybe too subtle. I will see this through the bottle.' },
+    { r: 3, b: 'Decent but I think my expectations were calibrated wrong.' },
+    { r: 3, b: 'It is fine. Skincare is so personal, this might be brilliant for someone else.' }
   ];
 
-  var OPENERS_4 = [
-    'Really impressed with {short}.',
-    '{short} is a solid {format}.',
-    'Strong results from {short}, with one caveat.',
-    'Mostly great experience with {short}.',
-    '{short} is above expectations.',
-    '{short} is a good buy.',
-    'Happy I picked up {short}.',
-    'Glad I tried {short}.',
-    'Quality {format} at this price point.',
-    'No complaints worth dropping a star for {short}.'
-  ];
-
-  var OPENERS_3 = [
-    '{short} is decent but not life changing.',
-    '{short} is fine.',
-    'I expected a little more from {short}.',
-    'Mixed feelings on {short}.',
-    '{short} works, but slowly.',
-    'Okay {format}.',
-    'The jury is still out on {short}.',
-    '{short} is not bad, not amazing.'
-  ];
-
-  var OPENERS_2 = [
-    'Wanted to love {short}.',
-    '{short} did not work for my skin.',
-    'Underwhelmed by {short}.',
-    'I will not be repurchasing {short}.'
-  ];
-
-  var MIDDLES_POSITIVE = [
-    'I have {skin_type} skin and {short} works beautifully.',
-    'My esthetician recommended {short} and now I see why.',
-    'I was skeptical at the price but {short} earned its place in my routine.',
-    '{short} layers under my SPF without pilling.',
-    'I tried cheaper alternatives for years and there is no comparison to {short}.',
-    'My dermatologist actually told me to switch to {short}.',
-    'The texture of {short} is luxurious and absorbs fast.',
-    'I went through my first bottle of {short} quickly because I was using it daily.',
-    'A little of {short} goes a long way.',
-    'The packaging is sleek and the {format} dispenses cleanly.',
-    'No fragrance, no irritation from {short}, just results.',
-    'I bought a second bottle within a month.',
-    'My partner started using mine, so now we both have {short} in rotation.',
-    'My skin tolerates active ingredients better when {short} is part of my routine.',
-    'I noticed the difference within the first week of using {short}.',
-    'It fits seamlessly into my morning routine.',
-    'I save {short} for the night and wake up to softer skin.',
-    'What sold me was {feature}.',
-    'The {ingredient} in {short} is no joke.',
-    'I love that {short} delivers without being precious about it.',
-    'I came in skeptical of {feature} but the results changed my mind.',
-    '{short} pairs perfectly with my other actives.'
-  ];
-
-  var MIDDLES_BALANCED = [
-    'I have {skin_type} skin and {short} works most of the time.',
-    'The texture of {short} is nice but the scent took getting used to.',
-    'Results from {short} are subtle but consistent.',
-    '{short} is more of a slow burn than an instant fix.',
-    'I think I expected dramatic overnight changes which is not realistic.',
-    '{short} does what it says, just slower than I hoped.',
-    'I will probably finish the bottle of {short} and reassess.',
-    'Not life changing but not regret-worthy either.',
-    '{feature} is real but the results plateau after a while.'
-  ];
-
-  var MIDDLES_NEGATIVE = [
-    '{short} broke me out within a week.',
-    'My skin felt tight every time I used {short}.',
-    'I did not see any improvement in two months with {short}.',
-    'The texture of {short} was sticky and never absorbed properly.',
-    '{short} pilled under everything I layered on top.',
-    'Maybe my skin type was just wrong for {short}.'
-  ];
-
-  var CLOSERS_POSITIVE = [
-    'Already ordered another bottle of {short}.',
-    'Will absolutely repurchase {short}.',
-    'Worth every cent.',
-    'I am a {short} customer for life.',
-    'Five stars without hesitation.',
-    'Recommending {short} to everyone in my life.',
-    'My skin is grateful for {short}.',
-    'No notes on {short}.',
-    '{short} is a keeper.',
-    'I should have started using {short} years ago.',
-    'Truly a worthy splurge.',
-    'Buying {short} on autoship.',
-    'Worth the wait between bottles.',
-    '{short} is my new daily essential.'
-  ];
-
-  var CLOSERS_NEUTRAL = [
-    'Will see how the second bottle of {short} goes.',
-    'Worth trying {short} if you are curious.',
-    'Decent if you are easing into {format} use.',
-    'I will reassess in a month.',
-    'Not my holy grail but not bad.'
-  ];
-
-  var CLOSERS_NEGATIVE = [
-    'Returning what is left of {short}.',
-    'Back to my old favorite.',
-    'Just not for me.',
-    'I might try a different {format} next.'
-  ];
+  /* Pre-split by rating for fast lookup */
+  var REVIEWS_BY_RATING = { 5: [], 4: [], 3: [] };
+  for (var ri = 0; ri < REVIEW_TEMPLATES.length; ri++) {
+    var rt = REVIEW_TEMPLATES[ri];
+    if (REVIEWS_BY_RATING[rt.r]) REVIEWS_BY_RATING[rt.r].push(rt.b);
+  }
 
   /* Specific phrasings tied to common concerns */
 
@@ -404,23 +422,24 @@
   }
 
   function distributeRatings(target, count, rng) {
-    /* Generate a count of ratings (1-5) whose average is roughly target. */
+    /* Generate ratings (3-5 only — no truly negative reviews) whose
+       average is roughly target. The template pool has no 1 or 2
+       star content, so distribution stays in the positive/neutral
+       range. */
     var ratings = [];
     var t = parseFloat(target) || 4.5;
-    /* Distribution: heavily weight 4 and 5 based on target */
-    var pct5, pct4, pct3, pct2, pct1;
-    if (t >= 4.7)      { pct5 = 0.72; pct4 = 0.20; pct3 = 0.05; pct2 = 0.02; pct1 = 0.01; }
-    else if (t >= 4.5) { pct5 = 0.60; pct4 = 0.28; pct3 = 0.07; pct2 = 0.03; pct1 = 0.02; }
-    else if (t >= 4.3) { pct5 = 0.50; pct4 = 0.32; pct3 = 0.10; pct2 = 0.05; pct1 = 0.03; }
-    else               { pct5 = 0.40; pct4 = 0.35; pct3 = 0.15; pct2 = 0.06; pct1 = 0.04; }
+    var pct5, pct4, pct3;
+    if (t >= 4.8)      { pct5 = 0.82; pct4 = 0.16; pct3 = 0.02; }
+    else if (t >= 4.7) { pct5 = 0.75; pct4 = 0.22; pct3 = 0.03; }
+    else if (t >= 4.5) { pct5 = 0.62; pct4 = 0.32; pct3 = 0.06; }
+    else if (t >= 4.3) { pct5 = 0.50; pct4 = 0.40; pct3 = 0.10; }
+    else               { pct5 = 0.42; pct4 = 0.42; pct3 = 0.16; }
 
     for (var i = 0; i < count; i++) {
       var r = rng();
       if (r < pct5) ratings.push(5);
       else if (r < pct5 + pct4) ratings.push(4);
-      else if (r < pct5 + pct4 + pct3) ratings.push(3);
-      else if (r < pct5 + pct4 + pct3 + pct2) ratings.push(2);
-      else ratings.push(1);
+      else ratings.push(3);
     }
     /* Shuffle so highest-rated aren't all first */
     for (var j = ratings.length - 1; j > 0; j--) {
@@ -444,66 +463,30 @@
     return months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
   }
 
-  function fillPlaceholders(str, ctx) {
+  function cap(str) { return str ? str.charAt(0).toUpperCase() + str.slice(1) : str; }
+
+  function fillPlaceholders(str, ctx, rng) {
+    var skinType = ctx.skin_type || pickSkinType(ctx.concerns, rng);
+    var timeframe = pick(TIMEFRAMES, rng);
+    var resultPhrase = pickResultPhrase(ctx.concerns, rng);
+
     return str
       .replace(/\{short\}/g, ctx.product.short)
       .replace(/\{format\}/g, ctx.product.format)
       .replace(/\{ingredient\}/g, ctx.product.ingredient)
       .replace(/\{feature\}/g, ctx.product.feature)
-      .replace(/\{skin_type\}/g, ctx.skin_type || 'normal');
+      .replace(/\{feature_cap\}/g, cap(ctx.product.feature))
+      .replace(/\{skin_type\}/g, skinType)
+      .replace(/\{timeframe\}/g, timeframe)
+      .replace(/\{timeframe_cap\}/g, cap(timeframe))
+      .replace(/\{result\}/g, resultPhrase)
+      .replace(/\{result_cap\}/g, cap(resultPhrase));
   }
 
   function buildBody(rating, ctx, rng) {
-    var opener, middle, closer;
-    if (rating === 5) opener = pick(OPENERS_5, rng);
-    else if (rating === 4) opener = pick(OPENERS_4, rng);
-    else if (rating === 3) opener = pick(OPENERS_3, rng);
-    else opener = pick(OPENERS_2, rng);
-
-    var skinType = pickSkinType(ctx.concerns, rng);
-    var resultPhrase = pickResultPhrase(ctx.concerns, rng);
-    var timeframe = pick(TIMEFRAMES, rng);
-
-    if (rating >= 4) {
-      middle = pick(MIDDLES_POSITIVE, rng);
-      closer = pick(CLOSERS_POSITIVE, rng);
-    } else if (rating === 3) {
-      middle = pick(MIDDLES_BALANCED, rng);
-      closer = pick(CLOSERS_NEUTRAL, rng);
-    } else {
-      middle = pick(MIDDLES_NEGATIVE, rng);
-      closer = pick(CLOSERS_NEGATIVE, rng);
-    }
-
-    /* Fill product specifics in opener / middle / closer */
-    var fillCtx = { product: ctx.product, skin_type: skinType };
-    opener = fillPlaceholders(opener, fillCtx);
-    middle = fillPlaceholders(middle, fillCtx);
-    closer = fillPlaceholders(closer, fillCtx);
-
-    /* Results-and-timeframe sentence for positive ratings */
-    var resultSentence = '';
-    if (rating >= 4 && rng() < 0.7) {
-      resultSentence = ' ' + timeframe.charAt(0).toUpperCase() + timeframe.slice(1) +
-                       ', ' + resultPhrase + '.';
-    } else if (rating === 3 && rng() < 0.4) {
-      resultSentence = ' ' + timeframe.charAt(0).toUpperCase() + timeframe.slice(1) +
-                       ', ' + resultPhrase + '.';
-    }
-
-    /* Occasional ingredient call-out for hero-tier reviews */
-    var ingredientMention = '';
-    if (rating === 5 && rng() < 0.22) {
-      ingredientMention = ' The ' + ctx.product.ingredient + ' really is the difference.';
-    }
-
-    /* Occasional brand mention */
-    var brandMention = '';
-    if (rating === 5 && rng() < 0.18 && ctx.brand) {
-      brandMention = ' ' + ctx.brand + ' nailed this one.';
-    }
-
-    return opener + ' ' + middle + resultSentence + ingredientMention + brandMention + ' ' + closer;
+    var pool = REVIEWS_BY_RATING[rating] || REVIEWS_BY_RATING[5];
+    var template = pick(pool, rng);
+    return fillPlaceholders(template, ctx, rng);
   }
 
   function generateReviews(opts) {
