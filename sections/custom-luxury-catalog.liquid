@@ -842,7 +842,7 @@
       <span class="lux-intake__eyebrow">Personalize Your Visit</span>
       <h2 class="lux-intake__title">Tell us where to begin</h2>
       <p class="lux-intake__subtitle">
-        Choose the concerns you'd like to address and any preferred brands. We'll curate selections from our shelves to match — or you can browse the entire collection.
+        Choose the concerns you'd like to address and any preferred brands. We'll curate selections from our shelves to match, or you can browse the entire collection.
       </p>
 
       <div class="lux-intake__step">
@@ -1061,19 +1061,19 @@
           {%- when 'Colorescience' -%}
             {%- assign brand_story = 'Mineral-only sun and skin protection developed for the most sensitive complexions. The Sunforgettable line is among the most-reapplied SPF formulas in North American dermatology offices.' -%}
           {%- when 'EltaMD' -%}
-            {%- assign brand_story = 'The gold standard of dermatologist-recommended sunscreen. Transparent zinc oxide engineered to feel like nothing on the skin—elegant enough for daily wear, rigorous enough for clinical use.' -%}
+            {%- assign brand_story = 'The gold standard of dermatologist-recommended sunscreen. Transparent zinc oxide engineered to feel like nothing on the skin, elegant enough for daily wear, rigorous enough for clinical use.' -%}
           {%- when 'Hydrinity' -%}
             {%- assign brand_story = "Supercharged hyaluronic acid bioidentical to the body's own. Clinically proven to penetrate deeper than standard HA, delivering hydration where conventional serums plateau." -%}
           {%- when 'Omnilux' -%}
-            {%- assign brand_story = 'Medical-grade, FDA-cleared red and near-infrared light therapy. The same wavelengths used in dermatology offices—backed by 40+ peer-reviewed studies, now engineered for at-home use.' -%}
+            {%- assign brand_story = 'Medical-grade, FDA-cleared red and near-infrared light therapy. The same wavelengths used in dermatology offices, backed by 40+ peer-reviewed studies, now engineered for at-home use.' -%}
           {%- when 'Skinbetter Science' -%}
             {%- assign brand_story = "More than a decade of clinical research distilled into a single molecule. Skinbetter's patented AlphaRet delivers retinoid-grade results with markedly improved tolerability. Available only through licensed providers." -%}
           {%- when 'SkinCeuticals' -%}
-            {%- assign brand_story = "The brand that defined daytime antioxidant protection. SkinCeuticals' L-ascorbic acid serums—anchored by the iconic C E Ferulic—set the global standard for vitamin C in aesthetic dermatology." -%}
+            {%- assign brand_story = "The brand that defined daytime antioxidant protection. SkinCeuticals' L-ascorbic acid serums, anchored by the iconic C E Ferulic, set the global standard for vitamin C in aesthetic dermatology." -%}
           {%- when 'SkinMedica' -%}
             {%- assign brand_story = "An Allergan Aesthetics brand pioneering growth factor and peptide complexes. The TNS lineup leverages a proprietary fibroblast-conditioned media to support the skin's own renewal capacity." -%}
           {%- when 'ZO Skin Health' -%}
-            {%- assign brand_story = 'Founded by Dr. Zein Obagi, ZO Skin Health is built around a philosophy of total skin restoration—pairing high-actives with barrier support for visible, lasting change.' -%}
+            {%- assign brand_story = 'Founded by Dr. Zein Obagi, ZO Skin Health is built around a philosophy of total skin restoration, pairing high-actives with barrier support for visible, lasting change.' -%}
         {%- endcase -%}
 
         <section class="lux-brand" data-vendor="{{ vendor_name | escape }}" data-vendor-slug="{{ vendor_slug }}">
@@ -1398,18 +1398,8 @@
     var sortEl = root.querySelector('[data-lux-sort]');
     var personalizeBtn = root.querySelector('[data-intake-show]');
 
-    // ===== Intake initial visibility =====
+    // ===== Intake setup (products show by default; quiz is optional via Personalize) =====
     if (intake) {
-      var initParams = new URLSearchParams(window.location.search);
-      var hasFilter = initParams.has('concerns') || initParams.has('brands');
-      var skipFromUrl = initParams.get('view') === 'all';
-      var skipFromStorage = false;
-      try { skipFromStorage = sessionStorage.getItem('cc_intake_skip') === '1'; } catch (e) {}
-
-      if (!hasFilter && !skipFromUrl && !skipFromStorage) {
-        root.classList.add('lux-catalog--intake-mode');
-      }
-
       var curateBtn = intake.querySelector('[data-intake-curate]');
       function updateCurateState() {
         var selected = intake.querySelectorAll('.lux-intake__chip.is-selected').length;
@@ -1548,7 +1538,7 @@
       "type": "textarea",
       "id": "subtitle_text",
       "label": "Hero subtitle",
-      "default": "A curated edit of the world's most clinically rigorous skincare — hand-selected for proven results and prescribed for your skin."
+      "default": "A curated edit of the world's most clinically rigorous skincare, hand-selected for proven results and prescribed for your skin."
     },
     {
       "type": "textarea",

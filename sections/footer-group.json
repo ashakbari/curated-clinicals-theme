@@ -56,7 +56,7 @@
             "text_LWt8Pz": {
               "type": "text",
               "settings": {
-                "text": "<h2>Join our email list</h2>",
+                "text": "<h2>Customer Care</h2>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -81,7 +81,7 @@
             "text_f9CFLH": {
               "type": "text",
               "settings": {
-                "text": "<p>Get exclusive deals and early access to new products.</p>",
+                "text": "<p><a href=\"/pages/contact\">Contact Us</a><br><a href=\"/pages/about\">About Us</a><br><a href=\"/policies/shipping-policy\">Shipping Policy</a><br><a href=\"/policies/refund-policy\">Returns &amp; Refunds</a><br><a href=\"/policies/privacy-policy\">Privacy Policy</a><br><a href=\"/policies/terms-of-service\">Terms of Service</a></p>",
                 "width": "100%",
                 "max_width": "normal",
                 "alignment": "left",
@@ -162,8 +162,7 @@
         }
       },
       "block_order": [
-        "group_H6VpwJ",
-        "email_signup_crihX7"
+        "group_H6VpwJ"
       ],
       "name": "t:names.footer",
       "settings": {
@@ -216,7 +215,6 @@
       },
       "block_order": [
         "footer_copyright_jweRK8",
-        "footer_policy_list_VCdnpa",
         "social_links_Ew63Kq"
       ],
       "name": "t:names.utilities",

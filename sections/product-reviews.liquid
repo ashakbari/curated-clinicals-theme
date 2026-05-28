@@ -1,6 +1,6 @@
 {% comment %}
   ============================================================================
-  PRODUCT REVIEWS — synthesized client-side from a seeded template engine.
+  PRODUCT REVIEWS - synthesized client-side from a seeded template engine.
   Aggregate rating and count are the source of truth here (case statement
   on product.handle); the JS generator builds 50 reviews matching that
   distribution and renders them into the list.
@@ -458,7 +458,7 @@
     </header>
 
     <div class="lux-reviews__aggregate-panel" data-reviews-aggregate>
-      {%- comment -%} Initial render before JS loads — gives non-JS users and SEO crawlers the aggregate {%- endcomment -%}
+      {%- comment -%} Initial render before JS loads, gives non-JS users and SEO crawlers the aggregate {%- endcomment -%}
       <div class="lux-reviews__rating">
         <div class="lux-reviews__rating-number">{{ rating }}</div>
         <div class="lux-reviews__rating-meta">
