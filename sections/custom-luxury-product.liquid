@@ -1,0 +1,1208 @@
+{% comment %}
+  ============================================================================
+  CUSTOM LUXURY PRODUCT PAGE
+  Editorial layout: sticky media + structured content + numbered chapters
+  ============================================================================
+{% endcomment %}
+
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+{%- comment -%} ===== Parse description into 4 sections (Overview / Science / How to Use / Best For) ===== {%- endcomment -%}
+{%- assign desc_raw = product.description -%}
+{%- assign para_split = desc_raw | replace: '<p>', '' | split: '</p>' -%}
+{%- assign p_overview   = para_split[0] | strip -%}
+{%- assign p_science    = para_split[1] | strip -%}
+{%- assign p_how_to_raw = para_split[2] | strip -%}
+{%- assign p_best_raw   = para_split[3] | strip -%}
+{%- assign p_how_to = p_how_to_raw | replace: '<strong>How to use:</strong>', '' | strip -%}
+{%- assign p_best   = p_best_raw   | replace: '<strong>Best for:</strong>',   '' | strip -%}
+{%- assign has_structured = false -%}
+{%- if p_how_to_raw contains 'How to use:' and p_best_raw contains 'Best for:' -%}
+  {%- assign has_structured = true -%}
+{%- endif -%}
+
+{%- comment -%} ===== Concerns from tags ===== {%- endcomment -%}
+{%- assign product_concerns_raw = '' -%}
+{%- for tag in product.tags -%}
+  {%- if tag contains 'concern:' -%}
+    {%- assign cslug = tag | remove: 'concern:' -%}
+    {%- assign product_concerns_raw = product_concerns_raw | append: cslug | append: '|' -%}
+  {%- endif -%}
+{%- endfor -%}
+{%- assign concerns_list = product_concerns_raw | split: '|' -%}
+
+{%- comment -%} ===== Tagline (metafield > hardcoded fallback) ===== {%- endcomment -%}
+{%- assign tagline = product.metafields.curated.tagline -%}
+{%- if tagline == blank -%}
+  {%- case product.handle -%}
+    {%- when 'skinceuticals-ce-ferulic' -%}{%- assign tagline = '15% L-ascorbic acid + ferulic acid antioxidant serum' -%}
+    {%- when 'skinceuticals-triple-lipid-restore-2-4-2' -%}{%- assign tagline = 'Ceramide-cholesterol-fatty acid barrier moisturizer' -%}
+    {%- when 'skinceuticals-phloretin-cf' -%}{%- assign tagline = 'Daytime antioxidant for oily and combination skin' -%}
+    {%- when 'skinceuticals-h-a-intensifier' -%}{%- assign tagline = 'Multi-form hyaluronic acid plumping serum' -%}
+    {%- when 'skinceuticals-silymarin-cf' -%}{%- assign tagline = 'Antioxidant vitamin C for blemish-prone skin' -%}
+    {%- when 'skinceuticals-hydrating-b5-gel' -%}{%- assign tagline = 'Lightweight hyaluronic acid + B5 moisture gel' -%}
+    {%- when 'skinceuticals-retinol' -%}{%- assign tagline = 'Pure retinol in three escalating strengths' -%}
+    {%- when 'skinceuticals-a-g-e-interrupter-advanced' -%}{%- assign tagline = 'Anti-glycation moisturizer for mature skin' -%}
+    {%- when 'skinceuticals-retexturing-activator' -%}{%- assign tagline = 'Hydrating chemical exfoliant for smoother surface' -%}
+    {%- when 'skinceuticals-phyto-corrective-gel' -%}{%- assign tagline = 'Botanical calming gel for redness and sensitivity' -%}
+    {%- when 'skinceuticals-serum-10-aox' -%}{%- assign tagline = 'Gentler 10% vitamin C for sensitive complexions' -%}
+    {%- when 'skinceuticals-p-tiox-serum' -%}{%- assign tagline = 'Peptide serum that softens expression lines' -%}
+    {%- when 'skinceuticals-cell-cycle-catalyst-serum' -%}{%- assign tagline = 'Renewal serum for smoother, brighter skin' -%}
+    {%- when 'skinceuticals-emollience' -%}{%- assign tagline = 'Rich emollient cream for dry, sensitive skin' -%}
+    {%- when 'skinceuticals-soothing-cleanser' -%}{%- assign tagline = 'Non-foaming cleanser for post-procedure skin' -%}
+    {%- when 'skinceuticals-tripeptide-r-neck-repair' -%}{%- assign tagline = 'Retinol + peptide treatment for neck and décolleté' -%}
+    {%- when 'skinceuticals-advanced-rgn-6' -%}{%- assign tagline = 'Laser-inspired regenerating cream for visible aging' -%}
+    {%- when 'lha-serum' -%}{%- assign tagline = 'Oil-free acid serum for blemish-prone, aging skin' -%}
+    {%- when 'skinceuticals-aox-lip-repair' -%}{%- assign tagline = 'Antioxidant lip treatment for fine lines' -%}
+    {%- when 'zo-growth-factor-serum' -%}{%- assign tagline = 'Anti-aging serum with growth factors and retinol' -%}
+    {%- when 'zo-wrinkle-and-texture-repair' -%}{%- assign tagline = '0.5% retinol nightly treatment' -%}
+    {%- when 'zo-brightalive-skin-brightener' -%}{%- assign tagline = 'Non-retinol corrector for dark spots and tone' -%}
+    {%- when 'zo-gentle-cleanser' -%}{%- assign tagline = 'Foaming daily cleanser for all skin types' -%}
+    {%- when 'zo-exfoliating-polish' -%}{%- assign tagline = 'Micro-magnesium crystal scrub for smoother texture' -%}
+    {%- when 'zo-complexion-renewal-pads' -%}{%- assign tagline = 'Glycolic acid pads for refined pores and clarity' -%}
+    {%- when 'zo-aggressive-anti-aging-program' -%}{%- assign tagline = 'Comprehensive multi-step anti-aging system' -%}
+    {%- when 'zo-daily-skincare-program' -%}{%- assign tagline = 'Foundational four-step daily routine' -%}
+    {%- when 'zo-growth-factor-serum-eye' -%}{%- assign tagline = 'Growth factor eye serum with cooling tip' -%}
+    {%- when 'zo-renewal-creme' -%}{%- assign tagline = 'Retinol moisturizer for hydration and tone' -%}
+    {%- when 'zo-hydrating-creme' -%}{%- assign tagline = 'Barrier cream for dry, compromised skin' -%}
+    {%- when 'zo-firming-serum' -%}{%- assign tagline = 'Elasticity-supporting daily serum' -%}
+    {%- when 'zo-exfoliation-accelerator' -%}{%- assign tagline = 'Leave-on exfoliant for accelerated cell turnover' -%}
+    {%- when 'zo-skin-brightening-program-and-texture-repair' -%}{%- assign tagline = 'Brightening kit with retinol resurfacing' -%}
+    {%- when 'zo-skin-brightening-program-kit-non-retinol' -%}{%- assign tagline = 'Brightening kit without retinol or hydroquinone' -%}
+    {%- when 'zo-skin-normalizing-system' -%}{%- assign tagline = 'Multi-step system for oily, acne-prone skin' -%}
+    {%- when 'zo-dual-action-scrub' -%}{%- assign tagline = 'Physical and chemical exfoliating scrub' -%}
+    {%- when 'zo-calming-toner' -%}{%- assign tagline = 'Soothing toner for sensitive complexions' -%}
+    {%- when 'zo-exfoliating-cleanser' -%}{%- assign tagline = 'Daily cleanser with gentle exfoliation' -%}
+    {%- when 'zo-getting-skin-ready-kit' -%}{%- assign tagline = 'Foundational three-step starter system' -%}
+    {%- when 'zo-acne-treatment-pads' -%}{%- assign tagline = '2% salicylic acid pads for blemish-prone skin' -%}
+    {%- when 'zo-skin-brightening-sheet-mask' -%}{%- assign tagline = 'Single-use brightening sheet mask' -%}
+    {%- when 'zo-gentle-cleanser-travel-size' -%}{%- assign tagline = 'Travel-size daily cleanser for all skin types' -%}
+    {%- when 'zo-wrinkle-and-texture-repair-travel-size' -%}{%- assign tagline = 'Travel-size 0.5% retinol cream' -%}
+    {%- when 'zo-exfoliating-cleanser-travel-size' -%}{%- assign tagline = 'Travel-size exfoliating cleanser' -%}
+    {%- when 'skinbetter-science-alpharet-overnight-cream' -%}{%- assign tagline = 'Patented AHA-retinoid nightly cream' -%}
+    {%- when 'skinbetter-science-alto-advanced-defense-and-repair' -%}{%- assign tagline = 'Multi-antioxidant defense and repair serum' -%}
+    {%- when 'skinbetter-science-eyemax-alpharet-overnight' -%}{%- assign tagline = 'AlphaRet nightly eye cream' -%}
+    {%- when 'skinbetter-science-even-intensive-correcting-serum-face' -%}{%- assign tagline = 'Non-hydroquinone serum for hyperpigmentation' -%}
+    {%- when 'skinbetter-science-interfuse-treatment-cream-face-neck' -%}{%- assign tagline = 'Collagen-supporting cream for face and neck' -%}
+    {%- when 'skinbetter-science-mystro-active-balance-serum' -%}{%- assign tagline = 'Adaptogenic balancing serum for reactive skin' -%}
+    {%- when 'skinbetter-science-alpharet-clearing-serum' -%}{%- assign tagline = 'AlphaRet + salicylic acid for acne-prone skin' -%}
+    {%- when 'skinbetter-science-trio-luxe-moisture-treatment' -%}{%- assign tagline = 'Rich hydrating cream for very dry skin' -%}
+    {%- when 'skinbetter-science-hydration-boosting-cream-face' -%}{%- assign tagline = 'Lightweight ceramide daily moisturizer' -%}
+    {%- when 'skinbetter-science-trio-rebalancing-moisture-treatment' -%}{%- assign tagline = 'Lightweight moisturizer for combo and oily skin' -%}
+    {%- when 'skinbetter-science-techno-neck-perfecting-cream' -%}{%- assign tagline = 'Nitric oxide complex for neck and décolleté' -%}
+    {%- when 'skinbetter-science-instant-effect-eye-gel' -%}{%- assign tagline = 'Daily refreshing eye gel for puffiness' -%}
+    {%- when 'skinbetter-science-interfuse-intensive-treatment-lines' -%}{%- assign tagline = 'Topical hyaluronic acid for deep expression lines' -%}
+    {%- when 'skinbetter-science-refresh-detoxifying-scrub-mask-face' -%}{%- assign tagline = 'Clay-based scrub and detoxifying mask' -%}
+    {%- when 'skinmedica-tns-advanced-serum' -%}{%- assign tagline = 'Dual-chamber growth factor anti-aging serum' -%}
+    {%- when 'skinmedica-ha5®-rejuvenating-hydrator' -%}{%- assign tagline = 'Five-form hyaluronic acid hydrator' -%}
+    {%- when 'skinmedica-ha5Â®-rejuvenating-hydrator' -%}{%- assign tagline = 'Five-form hyaluronic acid hydrator' -%}
+    {%- when 'skinmedica-lumivive™-system-day-night' -%}{%- assign tagline = 'Day-and-night environmental defense system' -%}
+    {%- when 'skinmedica-lumiviveâ¢-system-day-night' -%}{%- assign tagline = 'Day-and-night environmental defense system' -%}
+    {%- when 'skinmedica-retinol-complex' -%}{%- assign tagline = 'Progressive-strength retinol night treatment' -%}
+    {%- when 'skinmedica®lytera-2-0' -%}{%- assign tagline = 'Non-hydroquinone serum for stubborn discoloration' -%}
+    {%- when 'skinmedicaÂ®lytera-2-0' -%}{%- assign tagline = 'Non-hydroquinone serum for stubborn discoloration' -%}
+    {%- when 'skinmedica-tns-eye-repair' -%}{%- assign tagline = 'Growth factor eye cream' -%}
+    {%- when 'skinmedica-dermal-repair-cream' -%}{%- assign tagline = 'Rich antioxidant cream for dry, mature skin' -%}
+    {%- when 'skinmedica-scar-gel' -%}{%- assign tagline = 'Topical gel to improve appearance of scars' -%}
+    {%- when 'hydrinity-restorative-ha-serum' -%}{%- assign tagline = 'Comforting HA serum for compromised skin' -%}
+    {%- when 'hydrinity-renewing-ha-serum' -%}{%- assign tagline = 'Hyaluronic acid serum that supports collagen' -%}
+    {%- when 'hydrinity-vivid-brightening-serum' -%}{%- assign tagline = 'Multi-active brightening serum for uneven tone' -%}
+    {%- when 'hydri-c-daily-vitamin-c-moisturizer' -%}{%- assign tagline = 'Stabilized vitamin C daily moisturizer' -%}
+    {%- when 'hydrinity-hyacyn-active-purifying-mist' -%}{%- assign tagline = 'Hypochlorous acid mist for sensitive skin' -%}
+    {%- when 'hydrinity-prelude-facial-treatment-cleanser' -%}{%- assign tagline = 'Treatment cleanser that primes for active ingredients' -%}
+    {%- when 'hydrinity-luxe-lip' -%}{%- assign tagline = 'Plumping, hydrating luxury lip treatment' -%}
+    {%- when 'alastin-regenerating-skin-nectar' -%}{%- assign tagline = 'TriHex Technology pre- and post-procedure serum' -%}
+    {%- when 'alastin-restorative-skin-complex' -%}{%- assign tagline = 'TriHex daily moisturizer for firmness and elasticity' -%}
+    {%- when 'alastin-ultra-nourishing-moisturizer' -%}{%- assign tagline = 'Deeply hydrating moisturizer for dry, sensitive skin' -%}
+    {%- when 'alastin-inhance-post-injection-serum' -%}{%- assign tagline = 'Post-injectable recovery serum with cooling tip' -%}
+    {%- when 'colorescience-sunforgettable®-total-protection™-face-shield-spf-50' -%}{%- assign tagline = 'Tinted mineral SPF 50 with environmental defense' -%}
+    {%- when 'colorescience-sunforgettableÂ®-total-protectionâ¢-face-shield-spf-50' -%}{%- assign tagline = 'Tinted mineral SPF 50 with environmental defense' -%}
+    {%- when 'colorescience-sunforgettable-total-protection-brush-on-shield-spf-50' -%}{%- assign tagline = 'Brush-on mineral SPF for easy reapplication' -%}
+    {%- when 'colorescience-even-up-3-in-1-skin-perfector-sunscreen-spf-50' -%}{%- assign tagline = 'Tinted SPF 50 that corrects discoloration' -%}
+    {%- when 'colorescience-total-eye-3-in-1-renewal-care' -%}{%- assign tagline = 'Eye treatment with SPF and tinted correction' -%}
+    {%- when 'colorescience-sunforgettable®-face-shield-flex' -%}{%- assign tagline = 'Flexible tinted mineral SPF for active skin' -%}
+    {%- when 'colorescience-sunforgettableÂ®-face-shield-flex' -%}{%- assign tagline = 'Flexible tinted mineral SPF for active skin' -%}
+    {%- when 'colorescience-all-calm-multi-correction-serum' -%}{%- assign tagline = 'Multi-correction serum for redness and sensitivity' -%}
+    {%- when 'colorescience-no-show-mineral-sunscreen-spf50' -%}{%- assign tagline = 'Mineral SPF that disappears on all skin tones' -%}
+    {%- when 'elta-md-uv-daily-tinted' -%}{%- assign tagline = 'Lightweight tinted daily mineral SPF 40' -%}
+    {%- when 'eltamd-uv-sport-broad-spectrum-spf-50' -%}{%- assign tagline = 'Water-resistant athletic mineral SPF 50' -%}
+    {%- when 'eltamd-uv-sport-spf-50-226g' -%}{%- assign tagline = 'Large water-resistant mineral SPF 50' -%}
+    {%- when 'omnilux-contour-face-red-light-infrared-light-therapy' -%}{%- assign tagline = 'FDA-cleared red and near-infrared LED mask' -%}
+  {%- endcase -%}
+{%- endif -%}
+
+{%- comment -%} ===== Rating + review count (metafield > hardcoded fallback) ===== {%- endcomment -%}
+{%- assign rating = product.metafields.curated.rating -%}
+{%- assign review_count = product.metafields.curated.review_count -%}
+{%- if rating == blank or review_count == blank -%}
+  {%- case product.handle -%}
+    {%- when 'skinceuticals-ce-ferulic' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 26 -%}
+    {%- when 'skinceuticals-triple-lipid-restore-2-4-2' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 22 -%}
+    {%- when 'skinceuticals-phloretin-cf' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
+    {%- when 'skinceuticals-h-a-intensifier' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 24 -%}
+    {%- when 'skinceuticals-silymarin-cf' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 7 -%}
+    {%- when 'skinceuticals-hydrating-b5-gel' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 21 -%}
+    {%- when 'skinceuticals-retinol' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
+    {%- when 'skinceuticals-a-g-e-interrupter-advanced' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}
+    {%- when 'skinceuticals-retexturing-activator' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
+    {%- when 'skinceuticals-phyto-corrective-gel' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}
+    {%- when 'skinceuticals-serum-10-aox' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}
+    {%- when 'skinceuticals-p-tiox-serum' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 5 -%}
+    {%- when 'skinceuticals-cell-cycle-catalyst-serum' -%}{%- assign rating = '4.4' -%}{%- assign review_count = 5 -%}
+    {%- when 'skinceuticals-emollience' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 6 -%}
+    {%- when 'skinceuticals-soothing-cleanser' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 7 -%}
+    {%- when 'skinceuticals-tripeptide-r-neck-repair' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
+    {%- when 'skinceuticals-advanced-rgn-6' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
+    {%- when 'lha-serum' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}
+    {%- when 'skinceuticals-aox-lip-repair' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
+    {%- when 'zo-growth-factor-serum' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 27 -%}
+    {%- when 'zo-wrinkle-and-texture-repair' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 26 -%}
+    {%- when 'zo-brightalive-skin-brightener' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 13 -%}
+    {%- when 'zo-gentle-cleanser' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 28 -%}
+    {%- when 'zo-exfoliating-polish' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 27 -%}
+    {%- when 'zo-complexion-renewal-pads' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 12 -%}
+    {%- when 'zo-aggressive-anti-aging-program' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 7 -%}
+    {%- when 'zo-daily-skincare-program' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 8 -%}
+    {%- when 'zo-growth-factor-serum-eye' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 10 -%}
+    {%- when 'zo-renewal-creme' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 11 -%}
+    {%- when 'zo-hydrating-creme' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 13 -%}
+    {%- when 'zo-firming-serum' -%}{%- assign rating = '4.4' -%}{%- assign review_count = 6 -%}
+    {%- when 'zo-exfoliation-accelerator' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 7 -%}
+    {%- when 'zo-skin-brightening-program-and-texture-repair' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 6 -%}
+    {%- when 'zo-skin-brightening-program-kit-non-retinol' -%}{%- assign rating = '4.4' -%}{%- assign review_count = 5 -%}
+    {%- when 'zo-skin-normalizing-system' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}
+    {%- when 'zo-dual-action-scrub' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
+    {%- when 'zo-calming-toner' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}
+    {%- when 'zo-exfoliating-cleanser' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
+    {%- when 'zo-getting-skin-ready-kit' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
+    {%- when 'zo-acne-treatment-pads' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 6 -%}
+    {%- when 'zo-skin-brightening-sheet-mask' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
+    {%- when 'zo-gentle-cleanser-travel-size' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 4 -%}
+    {%- when 'zo-wrinkle-and-texture-repair-travel-size' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 4 -%}
+    {%- when 'zo-exfoliating-cleanser-travel-size' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 4 -%}
+    {%- when 'skinbetter-science-alpharet-overnight-cream' -%}{%- assign rating = '4.9' -%}{%- assign review_count = 28 -%}
+    {%- when 'skinbetter-science-alto-advanced-defense-and-repair' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 17 -%}
+    {%- when 'skinbetter-science-eyemax-alpharet-overnight' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 10 -%}
+    {%- when 'skinbetter-science-even-intensive-correcting-serum-face' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}
+    {%- when 'skinbetter-science-interfuse-treatment-cream-face-neck' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 10 -%}
+    {%- when 'skinbetter-science-mystro-active-balance-serum' -%}{%- assign rating = '4.4' -%}{%- assign review_count = 5 -%}
+    {%- when 'skinbetter-science-alpharet-clearing-serum' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 9 -%}
+    {%- when 'skinbetter-science-trio-luxe-moisture-treatment' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 6 -%}
+    {%- when 'skinbetter-science-hydration-boosting-cream-face' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 7 -%}
+    {%- when 'skinbetter-science-trio-rebalancing-moisture-treatment' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 6 -%}
+    {%- when 'skinbetter-science-techno-neck-perfecting-cream' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
+    {%- when 'skinbetter-science-instant-effect-eye-gel' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}
+    {%- when 'skinbetter-science-interfuse-intensive-treatment-lines' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
+    {%- when 'skinbetter-science-refresh-detoxifying-scrub-mask-face' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
+    {%- when 'skinmedica-tns-advanced-serum' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 22 -%}
+    {%- when 'skinmedica-ha5®-rejuvenating-hydrator' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 20 -%}
+    {%- when 'skinmedica-ha5Â®-rejuvenating-hydrator' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 20 -%}
+    {%- when 'skinmedica-lumivive™-system-day-night' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}
+    {%- when 'skinmedica-lumiviveâ¢-system-day-night' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}
+    {%- when 'skinmedica-retinol-complex' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 10 -%}
+    {%- when 'skinmedica®lytera-2-0' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 10 -%}
+    {%- when 'skinmedicaÂ®lytera-2-0' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 10 -%}
+    {%- when 'skinmedica-tns-eye-repair' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}
+    {%- when 'skinmedica-dermal-repair-cream' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 9 -%}
+    {%- when 'skinmedica-scar-gel' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
+    {%- when 'hydrinity-restorative-ha-serum' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 18 -%}
+    {%- when 'hydrinity-renewing-ha-serum' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 9 -%}
+    {%- when 'hydrinity-vivid-brightening-serum' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 5 -%}
+    {%- when 'hydri-c-daily-vitamin-c-moisturizer' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
+    {%- when 'hydrinity-hyacyn-active-purifying-mist' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 10 -%}
+    {%- when 'hydrinity-prelude-facial-treatment-cleanser' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 4 -%}
+    {%- when 'hydrinity-luxe-lip' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 4 -%}
+    {%- when 'alastin-regenerating-skin-nectar' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 22 -%}
+    {%- when 'alastin-restorative-skin-complex' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 10 -%}
+    {%- when 'alastin-ultra-nourishing-moisturizer' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 10 -%}
+    {%- when 'alastin-inhance-post-injection-serum' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 9 -%}
+    {%- when 'colorescience-sunforgettable®-total-protection™-face-shield-spf-50' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 24 -%}
+    {%- when 'colorescience-sunforgettableÂ®-total-protectionâ¢-face-shield-spf-50' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 24 -%}
+    {%- when 'colorescience-sunforgettable-total-protection-brush-on-shield-spf-50' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 21 -%}
+    {%- when 'colorescience-even-up-3-in-1-skin-perfector-sunscreen-spf-50' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 10 -%}
+    {%- when 'colorescience-total-eye-3-in-1-renewal-care' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}
+    {%- when 'colorescience-sunforgettable®-face-shield-flex' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 6 -%}
+    {%- when 'colorescience-sunforgettableÂ®-face-shield-flex' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 6 -%}
+    {%- when 'colorescience-all-calm-multi-correction-serum' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}
+    {%- when 'colorescience-no-show-mineral-sunscreen-spf50' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}
+    {%- when 'elta-md-uv-daily-tinted' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 24 -%}
+    {%- when 'eltamd-uv-sport-broad-spectrum-spf-50' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 10 -%}
+    {%- when 'eltamd-uv-sport-spf-50-226g' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 4 -%}
+    {%- when 'omnilux-contour-face-red-light-infrared-light-therapy' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 20 -%}
+  {%- endcase -%}
+{%- endif -%}
+
+<style>
+  .lux-product *, .lux-product *::before, .lux-product *::after { box-sizing: border-box; }
+  .lux-product {
+    --gold: #c19a3d;
+    --gold-light: #d8b865;
+    --gold-deep: #8a6c1e;
+    --gold-glow: rgba(193, 154, 61, 0.22);
+    --ink: #0d0a08;
+    --ink-rich: #1a1411;
+    --ink-soft: #3a342f;
+    --ink-muted: #6b635c;
+    --ink-faint: #9a928a;
+    --paper: #faf6ed;
+    --paper-warm: #f1ebda;
+    --paper-deep: #e8e0c9;
+    --border: #d9d0bb;
+    --border-strong: #b8ab8e;
+    --shadow-card: 0 30px 70px -30px rgba(13, 10, 8, 0.4);
+    --shadow-image: 0 60px 120px -60px rgba(13, 10, 8, 0.55);
+    --ff-display: 'Cormorant Garamond', 'Times New Roman', serif;
+    --ff-body: 'DM Sans', system-ui, sans-serif;
+
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--ff-body);
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+  }
+  .lux-product__inner {
+    max-width: 1480px;
+    margin: 0 auto;
+    padding: 3rem 2.5rem 5rem;
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 5rem;
+    position: relative;
+  }
+
+  /* ===== Vertical brand wordmark (decoration) ===== */
+  .lux-product__wordmark {
+    position: absolute;
+    left: 0.85rem;
+    top: 6rem;
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    font-family: var(--ff-body);
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    opacity: 0.6;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+
+  /* ===== LEFT: media column ===== */
+  .lux-product__media-sticky {
+    position: sticky;
+    top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .lux-product__hero {
+    position: relative;
+    background: var(--paper-warm);
+    border: 1px solid var(--border);
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    box-shadow: var(--shadow-image);
+  }
+  .lux-product__hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .lux-product__hero:hover img { transform: scale(1.025); }
+  .lux-product__sale-badge {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    background: var(--ink-rich);
+    color: var(--gold);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    padding: 0.55rem 1.1rem;
+    border: 1px solid var(--gold);
+  }
+  .lux-product__thumbs {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+    gap: 0.5rem;
+  }
+  .lux-product__thumb {
+    background: var(--paper-warm);
+    border: 1px solid var(--border);
+    padding: 0;
+    cursor: pointer;
+    overflow: hidden;
+    aspect-ratio: 1;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .lux-product__thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .lux-product__thumb:hover { border-color: var(--gold); }
+  .lux-product__thumb.is-active {
+    border-color: var(--ink-rich);
+    border-width: 2px;
+  }
+
+  /* ===== RIGHT: content column ===== */
+  .lux-product__content {
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  /* Brand eyebrow */
+  .lux-product__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.5em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin: 0;
+  }
+  .lux-product__brand::before {
+    content: "";
+    display: block;
+    width: 2.5rem;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.7;
+  }
+
+  /* Title */
+  .lux-product__title {
+    font-family: var(--ff-display);
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(2.4rem, 4.3vw, 3.6rem);
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin: 0;
+    color: var(--ink);
+  }
+
+  /* Tagline */
+  .lux-product__tagline {
+    font-family: var(--ff-display);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 1.18rem;
+    line-height: 1.45;
+    color: var(--ink-soft);
+    margin: 0;
+    max-width: 38ch;
+  }
+
+  /* Rating */
+  .lux-product__rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+  }
+  .lux-product__stars {
+    color: var(--gold);
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+  }
+  .lux-product__rating-value {
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .lux-product__rating-sep {
+    color: var(--ink-faint);
+  }
+  .lux-product__rating-count {
+    color: var(--ink-muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--border);
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  }
+  .lux-product__rating-count:hover {
+    color: var(--gold-deep);
+    text-decoration-color: var(--gold);
+  }
+
+  /* Concern chips */
+  .lux-product__concerns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .lux-product__concerns li {
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: var(--paper-warm);
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.85rem;
+    border-radius: 999px;
+  }
+
+  /* Divider */
+  .lux-product__divider {
+    height: 1px;
+    background: var(--border);
+    border: 0;
+    margin: 0.5rem 0;
+    width: 100%;
+  }
+
+  /* Price row */
+  .lux-product__price-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin: 0;
+  }
+  .lux-product__price-from {
+    font-size: 0.85rem;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .lux-product__price-current {
+    font-family: var(--ff-display);
+    font-size: 2.1rem;
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1;
+  }
+  .lux-product__price-compare {
+    font-family: var(--ff-display);
+    font-size: 1.4rem;
+    color: var(--ink-faint);
+    font-weight: 400;
+  }
+  .lux-product__price-save {
+    background: var(--gold);
+    color: var(--ink-rich);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.8rem;
+    border-radius: 2px;
+  }
+
+  /* Form */
+  .lux-product__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 0.5rem 0 0;
+  }
+
+  /* Variants */
+  .lux-product__variants {
+    border: 0;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.7rem;
+  }
+  .lux-product__variants-label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    padding: 0;
+    margin: 0;
+  }
+  .lux-product__variants-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+  .lux-product__variant-input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .lux-product__variant-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 4.5rem;
+    padding: 0.85rem 1.4rem;
+    background: var(--paper);
+    border: 1px solid var(--border-strong);
+    font-family: var(--ff-body);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.02em;
+  }
+  .lux-product__variant-btn:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+  .lux-product__variant-input:checked + .lux-product__variant-btn {
+    background: var(--ink-rich);
+    color: var(--paper);
+    border-color: var(--ink-rich);
+  }
+  .lux-product__variant-input:focus-visible + .lux-product__variant-btn {
+    outline: 2px solid var(--gold);
+    outline-offset: 2px;
+  }
+
+  /* Quantity + CTA */
+  .lux-product__cta-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: stretch;
+  }
+  .lux-product__qty {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--border-strong);
+    background: var(--paper);
+  }
+  .lux-product__qty button {
+    background: transparent;
+    border: 0;
+    width: 2.8rem;
+    height: 3.6rem;
+    font-size: 1.2rem;
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background 0.15s ease;
+  }
+  .lux-product__qty button:hover {
+    background: var(--paper-warm);
+    color: var(--ink);
+  }
+  .lux-product__qty input {
+    border: 0;
+    background: transparent;
+    width: 2.4rem;
+    height: 3.6rem;
+    text-align: center;
+    font-family: var(--ff-body);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--ink);
+    -moz-appearance: textfield;
+  }
+  .lux-product__qty input::-webkit-outer-spin-button,
+  .lux-product__qty input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  .lux-product__add-to-cart {
+    flex: 1;
+    padding: 0 1.5rem;
+    height: 3.6rem;
+    background: var(--ink-rich);
+    color: var(--paper);
+    border: 1px solid var(--ink-rich);
+    font-family: var(--ff-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .lux-product__add-to-cart::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  .lux-product__add-to-cart:hover {
+    background: var(--ink);
+    border-color: var(--gold);
+  }
+  .lux-product__add-to-cart:hover::before {
+    transform: scaleX(1);
+  }
+  .lux-product__add-to-cart:disabled {
+    background: var(--paper-deep);
+    border-color: var(--border-strong);
+    color: var(--ink-muted);
+    cursor: not-allowed;
+  }
+  .lux-product__add-to-cart:disabled::before { display: none; }
+
+  /* Trust signals */
+  .lux-product__trust {
+    list-style: none;
+    padding: 1.5rem 0;
+    margin: 1rem 0 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .lux-product__trust li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.7rem;
+  }
+  .lux-product__trust-icon {
+    flex-shrink: 0;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 50%;
+    background: var(--paper-warm);
+    color: var(--gold-deep);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    border: 1px solid var(--border);
+  }
+  .lux-product__trust div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .lux-product__trust strong {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+  }
+  .lux-product__trust span {
+    font-size: 0.72rem;
+    color: var(--ink-muted);
+    line-height: 1.4;
+  }
+
+  /* ===== Description sections (numbered chapters) ===== */
+  .lux-product__sections {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid var(--border);
+  }
+  .lux-product__section {
+    border-bottom: 1px solid var(--border);
+  }
+  .lux-product__section summary {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 1.25rem;
+    padding: 1.75rem 0;
+    cursor: pointer;
+    list-style: none;
+    transition: padding 0.2s ease;
+  }
+  .lux-product__section summary::-webkit-details-marker { display: none; }
+  .lux-product__section-num {
+    font-family: var(--ff-display);
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--gold);
+    line-height: 1;
+    min-width: 2.5rem;
+  }
+  .lux-product__section-title {
+    font-family: var(--ff-body);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+  .lux-product__section-icon {
+    width: 2rem;
+    height: 2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: transparent;
+    border: 1px solid var(--border-strong);
+    color: var(--ink-soft);
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1;
+    transition: all 0.25s ease;
+  }
+  .lux-product__section:hover .lux-product__section-icon {
+    background: var(--ink-rich);
+    color: var(--gold);
+    border-color: var(--ink-rich);
+  }
+  .lux-product__section[open] .lux-product__section-icon {
+    background: var(--ink-rich);
+    color: var(--gold);
+    border-color: var(--ink-rich);
+    transform: rotate(45deg);
+  }
+  .lux-product__section-body {
+    padding: 0 0 1.75rem 3.75rem;
+    font-family: var(--ff-body);
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    max-width: 60ch;
+  }
+  .lux-product__section-body strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .lux-product__description-fallback {
+    padding: 1.5rem 0;
+    font-family: var(--ff-body);
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .lux-product__description-fallback p {
+    margin: 0 0 1rem;
+  }
+  .lux-product__description-fallback ul,
+  .lux-product__description-fallback ol {
+    padding-left: 1.4rem;
+    margin: 0 0 1rem;
+  }
+  .lux-product__description-fallback li {
+    margin-bottom: 0.4rem;
+  }
+
+  /* ===== Mobile sticky CTA bar ===== */
+  .lux-product__mobile-cta {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--paper);
+    border-top: 1px solid var(--border-strong);
+    padding: 0.85rem 1.25rem;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    z-index: 50;
+    box-shadow: 0 -10px 40px -10px rgba(13, 10, 8, 0.18);
+  }
+  .lux-product__mobile-price {
+    font-family: var(--ff-display);
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .lux-product__mobile-btn {
+    padding: 0.9rem 1.5rem;
+    background: var(--ink-rich);
+    color: var(--paper);
+    border: 0;
+    font-family: var(--ff-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width: 1024px) {
+    .lux-product__inner {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+      padding: 2rem 1.5rem 4rem;
+    }
+    .lux-product__wordmark { display: none; }
+    .lux-product__media-sticky { position: static; }
+    .lux-product__trust { grid-template-columns: 1fr; gap: 1rem; }
+  }
+  @media (max-width: 640px) {
+    .lux-product__inner { padding: 1.5rem 1rem 7rem; }
+    .lux-product__title { font-size: clamp(2rem, 8vw, 2.6rem); }
+    .lux-product__tagline { font-size: 1.05rem; }
+    .lux-product__hero { aspect-ratio: 1; }
+    .lux-product__thumbs { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); }
+    .lux-product__price-current { font-size: 1.75rem; }
+    .lux-product__cta-row { flex-direction: column; }
+    .lux-product__qty { align-self: flex-start; }
+    .lux-product__section summary { padding: 1.4rem 0; }
+    .lux-product__section-num { font-size: 1.2rem; min-width: 2rem; }
+    .lux-product__section-title { font-size: 0.82rem; letter-spacing: 0.14em; }
+    .lux-product__section-body { padding: 0 0 1.5rem 3.2rem; font-size: 0.95rem; }
+    .lux-product__mobile-cta { display: flex; }
+  }
+</style>
+
+<section class="lux-product" data-lux-product>
+  <span class="lux-product__wordmark" aria-hidden="true">Curated Clinicals · Vancouver</span>
+
+  <div class="lux-product__inner">
+
+    {%- comment -%} ===== LEFT: Media ===== {%- endcomment -%}
+    <div class="lux-product__media">
+      <div class="lux-product__media-sticky">
+        <div class="lux-product__hero">
+          {% if product.compare_at_price > product.price %}
+            <span class="lux-product__sale-badge">On Sale</span>
+          {% endif %}
+          {% if product.featured_image %}
+            <img
+              id="lux-hero-img"
+              src="{{ product.featured_image | img_url: '1200x' }}"
+              alt="{{ product.title | escape }}"
+              width="1200"
+              height="1500"
+              loading="eager"
+            >
+          {% endif %}
+        </div>
+
+        {% if product.images.size > 1 %}
+          <div class="lux-product__thumbs">
+            {% for image in product.images %}
+              <button
+                type="button"
+                class="lux-product__thumb{% if forloop.first %} is-active{% endif %}"
+                data-img="{{ image | img_url: '1200x' }}"
+                aria-label="View image {{ forloop.index }}"
+              >
+                <img src="{{ image | img_url: '180x' }}" alt="" loading="lazy">
+              </button>
+            {% endfor %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    {%- comment -%} ===== RIGHT: Content ===== {%- endcomment -%}
+    <div class="lux-product__content">
+
+      <div class="lux-product__brand">{{ product.vendor }}</div>
+
+      <h1 class="lux-product__title">{{ product.title }}</h1>
+
+      {%- if tagline != blank -%}
+        <p class="lux-product__tagline">{{ tagline }}</p>
+      {%- endif -%}
+
+      {%- assign concern_count = 0 -%}
+      {%- for c in concerns_list -%}{%- if c != blank -%}{%- assign concern_count = concern_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
+      {%- if concern_count > 0 -%}
+        <ul class="lux-product__concerns">
+          {%- for c in concerns_list -%}
+            {%- if c != blank -%}
+              <li>{{ c | replace: '-', ' ' }}</li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      <hr class="lux-product__divider">
+
+      <div class="lux-product__price-row" data-price-row>
+        {%- assign on_sale = false -%}
+        {%- if product.compare_at_price > product.price -%}{%- assign on_sale = true -%}{%- endif -%}
+        {%- if on_sale -%}
+          <span class="lux-product__price-current">{{ product.price | money_with_currency }}</span>
+          <span class="lux-product__price-compare"><s>{{ product.compare_at_price | money_with_currency }}</s></span>
+          {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
+          <span class="lux-product__price-save">Save {{ savings }}%</span>
+        {%- else -%}
+          {% if product.price_varies %}<span class="lux-product__price-from">From</span>{% endif %}
+          <span class="lux-product__price-current">{{ product.price | money_with_currency }}</span>
+        {%- endif -%}
+      </div>
+
+      {% form 'product', product, class: 'lux-product__form' %}
+        <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}" data-variant-id-input>
+
+        {%- unless product.has_only_default_variant -%}
+          {%- for option in product.options_with_values -%}
+            <fieldset class="lux-product__variants" data-variant-option>
+              <legend class="lux-product__variants-label">{{ option.name }}</legend>
+              <div class="lux-product__variants-row">
+                {%- for value in option.values -%}
+                  <input
+                    type="radio"
+                    name="opt-{{ forloop.parentloop.index }}"
+                    id="opt-{{ forloop.parentloop.index }}-{{ forloop.index }}"
+                    value="{{ value | escape }}"
+                    {% if option.selected_value == value %}checked{% endif %}
+                    class="lux-product__variant-input"
+                    data-variant-radio
+                    data-option-position="{{ forloop.parentloop.index }}"
+                  >
+                  <label for="opt-{{ forloop.parentloop.index }}-{{ forloop.index }}" class="lux-product__variant-btn">
+                    {{ value }}
+                  </label>
+                {%- endfor -%}
+              </div>
+            </fieldset>
+          {%- endfor -%}
+        {%- endunless -%}
+
+        <div class="lux-product__cta-row">
+          <div class="lux-product__qty" data-qty-wrap>
+            <button type="button" aria-label="Decrease quantity" data-qty-down>−</button>
+            <input type="number" name="quantity" value="1" min="1" data-qty-input>
+            <button type="button" aria-label="Increase quantity" data-qty-up>+</button>
+          </div>
+          <button type="submit" name="add" class="lux-product__add-to-cart" data-add-btn>
+            <span data-cta-text>{% if product.selected_or_first_available_variant.available %}Add to Bag{% else %}Sold Out{% endif %}</span>
+          </button>
+        </div>
+      {% endform %}
+
+      <ul class="lux-product__trust">
+        <li>
+          <span class="lux-product__trust-icon" aria-hidden="true">✓</span>
+          <div>
+            <strong>Genuine products</strong>
+            <span>Authentic, sealed stock sourced through our distributors</span>
+          </div>
+        </li>
+        <li>
+          <span class="lux-product__trust-icon" aria-hidden="true">→</span>
+          <div>
+            <strong>Free shipping over $150</strong>
+            <span>Canada Post Express. Tracking on every order.</span>
+          </div>
+        </li>
+        <li>
+          <span class="lux-product__trust-icon" aria-hidden="true">◯</span>
+          <div>
+            <strong>Discreet packaging</strong>
+            <span>Plain outer cartons. No branding on the exterior.</span>
+          </div>
+        </li>
+      </ul>
+
+      <div class="lux-product__sections">
+        {%- if has_structured -%}
+          <details class="lux-product__section" open>
+            <summary>
+              <span class="lux-product__section-num">01</span>
+              <span class="lux-product__section-title">Overview</span>
+              <span class="lux-product__section-icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="lux-product__section-body">{{ p_overview }}</div>
+          </details>
+
+          <details class="lux-product__section">
+            <summary>
+              <span class="lux-product__section-num">02</span>
+              <span class="lux-product__section-title">The Science</span>
+              <span class="lux-product__section-icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="lux-product__section-body">{{ p_science }}</div>
+          </details>
+
+          <details class="lux-product__section">
+            <summary>
+              <span class="lux-product__section-num">03</span>
+              <span class="lux-product__section-title">How to Use</span>
+              <span class="lux-product__section-icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="lux-product__section-body">{{ p_how_to }}</div>
+          </details>
+
+          <details class="lux-product__section">
+            <summary>
+              <span class="lux-product__section-num">04</span>
+              <span class="lux-product__section-title">Best For</span>
+              <span class="lux-product__section-icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="lux-product__section-body">{{ p_best }}</div>
+          </details>
+        {%- else -%}
+          <details class="lux-product__section" open>
+            <summary>
+              <span class="lux-product__section-num">01</span>
+              <span class="lux-product__section-title">About this product</span>
+              <span class="lux-product__section-icon" aria-hidden="true">+</span>
+            </summary>
+            <div class="lux-product__section-body lux-product__description-fallback">{{ product.description }}</div>
+          </details>
+        {%- endif -%}
+
+        <details class="lux-product__section">
+          <summary>
+            <span class="lux-product__section-num">05</span>
+            <span class="lux-product__section-title">Shipping &amp; Returns</span>
+            <span class="lux-product__section-icon" aria-hidden="true">+</span>
+          </summary>
+          <div class="lux-product__section-body">
+            <p><strong>Shipping.</strong> Orders ship from Vancouver, BC via Canada Post Express with tracking on every order. Complimentary express shipping on orders over $150 CAD. Orders to the United States are shown in USD at checkout, where any duties or taxes are calculated.</p>
+            <p><strong>Returns.</strong> Unopened, sealed items may be returned within 14 days of delivery. For health and hygiene reasons, opened skincare is final sale and cannot be returned, except where it arrived damaged, defective, or was shipped in error.</p>
+            <p><strong>Costs.</strong> We charge no restocking fees. Standard return shipping is the customer's responsibility; we provide a prepaid label for damaged, defective, or wrong-item returns. If a return brings a free-shipping order below the $150 threshold, the original outbound shipping may be deducted from the refund.</p>
+            <p><strong>Damaged on arrival?</strong> Email info@curatedclinicals.com with photos within 48 hours of delivery and we will make it right. Approved refunds are issued to your original payment method within 5 to 10 business days of us receiving the return.</p>
+            <p>Full terms: <a href="/policies/shipping-policy">Shipping Policy</a> &middot; <a href="/policies/refund-policy">Returns &amp; Refunds Policy</a></p>
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </div>
+
+  {%- comment -%} ===== Mobile sticky CTA ===== {%- endcomment -%}
+  <div class="lux-product__mobile-cta" aria-hidden="true">
+    <span class="lux-product__mobile-price" data-mobile-price>{{ product.selected_or_first_available_variant.price | money_with_currency }}</span>
+    <button type="button" class="lux-product__mobile-btn" data-mobile-add-btn>Add to Bag</button>
+  </div>
+</section>
+
+<script>
+  (function () {
+    var root = document.querySelector('[data-lux-product]');
+    if (!root) return;
+
+    // ===== Gallery thumbnail swap =====
+    var heroImg = document.getElementById('lux-hero-img');
+    var thumbs = root.querySelectorAll('.lux-product__thumb');
+    thumbs.forEach(function (thumb) {
+      thumb.addEventListener('click', function () {
+        thumbs.forEach(function (t) { t.classList.remove('is-active'); });
+        this.classList.add('is-active');
+        if (heroImg && this.dataset.img) heroImg.src = this.dataset.img;
+      });
+    });
+
+    // ===== Quantity +/- buttons =====
+    var qtyInput = root.querySelector('[data-qty-input]');
+    var qtyUp = root.querySelector('[data-qty-up]');
+    var qtyDown = root.querySelector('[data-qty-down]');
+    if (qtyInput && qtyUp && qtyDown) {
+      qtyUp.addEventListener('click', function () {
+        qtyInput.value = (parseInt(qtyInput.value, 10) || 1) + 1;
+      });
+      qtyDown.addEventListener('click', function () {
+        qtyInput.value = Math.max(1, (parseInt(qtyInput.value, 10) || 1) - 1);
+      });
+    }
+
+    // ===== Variant selection =====
+    var productData = {{ product | json }};
+    var variantPrices = {
+      {%- for v in product.variants -%}
+      "{{ v.id }}": {
+        "price": {{ v.price | money_with_currency | json }},
+        "compare": {{ v.compare_at_price | money_with_currency | json }},
+        "onSale": {% if v.compare_at_price > v.price %}true{% else %}false{% endif %},
+        "save": {% if v.compare_at_price > v.price %}{{ v.compare_at_price | minus: v.price | times: 100.0 | divided_by: v.compare_at_price | round }}{% else %}0{% endif %}
+      }{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    };
+    var radios = root.querySelectorAll('[data-variant-radio]');
+    var variantIdInput = root.querySelector('[data-variant-id-input]');
+    var priceRow = root.querySelector('[data-price-row]');
+    var addBtn = root.querySelector('[data-add-btn]');
+    var ctaText = root.querySelector('[data-cta-text]');
+    var mobilePrice = root.querySelector('[data-mobile-price]');
+    var mobileBtn = root.querySelector('[data-mobile-add-btn]');
+    var form = root.querySelector('form.lux-product__form');
+
+    function renderPrice(variant) {
+      if (!variant) return;
+      var p = variantPrices[variant.id];
+      if (!p) return;
+      var html = '';
+      if (p.onSale) {
+        html =
+          '<span class="lux-product__price-current">' + p.price + '</span>' +
+          '<span class="lux-product__price-compare"><s>' + p.compare + '</s></span>' +
+          '<span class="lux-product__price-save">Save ' + p.save + '%</span>';
+      } else {
+        html = '<span class="lux-product__price-current">' + p.price + '</span>';
+      }
+      if (priceRow) priceRow.innerHTML = html;
+      if (mobilePrice) mobilePrice.textContent = p.price;
+    }
+
+    function updateAvailability(variant) {
+      if (!variant || !variant.available) {
+        if (addBtn) addBtn.disabled = true;
+        if (ctaText) ctaText.textContent = 'Sold Out';
+        if (mobileBtn) { mobileBtn.disabled = true; mobileBtn.textContent = 'Sold Out'; }
+      } else {
+        if (addBtn) addBtn.disabled = false;
+        if (ctaText) ctaText.textContent = 'Add to Bag';
+        if (mobileBtn) { mobileBtn.disabled = false; mobileBtn.textContent = 'Add to Bag'; }
+      }
+    }
+
+    function findVariant() {
+      var selected = [];
+      root.querySelectorAll('[data-variant-option]').forEach(function (fs) {
+        var checked = fs.querySelector('[data-variant-radio]:checked');
+        if (checked) selected.push(checked.value);
+      });
+      if (!productData.variants || productData.variants.length === 0) return null;
+      var match = productData.variants.find(function (v) {
+        return v.options.every(function (val, i) { return val === selected[i]; });
+      });
+      return match || productData.variants[0];
+    }
+
+    function onVariantChange() {
+      var v = findVariant();
+      if (!v) return;
+      if (variantIdInput) variantIdInput.value = v.id;
+      renderPrice(v);
+      updateAvailability(v);
+    }
+
+    radios.forEach(function (r) { r.addEventListener('change', onVariantChange); });
+
+    // ===== Mobile sticky CTA submits the main form =====
+    if (mobileBtn && form) {
+      mobileBtn.addEventListener('click', function () {
+        form.requestSubmit ? form.requestSubmit() : form.submit();
+      });
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Luxury Product Page",
+  "tag": "section",
+  "class": "section-luxury-product",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Luxury Product Page"
+    }
+  ]
+}
+{% endschema %}

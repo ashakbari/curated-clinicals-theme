@@ -680,6 +680,29 @@
             </div>
           {%- endif -%}
 
+          {%- if section.settings.contact_phone != blank -%}
+            <div class="lux-contact__card-item">
+              <span class="lux-contact__card-label">Phone</span>
+              <span class="lux-contact__card-value">
+                <a href="tel:+1{{ section.settings.contact_phone | remove: '-' | remove: ' ' }}">{{ section.settings.contact_phone }}</a>
+              </span>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.contact_address != blank -%}
+            <div class="lux-contact__card-item">
+              <span class="lux-contact__card-label">Address</span>
+              <span class="lux-contact__card-value">{{ section.settings.contact_address }}</span>
+            </div>
+          {%- endif -%}
+
+          {%- if section.settings.contact_business != blank -%}
+            <div class="lux-contact__card-item">
+              <span class="lux-contact__card-label">Registered Business</span>
+              <span class="lux-contact__card-value">{{ section.settings.contact_business }}</span>
+            </div>
+          {%- endif -%}
+
           {%- if section.settings.contact_hours != blank -%}
             <div class="lux-contact__card-item">
               <span class="lux-contact__card-label">Hours</span>
@@ -793,6 +816,9 @@
     { "type": "header", "content": "Contact card (sidebar)" },
     { "type": "text", "id": "card_heading", "label": "Card heading", "default": "Reach Us Directly" },
     { "type": "text", "id": "contact_email", "label": "Email address", "default": "info@curatedclinicals.com" },
+    { "type": "text", "id": "contact_phone", "label": "Phone number", "default": "236-234-6862" },
+    { "type": "text", "id": "contact_address", "label": "Business address", "default": "603 Kenwood Road, West Vancouver, BC V7S 1S7, Canada" },
+    { "type": "text", "id": "contact_business", "label": "Registered business name", "default": "1582640 B.C. LTD." },
     { "type": "text", "id": "contact_hours", "label": "Customer service hours", "default": "Monday – Friday, 9am – 5pm PST" },
     { "type": "text", "id": "contact_response", "label": "Response time", "default": "Within 1 business day" },
     { "type": "text", "id": "contact_ship_from", "label": "Ships from", "default": "Vancouver, BC, Canada" },
@@ -838,7 +864,7 @@
           "type": "faq",
           "settings": {
             "question": "Are your products authentic?",
-            "answer": "<p>Yes — every product on our site is sourced through authorized distribution channels for that brand. Formulas are genuine, properly stored, and within their shelf life. If you ever have a concern about a product's authenticity, contact us with photos and the lot number and we will investigate.</p>"
+            "answer": "<p>Yes — every product on our site is sourced through our distribution partners. Formulas are genuine, properly stored, and within their shelf life. If you ever have a concern about a product's authenticity, contact us with photos and the lot number and we will investigate.</p>"
           }
         },
         {

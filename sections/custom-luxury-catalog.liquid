@@ -1326,31 +1326,15 @@
                     <p class="lux-card__tagline">{{ tagline }}</p>
                   {%- endif -%}
 
-                  {%- if rating != blank and review_count != blank -%}
-                    <div class="lux-card__rating" aria-label="Rated {{ rating }} out of 5 from {{ review_count }} reviews">
-                      <span class="lux-card__rating-star" aria-hidden="true">★</span>
-                      <span class="lux-card__rating-value">{{ rating }}</span>
-                      <span class="lux-card__rating-sep" aria-hidden="true">·</span>
-                      <span class="lux-card__rating-count">{{ review_count }} reviews</span>
-                    </div>
-                  {%- endif -%}
-
-                  {%- if quote != blank -%}
-                    <blockquote class="lux-card__quote">
-                      <span class="lux-card__quote-text">“{{ quote }}”</span>
-                      <span class="lux-card__quote-attribution">— Verified Buyer</span>
-                    </blockquote>
-                  {%- endif -%}
-
                   <div class="lux-card__price{% if on_sale %} lux-card__price--on-sale{% endif %}">
                     {%- if on_sale -%}
-                      <span class="lux-card__price-current">{{ product.price | money }}</span>
-                      <span class="lux-card__price-compare">{{ product.compare_at_price | money }}</span>
+                      <span class="lux-card__price-current">{{ product.price | money_with_currency }}</span>
+                      <span class="lux-card__price-compare">{{ product.compare_at_price | money_with_currency }}</span>
                       {%- assign savings = product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round -%}
                       <span class="lux-card__price-save">−{{ savings }}%</span>
                     {%- else -%}
                       {% if product.price_varies %}<span class="lux-card__price-from">From</span>{% endif %}
-                      <span class="lux-card__price-current">{{ product.price | money }}</span>
+                      <span class="lux-card__price-current">{{ product.price | money_with_currency }}</span>
                     {%- endif -%}
                   </div>
 
@@ -1570,7 +1554,7 @@
       "type": "textarea",
       "id": "intro_text",
       "label": "Editorial intro",
-      "default": "Every product on this page is sourced direct from authorized distributors and personally vetted for clinical efficacy. Filter by your skin concern, or explore by brand below."
+      "default": "Every product on this page is sourced through our distribution partners and personally selected for our catalogue. Filter by your skin concern, or explore by brand below."
     }
   ],
   "presets": [

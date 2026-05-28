@@ -18,7 +18,7 @@
           "type": "_announcement",
           "name": "t:names.announcement",
           "settings": {
-            "text": "15% OFF Skincare Ends May 31st",
+            "text": "Free Express Shipping on Orders Over $150",
             "link": "",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
