@@ -1,8 +1,3 @@
-{% comment %}
-  ============================================================================
-  ABOUT PAGE - luxury editorial layout matching the catalogue aesthetic
-  ============================================================================
-{% endcomment %}
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
@@ -30,8 +25,7 @@
     margin: 0;
   }
 
-  /* ===== HERO ===== */
-  .lux-about__hero {
+    .lux-about__hero {
     position: relative;
     background: var(--ink-rich);
     color: var(--paper);
@@ -91,8 +85,7 @@
     letter-spacing: 0.01em;
   }
 
-  /* ===== BODY ===== */
-  .lux-about__body { padding: 7rem 2rem 5rem; max-width: 1200px; margin: 0 auto; }
+    .lux-about__body { padding: 7rem 2rem 5rem; max-width: 1200px; margin: 0 auto; }
 
   .lux-about__section {
     display: grid;
@@ -140,8 +133,7 @@
     border-bottom-color: var(--ink-rich);
   }
 
-  /* ===== CONTACT CARD ===== */
-  .lux-about__contact {
+    .lux-about__contact {
     background: var(--paper-warm);
     border: 1px solid var(--border);
     padding: 2.25rem 2.5rem;
@@ -178,8 +170,7 @@
     border-bottom-color: var(--gold-deep);
   }
 
-  /* ===== POLICY LINKS ===== */
-  .lux-about__policies {
+    .lux-about__policies {
     margin-top: 1.75rem;
     display: flex;
     flex-wrap: wrap;
@@ -202,8 +193,7 @@
     color: var(--paper);
   }
 
-  /* ===== DISCLAIMER FOOTER ===== */
-  .lux-about__disclaimer {
+    .lux-about__disclaimer {
     background: var(--paper-warm);
     padding: 4rem 2rem;
     border-top: 1px solid var(--border);
@@ -230,8 +220,7 @@
     margin-bottom: 1.25rem;
   }
 
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 768px) {
+    @media (max-width: 768px) {
     .lux-about__hero { padding: 5.5rem 1.25rem 5rem; }
     .lux-about__eyebrow::before,
     .lux-about__eyebrow::after { width: 1.75rem; }
@@ -254,8 +243,7 @@
 
 <div class="lux-about">
 
-  {%- comment -%} ============ HERO ============ {%- endcomment -%}
-  <section class="lux-about__hero">
+    <section class="lux-about__hero">
     <div class="lux-about__hero-inner">
       <span class="lux-about__eyebrow">{{ section.settings.hero_eyebrow | default: 'Our Story' }}</span>
       <h1 class="lux-about__title">{{ section.settings.hero_title | default: 'About Curated Clinicals' }}</h1>
@@ -265,35 +253,30 @@
     </div>
   </section>
 
-  {%- comment -%} ============ BODY ============ {%- endcomment -%}
-  <div class="lux-about__body">
+    <div class="lux-about__body">
 
-    {%- comment -%} Who we are {%- endcomment -%}
-    {%- if section.settings.who_body != blank -%}
+        {%- if section.settings.who_body != blank -%}
       <section class="lux-about__section">
         <h2 class="lux-about__section-label">{{ section.settings.who_label | default: 'Who We Are' }}</h2>
         <div class="lux-about__section-body">{{ section.settings.who_body }}</div>
       </section>
     {%- endif -%}
 
-    {%- comment -%} What we offer {%- endcomment -%}
-    {%- if section.settings.what_body != blank -%}
+        {%- if section.settings.what_body != blank -%}
       <section class="lux-about__section">
         <h2 class="lux-about__section-label">{{ section.settings.what_label | default: 'What We Offer' }}</h2>
         <div class="lux-about__section-body">{{ section.settings.what_body }}</div>
       </section>
     {%- endif -%}
 
-    {%- comment -%} How we work {%- endcomment -%}
-    {%- if section.settings.how_body != blank -%}
+        {%- if section.settings.how_body != blank -%}
       <section class="lux-about__section">
         <h2 class="lux-about__section-label">{{ section.settings.how_label | default: 'How We Work' }}</h2>
         <div class="lux-about__section-body">{{ section.settings.how_body }}</div>
       </section>
     {%- endif -%}
 
-    {%- comment -%} Contact {%- endcomment -%}
-    <section class="lux-about__section">
+        <section class="lux-about__section">
       <h2 class="lux-about__section-label">{{ section.settings.contact_label | default: 'Get In Touch' }}</h2>
       <div class="lux-about__section-body">
         {%- if section.settings.contact_intro != blank -%}
@@ -350,8 +333,7 @@
 
   </div>
 
-  {%- comment -%} ============ DISCLAIMER ============ {%- endcomment -%}
-  {%- if section.settings.disclaimer_body != blank -%}
+    {%- if section.settings.disclaimer_body != blank -%}
     <section class="lux-about__disclaimer">
       <div class="lux-about__disclaimer-inner">
         <span class="lux-about__disclaimer-label">Important Disclaimers</span>

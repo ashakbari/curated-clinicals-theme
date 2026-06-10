@@ -1,26 +1,17 @@
-{% comment %}
-  ============================================================================
-  CUSTOM LUXURY CATALOG / COLLECTION PAGE
-  Editorial lookbook layout: two large cards per row
-  ============================================================================
-{% endcomment %}
 
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 
-{%- comment -%} ===== State from URL ===== {%- endcomment -%}
 {%- assign current_concerns = request.params.concerns | default: '' -%}
 {%- assign current_concerns_list = current_concerns | split: ',' -%}
 {%- assign current_brands = request.params.brands | default: '' -%}
 {%- assign current_brands_list = current_brands | split: ',' -%}
 {%- assign current_sort = request.params.sort_by | default: collection.default_sort_by | default: 'manual' -%}
 
-{%- comment -%} ===== Sort fragment helper ===== {%- endcomment -%}
 {%- assign sort_fragment = '' -%}
 {%- if current_sort != 'manual' and current_sort != blank -%}
   {%- assign sort_fragment = '&sort_by=' | append: current_sort -%}
 {%- endif -%}
 
-{%- comment -%} ===== Available concerns from collection tags ===== {%- endcomment -%}
 {%- assign available_concerns_raw = '' -%}
 {%- for tag in collection.all_tags -%}
   {%- if tag contains 'concern:' -%}
@@ -30,7 +21,6 @@
 {%- endfor -%}
 {%- assign available_concerns_list = available_concerns_raw | split: '|' | uniq | sort -%}
 
-{%- comment -%} ===== Known brands (covers full catalogue without paginate limits) ===== {%- endcomment -%}
 {%- assign known_brands_str = 'Alastin Skincare|Colorescience|EltaMD|Hydrinity|Omnilux|Skinbetter Science|SkinCeuticals|SkinMedica|ZO Skin Health' -%}
 {%- assign known_brands = known_brands_str | split: '|' -%}
 
@@ -63,8 +53,7 @@
     margin: 0;
   }
 
-  /* ===== HERO ===== */
-  .lux-hero {
+    .lux-hero {
     position: relative;
     background: var(--ink-rich);
     color: var(--paper);
@@ -153,8 +142,7 @@
     color: rgba(250, 246, 237, 0.6);
   }
 
-  /* ===== INTAKE SCREEN ===== */
-  .lux-intake { display: none; }
+    .lux-intake { display: none; }
   .lux-catalog--intake-mode .lux-intake { display: block; }
   .lux-catalog--intake-mode .lux-body { display: none; }
 
@@ -303,8 +291,7 @@
     transform: translateX(5px);
   }
 
-  /* ===== PERSONALIZE TRIGGER ===== */
-  .lux-personalize {
+    .lux-personalize {
     display: inline-flex;
     align-items: center;
     gap: 0.55rem;
@@ -342,8 +329,7 @@
     .lux-intake__cta { padding: 1rem 2rem; font-size: 0.65rem; letter-spacing: 0.3em; }
   }
 
-  /* ===== BODY ===== */
-  .lux-body { padding: 6rem 2rem 6rem; }
+    .lux-body { padding: 6rem 2rem 6rem; }
   .lux-intro {
     max-width: 760px;
     margin: 0 auto 5rem;
@@ -355,8 +341,7 @@
     color: var(--ink-soft);
   }
 
-  /* ===== FILTER PANEL ===== */
-  .lux-filter {
+    .lux-filter {
     max-width: 1400px;
     margin: 0 auto 3rem;
     background: var(--paper-warm);
@@ -440,8 +425,7 @@
     transition: color 0.25s ease;
   }
 
-  /* ===== ACTIVE ROW ===== */
-  .lux-active-row {
+    .lux-active-row {
     max-width: 1400px;
     margin: 0 auto 4rem;
     display: flex;
@@ -495,8 +479,7 @@
   }
   .lux-clear-all:hover { color: var(--gold-deep); border-color: var(--gold-deep); }
 
-  /* ===== BRAND ===== */
-  .lux-brand { max-width: 1400px; margin: 0 auto 9rem; }
+    .lux-brand { max-width: 1400px; margin: 0 auto 9rem; }
   .lux-brand:last-of-type { margin-bottom: 0; }
   .lux-brand--hidden { display: none; }
 
@@ -551,8 +534,7 @@
     margin: 0;
   }
 
-  /* ===== GRID ===== */
-  .lux-grid {
+    .lux-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 5.5rem 3rem;
@@ -561,8 +543,7 @@
     .lux-grid { grid-template-columns: repeat(2, 1fr); gap: 5rem 2.5rem; }
   }
 
-  /* ===== CARD ===== */
-  .lux-card {
+    .lux-card {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -643,8 +624,7 @@
     max-width: 36ch;
   }
 
-  /* ===== RATING + REVIEWS ===== */
-  .lux-card__rating {
+    .lux-card__rating {
     display: flex;
     align-items: center;
     gap: 0.55rem;
@@ -737,8 +717,7 @@
   .lux-card:hover .lux-card__cta { color: var(--gold-deep); border-bottom-color: var(--gold-deep); gap: 1.4rem; }
   .lux-card:hover .lux-card__cta-arrow { transform: translateX(6px); }
 
-  /* ===== EMPTY ===== */
-  .lux-empty, .lux-no-matches {
+    .lux-empty, .lux-no-matches {
     grid-column: 1 / -1;
     text-align: center;
     font-family: var(--ff-display);
@@ -752,8 +731,7 @@
   .lux-no-matches { display: none; }
   .lux-no-matches--visible { display: block; }
 
-  /* ===== PAGINATION ===== */
-  .lux-pagination {
+    .lux-pagination {
     display: flex; align-items: center; justify-content: center;
     gap: 3rem; max-width: 1400px; margin: 6rem auto 0;
     padding-top: 4rem; border-top: 1px solid var(--border); flex-wrap: wrap;
@@ -782,8 +760,7 @@
   }
   .lux-pagination__page--ellipsis { color: var(--ink-faint); cursor: default; }
 
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 900px) {
+    @media (max-width: 900px) {
     .lux-filter__main { flex-direction: column; align-items: stretch; }
     .lux-sort-group { align-self: flex-start; }
     .lux-sort-wrap { display: block; }
@@ -819,8 +796,7 @@
 
 <div class="lux-catalog" data-lux-catalog>
 
-  {%- comment -%} ============ HERO ============ {%- endcomment -%}
-  <section class="lux-hero">
+    <section class="lux-hero">
     <div class="lux-hero__inner">
       <span class="lux-hero__eyebrow">{{ section.settings.eyebrow_text | default: 'Medical-Grade Skincare' }}</span>
       <h1 class="lux-hero__title">{{ collection.title | default: 'Our Curated Collection' }}</h1>
@@ -836,8 +812,7 @@
     </div>
   </section>
 
-  {%- comment -%} ============ INTAKE SCREEN ============ {%- endcomment -%}
-  <section class="lux-intake" data-lux-intake>
+    <section class="lux-intake" data-lux-intake>
     <div class="lux-intake__inner">
       <span class="lux-intake__eyebrow">Personalize Your Visit</span>
       <h2 class="lux-intake__title">Tell us where to begin</h2>
@@ -879,20 +854,17 @@
     </div>
   </section>
 
-  {%- comment -%} ============ BODY ============ {%- endcomment -%}
-  <div class="lux-body">
+    <div class="lux-body">
 
     {%- if section.settings.intro_text != blank -%}
       <p class="lux-intro">{{ section.settings.intro_text }}</p>
     {%- endif -%}
 
-    {%- comment -%} ===== FILTERS + SORT ===== {%- endcomment -%}
-    <div class="lux-filter" data-lux-filter>
+        <div class="lux-filter" data-lux-filter>
       <div class="lux-filter__main">
         <div class="lux-filter__filters">
 
-          {%- comment -%} ----- Concern chips ----- {%- endcomment -%}
-          <div class="lux-filter__row">
+                    <div class="lux-filter__row">
             <span class="lux-filter__label">Filter by skin concern</span>
             <div class="lux-chip-row">
               {%- for concern in available_concerns_list -%}
@@ -923,8 +895,7 @@
             </div>
           </div>
 
-          {%- comment -%} ----- Brand chips ----- {%- endcomment -%}
-          <div class="lux-filter__row">
+                    <div class="lux-filter__row">
             <span class="lux-filter__label">Filter by brand</span>
             <div class="lux-chip-row">
               {%- for brand in known_brands -%}
@@ -974,15 +945,13 @@
       </div>
     </div>
 
-    {%- comment -%} ===== ACTIVE FILTER PILLS ===== {%- endcomment -%}
-    <div class="lux-active-row">
+        <div class="lux-active-row">
       <div class="lux-active-row__left">
         <span class="lux-result-count" data-total-count>
           {{ collection.products_count | default: 0 }} {% if collection.products_count == 1 %}selection{% else %}selections{% endif %}
         </span>
 
-        {%- comment -%} Concern pills {%- endcomment -%}
-        {%- if current_concerns != '' -%}
+                {%- if current_concerns != '' -%}
           {%- for concern in current_concerns_list -%}
             {%- if concern == blank -%}{% continue %}{%- endif -%}
             {%- assign concern_label = concern | replace: '-', ' ' | capitalize -%}
@@ -1000,8 +969,7 @@
           {%- endfor -%}
         {%- endif -%}
 
-        {%- comment -%} Brand pills {%- endcomment -%}
-        {%- if current_brands != '' -%}
+                {%- if current_brands != '' -%}
           {%- for brand_slug in current_brands_list -%}
             {%- if brand_slug == blank -%}{% continue %}{%- endif -%}
             {%- assign brand_label = '' -%}
@@ -1037,8 +1005,7 @@
       </div>
     </div>
 
-    {%- comment -%} ===== BRAND SECTIONS ===== {%- endcomment -%}
-    {% paginate collection.products by 48 %}
+        {% paginate collection.products by 48 %}
       {%- assign vendor_buf = '' -%}
       {%- for product in collection.products -%}
         {%- assign v = product.vendor | default: 'Other' -%}
@@ -1102,8 +1069,7 @@
                 {%- endif -%}
               {%- endfor -%}
 
-              {%- comment -%} Tagline: metafield override, else hardcoded fallback {%- endcomment -%}
-              {%- assign tagline = product.metafields.curated.tagline -%}
+                            {%- assign tagline = product.metafields.curated.tagline -%}
               {%- if tagline == blank -%}
                 {%- case product.handle -%}
                   {%- when 'skinceuticals-ce-ferulic' -%}{%- assign tagline = '15% L-ascorbic acid + ferulic acid antioxidant serum' -%}
@@ -1197,8 +1163,7 @@
                 {%- endcase -%}
               {%- endif -%}
 
-              {%- comment -%} Rating, review count, featured quote (metafield first, else hardcoded) {%- endcomment -%}
-              {%- assign rating = product.metafields.curated.rating -%}
+                            {%- assign rating = product.metafields.curated.rating -%}
               {%- assign review_count = product.metafields.curated.review_count -%}
               {%- assign quote = product.metafields.curated.quote -%}
 
@@ -1265,14 +1230,14 @@
                   {%- when 'skinmedica-tns-advanced-serum' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 22 -%}{%- assign quote = 'Worth the investment. People ask if I had work done.' -%}
                   {%- when 'skinmedica-ha5®-rejuvenating-hydrator' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 20 -%}{%- assign quote = 'Plump skin within minutes. Lasts all day.' -%}
                   {%- when 'skinmedica-ha5-rejuvenating-hydrator' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 20 -%}{%- assign quote = 'Plump skin within minutes. Lasts all day.' -%}
-                  {%- when 'skinmedica-ha5Â®-rejuvenating-hydrator' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 20 -%}{%- assign quote = 'Plump skin within minutes. Lasts all day.' -%}
+                  {%- when 'skinmedica-ha5®-rejuvenating-hydrator' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 20 -%}{%- assign quote = 'Plump skin within minutes. Lasts all day.' -%}
                   {%- when 'skinmedica-lumivive™-system-day-night' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}{%- assign quote = 'Blue light protection that actually feels luxurious.' -%}
                   {%- when 'skinmedica-lumivive-system-day-night' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}{%- assign quote = 'Blue light protection that actually feels luxurious.' -%}
-                  {%- when 'skinmedica-lumiviveâ¢-system-day-night' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}{%- assign quote = 'Blue light protection that actually feels luxurious.' -%}
+                  {%- when 'skinmedica-lumivive™-system-day-night' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}{%- assign quote = 'Blue light protection that actually feels luxurious.' -%}
                   {%- when 'skinmedica-retinol-complex' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 10 -%}{%- assign quote = 'Easy to escalate. My go-to retinol gateway.' -%}
                   {%- when 'skinmedica®lytera-2-0' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 10 -%}{%- assign quote = 'My post-acne marks faded after three months.' -%}
                   {%- when 'skinmedicalytera-2-0' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 10 -%}{%- assign quote = 'My post-acne marks faded after three months.' -%}
-                  {%- when 'skinmedicaÂ®lytera-2-0' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 10 -%}{%- assign quote = 'My post-acne marks faded after three months.' -%}
+                  {%- when 'skinmedica®lytera-2-0' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 10 -%}{%- assign quote = 'My post-acne marks faded after three months.' -%}
                   {%- when 'skinmedica-tns-eye-repair' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 6 -%}{%- assign quote = 'Eye area looks years younger. Patient and consistent pays off.' -%}
                   {%- when 'skinmedica-dermal-repair-cream' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 9 -%}{%- assign quote = 'Heals my barrier after every laser session.' -%}
                   {%- when 'skinmedica-scar-gel' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}{%- assign quote = 'C-section scar visibly softer after six months.' -%}
@@ -1289,13 +1254,13 @@
                   {%- when 'alastin-inhance-post-injection-serum' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 9 -%}{%- assign quote = 'Cooling tip is genius. Less bruising after filler.' -%}
                   {%- when 'colorescience-sunforgettable®-total-protection™-face-shield-spf-50' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 24 -%}{%- assign quote = 'The only mineral SPF that does not leave white residue.' -%}
                   {%- when 'colorescience-sunforgettable-total-protection-face-shield-spf-50' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 24 -%}{%- assign quote = 'The only mineral SPF that does not leave white residue.' -%}
-                  {%- when 'colorescience-sunforgettableÂ®-total-protectionâ¢-face-shield-spf-50' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 24 -%}{%- assign quote = 'The only mineral SPF that does not leave white residue.' -%}
+                  {%- when 'colorescience-sunforgettable®-total-protection™-face-shield-spf-50' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 24 -%}{%- assign quote = 'The only mineral SPF that does not leave white residue.' -%}
                   {%- when 'colorescience-sunforgettable-total-protection-brush-on-shield-spf-50' -%}{%- assign rating = '4.7' -%}{%- assign review_count = 21 -%}{%- assign quote = 'Reapply over makeup mid-day. Game changer.' -%}
                   {%- when 'colorescience-even-up-3-in-1-skin-perfector-sunscreen-spf-50' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 10 -%}{%- assign quote = 'Skin tone evened and protected. Two birds one bottle.' -%}
                   {%- when 'colorescience-total-eye-3-in-1-renewal-care' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}{%- assign quote = 'Eye cream with SPF? Yes please.' -%}
                   {%- when 'colorescience-sunforgettable®-face-shield-flex' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 6 -%}{%- assign quote = 'Moves with my face. No cracking around the eyes.' -%}
                   {%- when 'colorescience-sunforgettable-face-shield-flex' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 6 -%}{%- assign quote = 'Moves with my face. No cracking around the eyes.' -%}
-                  {%- when 'colorescience-sunforgettableÂ®-face-shield-flex' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 6 -%}{%- assign quote = 'Moves with my face. No cracking around the eyes.' -%}
+                  {%- when 'colorescience-sunforgettable®-face-shield-flex' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 6 -%}{%- assign quote = 'Moves with my face. No cracking around the eyes.' -%}
                   {%- when 'colorescience-all-calm-multi-correction-serum' -%}{%- assign rating = '4.6' -%}{%- assign review_count = 5 -%}{%- assign quote = 'My rosacea is the calmest it has been in years.' -%}
                   {%- when 'colorescience-no-show-mineral-sunscreen-spf50' -%}{%- assign rating = '4.5' -%}{%- assign review_count = 6 -%}{%- assign quote = 'Truly invisible mineral SPF for medium tones.' -%}
                   {%- when 'elta-md-uv-daily-tinted' -%}{%- assign rating = '4.8' -%}{%- assign review_count = 24 -%}{%- assign quote = 'The sunscreen-makeup hybrid I have been looking for.' -%}
@@ -1398,7 +1363,6 @@
     var sortEl = root.querySelector('[data-lux-sort]');
     var personalizeBtn = root.querySelector('[data-intake-show]');
 
-    // ===== Intake setup (products show by default; quiz is optional via Personalize) =====
     if (intake) {
       var curateBtn = intake.querySelector('[data-intake-curate]');
       function updateCurateState() {
@@ -1464,7 +1428,6 @@
       }
     }
 
-    // ===== Sort dropdown =====
     if (sortEl) {
       sortEl.addEventListener('change', function (e) {
         var url = new URL(window.location.href);
@@ -1474,7 +1437,6 @@
       });
     }
 
-    // ===== Concern + Brand filter (client-side) =====
     function applyFilter() {
       var params = new URLSearchParams(window.location.search);
       var concernsParam = params.get('concerns') || '';
