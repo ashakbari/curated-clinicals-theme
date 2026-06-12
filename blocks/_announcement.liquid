@@ -4,6 +4,23 @@
 {%- assign plain_text = block_settings.text | strip_newlines | strip_html | strip -%}
 {%- assign block_index = section.blocks | find_index: 'id', block.id -%}
 
+{%- comment -%}
+  Token support for sale announcements (validated richtext settings can't hold
+  classes/attributes, so markup is substituted here):
+  [countdown:<ISO datetime>] -> live countdown span (JS in layout/theme.liquid)
+  [sep] -> dimmed separator, [ship]...[/ship] -> hidden on mobile
+{%- endcomment -%}
+{%- assign rendered_text = block_settings.text -%}
+{%- if rendered_text contains '[countdown:' -%}
+  {%- assign cd_parts = rendered_text | split: '[countdown:' -%}
+  {%- assign cd_deadline = cd_parts[1] | split: ']' | first -%}
+  {%- capture cd_token -%}[countdown:{{ cd_deadline }}]{%- endcapture -%}
+  {%- capture cd_html -%}<span class="cc-sale-countdown" data-deadline="{{ cd_deadline }}">&hellip;</span>{%- endcapture -%}
+  {%- assign rendered_text = rendered_text | replace: cd_token, cd_html -%}
+{%- endif -%}
+{%- assign rendered_text = rendered_text | replace: '[sep]', '<span class="cc-sale-sep">|</span>' -%}
+{%- assign rendered_text = rendered_text | replace: '[ship]', '<span class="cc-sale-ship">' | replace: '[/ship]', '</span>' -%}
+
 {%- unless plain_text == '' -%}
   <slideshow-slide
     ref="slides[]"
@@ -27,7 +44,7 @@
     aria-hidden="{% if block_index == 0 %}false{% else %}true{% endif %}"
   >
     <p class="announcement-bar__text">
-      {{ block.settings.text }}
+      {{ rendered_text }}
     </p>
 
     {% if block_settings.link != blank %}
