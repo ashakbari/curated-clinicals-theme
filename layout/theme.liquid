@@ -132,5 +132,51 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+
+    <style>
+      .cc-sale-countdown {
+        font-variant-numeric: tabular-nums;
+        font-weight: 600;
+        color: #d4ba6a;
+      }
+      .cc-sale-sep {
+        opacity: 0.45;
+        margin: 0 0.55em;
+      }
+      @media screen and (max-width: 749px) {
+        .cc-sale-ship { display: none; }
+      }
+    </style>
+    <script>
+      (function () {
+        var els = document.querySelectorAll('.cc-sale-countdown[data-deadline]');
+        if (!els.length) return;
+        function pad(n) { return (n < 10 ? '0' : '') + n; }
+        function tick() {
+          var now = Date.now();
+          for (var i = 0; i < els.length; i++) {
+            var el = els[i];
+            var end = Date.parse(el.getAttribute('data-deadline'));
+            if (isNaN(end)) continue;
+            var ms = end - now;
+            if (ms <= 0) {
+              var bar = el.closest('.shopify-section') || el.closest('.announcement-bar');
+              if (bar) bar.style.display = 'none';
+              continue;
+            }
+            var s = Math.floor(ms / 1000);
+            var d = Math.floor(s / 86400);
+            var h = Math.floor((s % 86400) / 3600);
+            var m = Math.floor((s % 3600) / 60);
+            var sec = s % 60;
+            el.textContent = d > 0
+              ? d + 'd ' + pad(h) + 'h ' + pad(m) + 'm'
+              : pad(h) + ':' + pad(m) + ':' + pad(sec);
+          }
+        }
+        tick();
+        setInterval(tick, 1000);
+      })();
+    </script>
   </body>
 </html>
