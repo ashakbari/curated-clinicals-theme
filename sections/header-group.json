@@ -18,7 +18,7 @@
           "type": "_announcement",
           "name": "t:names.announcement",
           "settings": {
-            "text": "SITE-WIDE SALE — <strong>20% OFF EVERYTHING</strong>[sep][ship]FREE EXPRESS SHIPPING OVER $150[sep][/ship]ENDS IN [countdown:2026-06-15T06:59:59Z]",
+            "text": "72-HOUR FLASH SALE — <strong>20% OFF EVERYTHING</strong>[sep][ship]FREE EXPRESS SHIPPING OVER $150[sep][/ship]HURRY — ENDS IN [countdown:2026-06-20T23:48:00Z]",
             "link": "",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
