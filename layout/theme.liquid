@@ -132,5 +132,19 @@
     {% if settings.quick_add or settings.mobile_quick_add %}
       {% render 'quick-add-modal' %}
     {% endif %}
+
+    <style>
+      .announcement-bar__text strong {
+        color: #d4ba6a;
+        font-weight: 600;
+      }
+      .cc-sale-sep {
+        opacity: 0.45;
+        margin: 0 0.55em;
+      }
+      @media screen and (max-width: 749px) {
+        .cc-sale-ship { display: none; }
+      }
+    </style>
   </body>
 </html>
