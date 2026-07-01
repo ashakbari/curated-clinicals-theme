@@ -1,4 +1,4 @@
-{%- comment -%} MAPLE SLOTS v2 — Curated Clinicals Canada Day week game (Jul 1-7 2026). 3-reel slot machine: one pull per day, real Shopify codes (base64-obfuscated; suffixed to prevent URL guessing), prize wallet, streak, next-pull countdown. v2 fixes from adversarial review: two-phase reel animation (blur + decel snap w/ overshoot), cross-midnight panel reset, 16px email input (iOS zoom), PULL button never silently no-ops, warn() keeps typed email + error clears on input, date-window + clock-rollback + min-gap guards. Residual accepted: codes recoverable from source by determined users — hard bound is Shopify once/customer + global caps sized for full drain. Mounted from layout/theme.liquid. Self-hides after 2026-07-08T06:59:59Z. {%- endcomment -%}
+{%- comment -%} MAPLE SLOTS v4 (skill arcade) — Curated Clinicals Canada Day week game (Jul 1-7 2026). TRUE minigame: skill-stop reels (player taps STOP per reel), 3-spin daily run, combo multipliers, live score + tier ladder (score decides which of the 6 real capped Shopify codes you win — everyone wins >= 5%), tier-up fanfares, endless PRACTICE mode after the daily run (personal best, no prizes = zero cost). Keeps all prior anti-abuse (email/honeypot/date-window/clock guards, once-per-customer + capped + expiring codes = hard economic bound; skill can only drain caps first-come-first-served, every redemption margin-positive via min carts). Run state persists per spin (abandon = resume, no rerolls). v3 verify fixes applied: burst hidden on showWin, no confetti/burst when modal closed. Mounted from layout/theme.liquid. Self-hides after 2026-07-08T06:59:59Z. {%- endcomment -%}
 <style>
 #mps-tab{position:fixed;right:0;bottom:110px;z-index:9998;background:linear-gradient(180deg,#e01936,#8f0618);color:#fff;border:0;padding:13px 9px 15px;border-radius:14px 0 0 14px;cursor:pointer;box-shadow:-5px 6px 22px rgba(0,0,0,.3);display:flex;flex-direction:column;align-items:center;gap:7px;font-family:inherit;transition:transform .18s ease;animation:mpsPulse 2.6s ease-in-out infinite}
 @keyframes mpsPulse{0%,100%{transform:translateX(0)}50%{transform:translateX(-4px)}}
@@ -9,46 +9,94 @@
 @media(max-width:600px){#mps-tab{bottom:84px;padding:11px 8px 13px}#mps-tab .g2{font-size:10px}}
 #mps[hidden]{display:none}
 #mps{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;font-family:inherit}
-#mps .mps-ov{position:absolute;inset:0;background:rgba(12,8,4,.72);backdrop-filter:blur(3px)}
-#mps .mps-card{position:relative;background:#171310;color:#f3ede2;max-width:420px;width:100%;border-radius:22px;padding:24px 22px 20px;box-shadow:0 34px 90px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);text-align:center;animation:mpsIn .35s ease;max-height:94vh;overflow:auto;border:1px solid #3a2f22}
+#mps .mps-ov{position:absolute;inset:0;background:rgba(12,8,4,.74);backdrop-filter:blur(3px)}
+#mps .mps-card{position:relative;background:#171310;color:#f3ede2;max-width:430px;width:100%;border-radius:22px;padding:24px 22px 20px;box-shadow:0 34px 90px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);text-align:center;animation:mpsIn .35s ease;max-height:94vh;overflow:auto;border:1px solid #3a2f22}
 @keyframes mpsIn{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
-#mps .mps-x{position:absolute;top:8px;right:13px;border:0;background:transparent;font-size:26px;line-height:1;color:#7d715f;cursor:pointer}
+#mps .mps-x{position:absolute;top:8px;right:13px;border:0;background:transparent;font-size:26px;line-height:1;color:#7d715f;cursor:pointer;z-index:6}
 #mps .mps-x:hover{color:#f3ede2}
+#mps .mps-snd{position:absolute;top:10px;left:13px;border:0;background:transparent;font-size:17px;line-height:1;color:#7d715f;cursor:pointer;z-index:6}
 #mps .mps-ey{text-transform:uppercase;letter-spacing:3px;font-size:10.5px;color:#d4ba6a;font-weight:800;margin:0 0 3px}
-#mps .mps-ti{font-family:Georgia,serif;font-size:27px;margin:0 0 2px;line-height:1.1;color:#fff}
-#mps .mps-ti .lf{font-size:22px}
-#mps .mps-sub{font-size:12px;color:#a99a82;margin:0 0 12px}
-#mps .mps-cab{background:linear-gradient(180deg,#241c14,#171310);border:1px solid #4a3c28;border-radius:16px;padding:14px 12px 12px;margin:0 0 12px;box-shadow:inset 0 2px 12px rgba(0,0,0,.5)}
-#mps .mps-reels{display:flex;gap:8px;justify-content:center}
+#mps .mps-ti{font-family:Georgia,serif;font-size:26px;margin:0 0 2px;line-height:1.1;color:#fff}
+#mps .mps-ti .lf{font-size:21px}
+#mps .mps-sub{font-size:11.5px;color:#a99a82;margin:0 0 10px}
+#mps .mps-hud{display:flex;gap:6px;justify-content:center;margin:0 0 8px}
+#mps .mps-hbox{flex:1;background:#0f0c09;border:1px solid #2c2418;border-radius:10px;padding:6px 4px}
+#mps .mps-hbox .hl{font-size:8.5px;letter-spacing:1.5px;color:#7d715f;font-weight:800;text-transform:uppercase}
+#mps .mps-hbox .hv{font-size:17px;font-weight:800;color:#ffd76a;font-variant-numeric:tabular-nums;line-height:1.2}
+#mps .mps-hbox .hv.combo-on{color:#ff9daa;animation:mpsBlink .5s step-end infinite}
+#mps .mps-cab{position:relative;background:linear-gradient(180deg,#241c14,#171310);border:1px solid #4a3c28;border-radius:16px;padding:24px 12px 12px;margin:0 0 10px;box-shadow:inset 0 2px 12px rgba(0,0,0,.5)}
+#mps .mps-marq{position:absolute;top:7px;left:14px;right:14px;height:8px;border-radius:999px;background:repeating-linear-gradient(90deg,#ffd76a 0 6px,#3a2f22 6px 18px);animation:mpsChase .5s linear infinite;opacity:.85}
+@keyframes mpsChase{to{background-position:18px 0}}
+#mps .mps-cab.rush .mps-marq{animation-duration:.18s;opacity:1;box-shadow:0 0 14px rgba(255,215,106,.6)}
+#mps .mps-reels{display:flex;gap:8px;justify-content:center;position:relative}
 #mps .mps-reel{width:84px;height:84px;background:#fdf8ee;border-radius:10px;overflow:hidden;position:relative;box-shadow:inset 0 4px 10px rgba(0,0,0,.28),inset 0 -4px 10px rgba(0,0,0,.18)}
-#mps .mps-strip{position:absolute;left:0;top:0;width:100%}
+#mps .mps-reel.pop{animation:mpsPop .4s ease}
+@keyframes mpsPop{0%,100%{transform:scale(1)}45%{transform:scale(1.12)}}
+#mps .mps-strip{position:absolute;left:0;top:0;width:100%;will-change:transform}
 #mps .mps-cell{height:84px;display:flex;align-items:center;justify-content:center;font-size:46px;line-height:1}
 #mps .mps-payline{position:absolute;left:6px;right:6px;top:50%;height:0;border-top:2px dashed rgba(224,25,54,.35);pointer-events:none}
+#mps .mps-reel.hit .mps-payline{border-top:3px solid #ffd76a;box-shadow:0 0 12px 2px rgba(255,215,106,.85);animation:mpsLine .3s ease 4}
+@keyframes mpsLine{50%{opacity:.25}}
+#mps .mps-scorepop{position:absolute;left:0;right:0;top:-6px;text-align:center;font-family:Georgia,serif;font-size:30px;font-weight:700;color:#ffd76a;text-shadow:0 0 16px rgba(255,215,106,.6);opacity:0;pointer-events:none;z-index:4}
+#mps .mps-scorepop.go{animation:mpsRise 1s ease forwards}
+@keyframes mpsRise{0%{opacity:0;transform:translateY(14px) scale(.8)}25%{opacity:1;transform:translateY(-2px) scale(1.08)}70%{opacity:1}100%{opacity:0;transform:translateY(-30px) scale(1)}}
 #mps .mps-cab.shake{animation:mpsShake .4s ease}
 @keyframes mpsShake{0%,100%{transform:none}25%{transform:translateX(-4px) rotate(-.4deg)}75%{transform:translateX(4px) rotate(.4deg)}}
-#mps .mps-em{width:100%;box-sizing:border-box;border:1.5px solid #4a3c28;background:#0f0c09;color:#f3ede2;border-radius:10px;padding:11px 13px;font-size:16px;margin:10px 0 0;font-family:inherit}
+#mps .mps-cab.megashake{animation:mpsMega .7s ease}
+@keyframes mpsMega{0%,100%{transform:none}15%{transform:translate(-6px,2px) rotate(-.8deg)}35%{transform:translate(6px,-2px) rotate(.8deg)}55%{transform:translate(-5px,1px) rotate(-.6deg)}75%{transform:translate(4px,-1px) rotate(.5deg)}}
+#mps .mps-ladder{margin:0 0 8px;background:#0f0c09;border:1px solid #2c2418;border-radius:12px;padding:9px 11px 11px;text-align:left}
+#mps .mps-ladder .ld-t{display:flex;justify-content:space-between;font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:#d4ba6a;font-weight:800;margin:0 0 6px}
+#mps .mps-ladder .ld-t .nx{color:#ff9daa;letter-spacing:.3px;text-transform:none}
+#mps .mps-bar{position:relative;height:14px;background:#241c14;border-radius:999px;overflow:hidden}
+#mps .mps-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#b3081f,#e01936,#d4ba6a);border-radius:999px;transition:width .6s cubic-bezier(.2,.8,.3,1)}
+#mps .mps-ticks{position:absolute;inset:0}
+#mps .mps-tick{position:absolute;top:0;bottom:0;width:2px;background:rgba(23,19,16,.85)}
+#mps .mps-tiers{display:flex;margin-top:5px}
+#mps .mps-tier{flex:1;text-align:center;font-size:8.5px;font-weight:800;color:#7d715f;letter-spacing:.3px;line-height:1.25}
+#mps .mps-tier.on{color:#ffd76a}
+#mps .mps-tier.won-t{color:#ffe9a8;text-shadow:0 0 8px rgba(255,215,106,.7)}
+#mps .mps-em{width:100%;box-sizing:border-box;border:1.5px solid #4a3c28;background:#0f0c09;color:#f3ede2;border-radius:10px;padding:11px 13px;font-size:16px;margin:8px 0 0;font-family:inherit}
 #mps .mps-em::placeholder{color:#7d715f}
 #mps .mps-em:focus{outline:0;border-color:#d4ba6a}
 #mps .mps-msg{min-height:15px;font-size:11.5px;color:#ff9daa;margin:6px 0 0;font-weight:700}
-#mps .mps-pull{display:block;width:100%;background:linear-gradient(90deg,#d4ba6a,#b89234);color:#241800;border:0;font-weight:800;font-size:17px;padding:14px;border-radius:999px;cursor:pointer;letter-spacing:1.5px;margin-top:8px;transition:transform .15s,filter .15s,opacity .2s;box-shadow:0 4px 14px rgba(212,186,106,.25)}
+#mps .mps-pull{display:block;width:100%;background:linear-gradient(90deg,#d4ba6a,#b89234);color:#241800;border:0;font-weight:800;font-size:18px;padding:15px;border-radius:999px;cursor:pointer;letter-spacing:2px;margin-top:8px;transition:transform .12s,filter .15s,opacity .2s;box-shadow:0 4px 14px rgba(212,186,106,.25)}
 #mps .mps-pull:hover{transform:translateY(-1px);filter:brightness(1.07)}
+#mps .mps-pull:active{transform:scale(.97)}
 #mps .mps-pull[disabled]{opacity:.55;cursor:not-allowed;transform:none}
-#mps .mps-fine{font-size:10px;color:#7d715f;margin:9px 0 0;line-height:1.5}
-#mps .mps-legend{margin:12px 0 0;text-align:left;background:#0f0c09;border:1px solid #2c2418;border-radius:12px;padding:10px 12px}
-#mps .mps-legend .lg-t{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#d4ba6a;font-weight:800;margin:0 0 6px;text-align:center}
-#mps .mps-lrow{display:flex;justify-content:space-between;align-items:center;font-size:12px;padding:3px 0;color:#cbbfa8}
-#mps .mps-lrow .sym{letter-spacing:2px;font-size:13px}
-#mps .mps-lrow.hot{color:#ffd7dc}
-#mps .mps-lrow.won{background:rgba(212,186,106,.12);border-radius:6px;padding:3px 6px;color:#ffe9a8}
+#mps .mps-pull.stopmode{background:linear-gradient(90deg,#e01936,#b3081f);color:#fff;animation:mpsGlow 1s ease-in-out infinite}
+#mps .mps-practbtn{display:block;width:100%;background:transparent;border:1.5px dashed #4a3c28;color:#d4ba6a;font-weight:800;font-size:13px;padding:11px;border-radius:999px;cursor:pointer;margin-top:9px;letter-spacing:1px}
+#mps .mps-practbtn:hover{border-color:#d4ba6a}
+#mps .mps-practflag{display:none;background:rgba(224,25,54,.12);border:1px dashed rgba(224,25,54,.5);color:#ff9daa;font-size:10.5px;font-weight:800;border-radius:8px;padding:5px 8px;margin:0 0 8px;letter-spacing:.6px}
+#mps .mps-fine{font-size:10px;color:#7d715f;margin:8px 0 0;line-height:1.5}
+#mps .mps-payt{margin:10px 0 0;text-align:left;background:#0f0c09;border:1px solid #2c2418;border-radius:12px;padding:9px 12px}
+#mps .mps-payt .lg-t{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#d4ba6a;font-weight:800;margin:0 0 5px;text-align:center}
+#mps .mps-prow{display:flex;justify-content:space-between;font-size:11px;padding:2px 0;color:#cbbfa8}
+#mps .mps-prow b{color:#ffd76a}
+#mps-burst{position:absolute;inset:0;background:rgba(15,10,6,.92);border-radius:22px;display:none;align-items:center;justify-content:center;flex-direction:column;z-index:5;animation:mpsIn .25s ease}
+#mps-burst .bw{font-size:15px;letter-spacing:5px;color:#ffd76a;font-weight:800;animation:mpsBlink .35s step-end infinite}
+@keyframes mpsBlink{50%{opacity:.35}}
+#mps-burst .bv{font-family:Georgia,serif;font-size:60px;color:#fff;font-weight:700;line-height:1.05;margin:8px 0 4px;text-shadow:0 0 24px rgba(255,215,106,.55);font-variant-numeric:tabular-nums}
+#mps-burst .bn{font-size:14px;color:#d4ba6a;font-weight:800;letter-spacing:1px;padding:0 14px;line-height:1.4}
 #mps .mps-win{display:none}
 #mps .mps-win .we{font-size:42px;line-height:1}
 #mps .mps-win .wt{font-size:20px;font-weight:800;margin:6px 0 2px;color:#ffd76a}
-#mps .mps-win .ws{font-size:12.5px;color:#cbbfa8;margin:0 0 12px;line-height:1.45}
-#mps .mps-code{display:flex;gap:8px;align-items:stretch;margin:0 0 10px}
+#mps .mps-win .ws{font-size:12.5px;color:#cbbfa8;margin:0 0 10px;line-height:1.45}
+#mps .mps-stack{margin:0 0 10px;text-align:left}
+#mps .mps-srow{display:flex;align-items:center;gap:9px;background:#0f0c09;border:1px solid #3a2f22;border-radius:10px;padding:8px 11px;margin:5px 0;font-size:12px;color:#e8ddc8;opacity:0;transform:translateX(-14px);transition:opacity .3s ease,transform .3s ease}
+#mps .mps-srow.in{opacity:1;transform:none}
+#mps .mps-srow .se{font-size:17px}
+#mps .mps-srow b{color:#ffd76a}
+#mps .mps-srow .tag{margin-left:auto;background:rgba(212,186,106,.15);border:1px solid rgba(212,186,106,.4);color:#ffd76a;font-size:9px;font-weight:800;padding:2px 7px;border-radius:999px;letter-spacing:1px;white-space:nowrap}
+#mps .mps-total{background:linear-gradient(90deg,rgba(224,25,54,.18),rgba(212,186,106,.18));border:1px dashed #d4ba6a;border-radius:10px;padding:8px 10px;font-size:12.5px;font-weight:800;color:#ffe9a8;margin:0 0 10px;letter-spacing:.4px}
+#mps .mps-code{display:flex;gap:8px;align-items:stretch;margin:0 0 8px}
 #mps .mps-code input{flex:1;min-width:0;border:1.5px dashed #d4ba6a;border-radius:10px;background:#241c10;color:#ffd76a;font-weight:800;font-size:16px;text-align:center;letter-spacing:1.5px;padding:11px;font-family:inherit}
 #mps .mps-code button{background:#d4ba6a;color:#241800;border:0;border-radius:10px;padding:0 15px;font-weight:800;cursor:pointer}
-#mps .mps-go{display:block;background:#e01936;color:#fff;text-decoration:none;font-weight:800;padding:13px;border-radius:999px;font-size:15px}
-#mps .mps-next{margin:12px 0 0;background:#0f0c09;border:1px dashed #4a3c28;border-radius:12px;padding:10px 12px;font-size:12.5px;color:#cbbfa8}
+#mps .mps-exp{font-size:10.5px;color:#c9a26a;margin:0 0 10px;font-variant-numeric:tabular-nums}
+#mps .mps-exp b{color:#ffd76a}
+#mps .mps-go{display:block;background:linear-gradient(90deg,#e01936,#b3081f);color:#fff;text-decoration:none;font-weight:800;padding:15px;border-radius:999px;font-size:16px;letter-spacing:.8px;box-shadow:0 5px 16px rgba(224,25,54,.35);animation:mpsGlow 1.6s ease-in-out infinite}
+@keyframes mpsGlow{0%,100%{box-shadow:0 5px 16px rgba(224,25,54,.35)}50%{box-shadow:0 5px 26px rgba(224,25,54,.65)}}
+#mps .mps-tease{font-size:11px;color:#ff9daa;margin:10px 0 0;font-weight:700}
+#mps .mps-next{margin:10px 0 0;background:#0f0c09;border:1px dashed #4a3c28;border-radius:12px;padding:10px 12px;font-size:12.5px;color:#cbbfa8}
 #mps .mps-next b{color:#d4ba6a;font-variant-numeric:tabular-nums;font-size:14px}
 #mps .mps-streak{display:inline-block;background:rgba(224,25,54,.15);border:1px solid rgba(224,25,54,.4);color:#ff9daa;font-size:11px;font-weight:800;border-radius:999px;padding:3px 10px;margin-top:8px;letter-spacing:.5px}
 #mps .mps-wallet{margin:12px 0 0;text-align:left}
@@ -64,44 +112,63 @@
   <div class='mps-ov' data-close></div>
   <div class='mps-card' role='dialog' aria-modal='true' aria-label='Maple Slots — Canada Day game'>
     <button class='mps-x' type='button' data-close aria-label='Close'>&times;</button>
+    <button class='mps-snd' type='button' id='mps-snd' aria-label='Toggle sound'>&#128266;</button>
     <p class='mps-ey'>Canada Day Week &middot; July 1 to 7</p>
     <h2 class='mps-ti'><span class='lf'>&#127809;</span> MAPLE SLOTS <span class='lf'>&#127809;</span></h2>
-    <p class='mps-sub'>One free pull every day. Every pull wins, eh.</p>
+    <p class='mps-sub'>3 spins. YOU stop the reels. Score decides your prize &mdash; every run pays out, eh.</p>
     <div class='mps-play'>
+      <div class='mps-practflag' id='mps-practflag'>&#127919; PRACTICE MODE &mdash; chasing your best, prizes unlock tomorrow</div>
+      <div class='mps-hud'>
+        <div class='mps-hbox'><div class='hl'>Score</div><div class='hv' id='mps-score'>0</div></div>
+        <div class='mps-hbox'><div class='hl'>Spin</div><div class='hv' id='mps-spinno'>&ndash;</div></div>
+        <div class='mps-hbox'><div class='hl'>Combo</div><div class='hv' id='mps-combo'>&times;1</div></div>
+      </div>
       <div class='mps-cab' id='mps-cab'>
+        <div class='mps-marq'></div>
+        <div class='mps-scorepop' id='mps-scorepop'></div>
         <div class='mps-reels'>
-          <div class='mps-reel'><div class='mps-strip' id='mps-r0'></div><div class='mps-payline'></div></div>
-          <div class='mps-reel'><div class='mps-strip' id='mps-r1'></div><div class='mps-payline'></div></div>
-          <div class='mps-reel'><div class='mps-strip' id='mps-r2'></div><div class='mps-payline'></div></div>
+          <div class='mps-reel' id='mps-rw0'><div class='mps-strip' id='mps-r0'></div><div class='mps-payline'></div></div>
+          <div class='mps-reel' id='mps-rw1'><div class='mps-strip' id='mps-r1'></div><div class='mps-payline'></div></div>
+          <div class='mps-reel' id='mps-rw2'><div class='mps-strip' id='mps-r2'></div><div class='mps-payline'></div></div>
         </div>
       </div>
-      <input class='mps-em' id='mps-em' type='email' placeholder='Email to unlock your pull' autocomplete='email'>
+      <div class='mps-ladder'>
+        <div class='ld-t'><span>Prize ladder</span><span class='nx' id='mps-nexttier'></span></div>
+        <div class='mps-bar'><div class='mps-fill' id='mps-fill'></div><div class='mps-ticks' id='mps-ticks'></div></div>
+        <div class='mps-tiers' id='mps-tiers'></div>
+      </div>
+      <input class='mps-em' id='mps-em' type='email' placeholder='Email to unlock your run' autocomplete='email'>
       <input id='mps-hp' type='text' tabindex='-1' autocomplete='off' aria-hidden='true' style='position:absolute;left:-9999px;top:auto;width:1px;height:1px;opacity:0'>
       <div class='mps-msg' id='mps-msg'></div>
-      <button class='mps-pull' id='mps-pull' type='button'>&#127809; PULL</button>
-      <p class='mps-fine'>One pull per person per day through July 7. Codes are single-use, stack with the 20% sale, and expire July 7 at 11:59 PM PT. Playing joins our email list.</p>
-      <div class='mps-legend' id='mps-legend'>
-        <p class='lg-t'>Payouts</p>
-        <div class='mps-lrow hot' data-k='m40'><span class='sym'>&#127809;&#127809;&#127809;</span><span>JACKPOT &mdash; $40 off $300+</span></div>
-        <div class='mps-lrow' data-k='m25'><span class='sym'>&#128142;&#128142;&#128142;</span><span>$25 off $250+</span></div>
-        <div class='mps-lrow' data-k='m15'><span class='sym'>&#11088;&#11088;&#11088;</span><span>$15 off $175+</span></div>
-        <div class='mps-lrow' data-k='m10'><span class='sym'>&#128142;&#128142;</span><span>$10 off $125+</span></div>
-        <div class='mps-lrow' data-k='ship'><span class='sym'>&#128666;&#128666;</span><span>Free Express Shipping ($75+)</span></div>
-        <div class='mps-lrow' data-k='m5'><span class='sym'>&#127873;</span><span>5% off anything</span></div>
+      <button class='mps-pull' id='mps-pull' type='button'>&#127809; START RUN</button>
+      <p class='mps-fine'>One prize run per person per day through July 7. Codes are single-use, stack with the 20% sale, and expire July 7 at 11:59 PM PT. Playing joins our email list. Unlimited practice after your run.</p>
+      <div class='mps-payt'>
+        <p class='lg-t'>Symbol values &middot; triple &times;12 &middot; pair &times;4 &middot; combo streak up to &times;2</p>
+        <div class='mps-prow'><span>&#127809; 60 &nbsp; &#128142; 50 &nbsp; &#11088; 40</span><span>&#128666; 30 &nbsp; &#127873; 20 &nbsp; &#129532; 10</span></div>
       </div>
     </div>
     <div class='mps-win'>
       <div class='we' id='mps-we'>&#127881;</div>
       <div class='wt' id='mps-wt'></div>
       <div class='ws' id='mps-ws'></div>
+      <div class='mps-stack' id='mps-stack'></div>
+      <div class='mps-total' id='mps-total'></div>
       <div class='mps-code' id='mps-codewrap'>
         <input id='mps-codeval' readonly aria-label='Your discount code'>
         <button type='button' id='mps-copy'>Copy</button>
       </div>
-      <a class='mps-go' id='mps-go' href='/collections/all'>Apply &amp; Shop &rarr;</a>
+      <div class='mps-exp' id='mps-exp'></div>
+      <a class='mps-go' id='mps-go' href='/collections/all'>&#128176; CASH OUT &mdash; SHOP NOW &rarr;</a>
+      <button class='mps-practbtn' id='mps-pract' type='button'>&#127919; PRACTICE MODE &mdash; beat your score</button>
+      <div class='mps-tease' id='mps-tease'></div>
       <div id='mps-streakbox'></div>
       <div class='mps-next' id='mps-next'></div>
       <div class='mps-wallet' id='mps-wallet'></div>
+    </div>
+    <div id='mps-burst'>
+      <div class='bw'>&#11088; RUN COMPLETE &#11088;</div>
+      <div class='bv' id='mps-bv'>0</div>
+      <div class='bn' id='mps-bn'></div>
     </div>
   </div>
 </div>
@@ -111,81 +178,331 @@
   var GAME_END=new Date('2026-07-08T06:59:59Z').getTime();
   if(Date.now()>GAME_END){tab.style.display='none';return;}
   function dec(s){try{return atob(s);}catch(e){return '';}}
-  var PRIZES=[
-    {k:'m5',  c:'TUFQTEU1LUo3TA==',     combo:['🎁','⭐','🚚'], w:32, name:'5% off anything',       sub:'Applies to your whole order, on top of the 20% sale.'},
-    {k:'ship',c:'TUFQTEVTSElQLVEyTg==', combo:['🚚','🚚','⭐'], w:22, name:'Free Express Shipping', sub:'On orders of $75 or more. Stacks with the sale.'},
-    {k:'m10', c:'TUFQTEUxMC1YNFQ=',     combo:['💎','💎','⭐'], w:20, name:'$10 off',               sub:'On orders of $125 or more. Stacks with the sale.'},
-    {k:'m15', c:'TUFQTEUxNS1COFc=',     combo:['⭐','⭐','⭐'], w:13, name:'$15 off',               sub:'On orders of $175 or more. Stacks with the sale.'},
-    {k:'m25', c:'TUFQTEUyNS1SM0s=',     combo:['💎','💎','💎'], w:9,  name:'$25 off',               sub:'On orders of $250 or more. Stacks with the sale.'},
-    {k:'m40', c:'TUFQTEU0MC1aOUY=',     combo:['🍁','🍁','🍁'], w:4,  name:'the $40 JACKPOT',       sub:'On orders of $300 or more. Our top prize, eh!'}
+  /* tiers low->high; everyone lands at least tier 0 */
+  var TIERS=[
+    {k:'m5',  c:'TUFQTEU1LUo3TA==',     min:0,    val:5,  pct:true,  short:'5% OFF',    lbl:'5%<br>0',        name:'a BONUS PAYOUT — 5% off everything', sub:'An extra 5% on your whole order, stacked on the 20% sale.', stack:'Stacked: 25%+ off retail on anything you grab'},
+    {k:'ship',c:'TUFQTEVTSElQLVEyTg==', min:400,  val:15, pct:false, short:'FREE SHIP', lbl:'SHIP<br>400',    name:'FREE EXPRESS SHIPPING',               sub:'On orders of $75 or more. Stacks with the sale.',           stack:'Stacked: $30+ off retail + shipping on a $75 order'},
+    {k:'m10', c:'TUFQTEUxMC1YNFQ=',     min:800,  val:10, pct:false, short:'$10 OFF',   lbl:'$10<br>800',     name:'a $10 CASH DROP',                     sub:'On orders of $125 or more. Stacks with the sale.',          stack:'Stacked: $40+ off retail on a $125 order'},
+    {k:'m15', c:'TUFQTEUxNS1COFc=',     min:1300, val:15, pct:false, short:'$15 OFF',   lbl:'$15<br>1300',    name:'a $15 CASH DROP',                     sub:'On orders of $175 or more. Stacks with the sale.',          stack:'Stacked: $55+ off retail on a $175 order'},
+    {k:'m25', c:'TUFQTEUyNS1SM0s=',     min:1900, val:25, pct:false, short:'$25 OFF',   lbl:'$25<br>1900',    name:'a BIG WIN — $25 off',                 sub:'On orders of $250 or more. Stacks with the sale.',          stack:'Stacked: $85+ off retail on a $250 order'},
+    {k:'m40', c:'TUFQTEU0MC1aOUY=',     min:2600, val:40, pct:false, short:'JACKPOT',   lbl:'&#127809;$40<br>2600', name:'the $40 MEGA JACKPOT',           sub:'On orders of $300 or more. The top payout, eh!',            stack:'Stacked: $110+ off retail on a $300 order'}
   ];
-  for(var pi=0;pi<PRIZES.length;pi++){PRIZES[pi].code=dec(PRIZES[pi].c);}
+  for(var ti=0;ti<TIERS.length;ti++){TIERS[ti].code=dec(TIERS[ti].c);}
+  var MAXSCORE=2600;
   var SYMS=['🍁','💎','⭐','🚚','🎁','🧴'];
-  var CELL=84,STRIPN=24;
+  var PTS={'🍁':60,'💎':50,'⭐':40,'🚚':30,'🎁':20,'🧴':10};
+  var CELL=84,NSTRIP=30,SPEEDS=[500,570,640];
   var reels=[document.getElementById('mps-r0'),document.getElementById('mps-r1'),document.getElementById('mps-r2')];
+  var reelWraps=[document.getElementById('mps-rw0'),document.getElementById('mps-rw1'),document.getElementById('mps-rw2')];
   var pullBtn=document.getElementById('mps-pull');
   function rnd(){try{var a=new Uint32Array(1);(window.crypto||window.msCrypto).getRandomValues(a);return a[0]/4294967296;}catch(e){return (new Date().getTime()%997)/997;}}
-  function pick(){var t=0,i;for(i=0;i<PRIZES.length;i++)t+=PRIZES[i].w;var r=rnd()*t,acc=0;for(i=0;i<PRIZES.length;i++){acc+=PRIZES[i].w;if(r<acc)return PRIZES[i];}return PRIZES[0];}
-  function buildStrip(el,target){
-    var h='';
-    for(var i=0;i<STRIPN;i++){
-      var s;
-      if(i===STRIPN-1){s=target;}
-      else if(i===STRIPN-2){s='🍁';if(target==='🍁')s='💎';}
-      else{s=SYMS[Math.floor(rnd()*SYMS.length)];}
-      h+="<div class='mps-cell'>"+s+"</div>";
-    }
-    el.innerHTML=h;el.style.transition='none';el.style.transform='translateY(0px)';
+  /* --- sound --- */
+  var muted=false;try{muted=localStorage.getItem('ccSlotsMute')==='1';}catch(e){}
+  var actx=null;
+  function ac(){if(!actx){try{actx=new (window.AudioContext||window.webkitAudioContext)();}catch(e){}}return actx;}
+  function beep(freq,dur,delay,type,vol){
+    if(muted)return;var c=ac();if(!c)return;
+    try{
+      var t0=c.currentTime+(delay||0);
+      var o=c.createOscillator(),g=c.createGain();
+      o.type=type||'square';o.frequency.value=freq;
+      g.gain.setValueAtTime(0.0001,t0);g.gain.exponentialRampToValueAtTime(vol||0.05,t0+0.01);g.gain.exponentialRampToValueAtTime(0.0001,t0+(dur||0.09));
+      o.connect(g);g.connect(c.destination);o.start(t0);o.stop(t0+(dur||0.09)+0.02);
+    }catch(e){}
   }
-  function initIdle(){for(var i=0;i<3;i++){buildStrip(reels[i],SYMS[i]);reels[i].style.transform='translateY(-'+((STRIPN-1)*CELL)+'px)';}}
-  initIdle();
+  function sndStop(i){beep(420+i*140,0.08,0,'square',0.05);}
+  function sndScore(){beep(880,0.07,0,'triangle',0.06);beep(1174,0.09,0.08,'triangle',0.06);}
+  function sndTierUp(){var n=[784,988,1318];for(var i=0;i<n.length;i++)beep(n[i],0.11,i*0.07,'triangle',0.07);}
+  function sndWin(){var n=[660,830,990,1320];for(var i=0;i<n.length;i++)beep(n[i],0.12,i*0.09,'triangle',0.06);}
+  function sndJackpot(){var n=[523,659,784,1046,1318,1568,2093];for(var i=0;i<n.length;i++)beep(n[i],0.16,i*0.09,'triangle',0.07);for(var j=0;j<5;j++)beep(2093,0.05,0.7+j*0.07,'square',0.04);}
+  var sndBtn=document.getElementById('mps-snd');
+  function sndIcon(){sndBtn.innerHTML=muted?'&#128263;':'&#128266;';}
+  sndIcon();
+  sndBtn.addEventListener('click',function(){muted=!muted;try{localStorage.setItem('ccSlotsMute',muted?'1':'0');}catch(e){}sndIcon();});
+  /* --- reel engine: continuous loop + skill stop --- */
+  function Reel(stripEl,wrapEl,speed){
+    this.el=stripEl;this.wrap=wrapEl;this.speed=speed;
+    this.syms=[];this.off=0;this.raf=null;this.running=false;this.last=0;
+    this.build();
+  }
+  Reel.prototype.build=function(){
+    this.syms=[];var h='';
+    for(var i=0;i<NSTRIP;i++){var s=SYMS[Math.floor(rnd()*SYMS.length)];this.syms.push(s);}
+    for(var r=0;r<2;r++){for(var j=0;j<NSTRIP;j++){h+="<div class='mps-cell'>"+this.syms[j]+"</div>";}}
+    this.el.innerHTML=h;this.off=Math.floor(rnd()*NSTRIP)*CELL;this.paint();
+  };
+  Reel.prototype.paint=function(){this.el.style.transform='translateY(-'+this.off+'px)';};
+  Reel.prototype.start=function(){
+    if(this.running)return;this.running=true;this.last=0;this.lockIdx=null;
+    var self=this;
+    function frame(ts){
+      if(!self.running)return;
+      if(!self.last)self.last=ts;
+      var dt=Math.min(50,ts-self.last);self.last=ts;
+      self.off+=self.speed*dt/1000;
+      if(self.off>=NSTRIP*CELL)self.off-=NSTRIP*CELL;
+      self.paint();
+      self.raf=requestAnimationFrame(frame);
+    }
+    this.raf=requestAnimationFrame(frame);
+  };
+  Reel.prototype.stop=function(done){
+    if(!this.running){done(this.current());return;}
+    this.running=false;if(this.raf)cancelAnimationFrame(this.raf);
+    var k=Math.ceil(this.off/CELL);
+    this.lockIdx=k%NSTRIP;
+    var target=k*CELL;var self=this;
+    var startOff=this.off,dist=target-startOff,t0=null,DUR=220;
+    function settle(ts){
+      if(!t0)t0=ts;
+      var f=Math.min(1,(ts-t0)/DUR);
+      var e=1-Math.pow(1-f,2);
+      self.off=startOff+dist*e;self.paint();
+      if(f<1){self.raf=requestAnimationFrame(settle);}
+      else{
+        if(self.off>=NSTRIP*CELL){self.off-=NSTRIP*CELL;self.paint();}
+        self.wrap.className='mps-reel pop';
+        (function(w){setTimeout(function(){if(w.className==='mps-reel pop'){w.className='mps-reel';}},380);})(self.wrap);
+        done(self.current());
+      }
+    }
+    this.raf=requestAnimationFrame(settle);
+  };
+  Reel.prototype.current=function(){if(this.lockIdx!=null)return this.syms[this.lockIdx];var k=Math.round(this.off/CELL)%NSTRIP;return this.syms[k];};
+  Reel.prototype.halt=function(){this.running=false;if(this.raf)cancelAnimationFrame(this.raf);};
+  var R=[new Reel(reels[0],reelWraps[0],SPEEDS[0]),new Reel(reels[1],reelWraps[1],SPEEDS[1]),new Reel(reels[2],reelWraps[2],SPEEDS[2])];
+  /* --- storage / helpers --- */
   function store(){try{return JSON.parse(localStorage.getItem('ccSlots')||'{}');}catch(e){return {};}}
   function save(o){try{localStorage.setItem('ccSlots',JSON.stringify(o));}catch(e){}}
   function today(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
   function playedToday(){var s=store();return !!(s.plays&&s.plays[today()]);}
-  function prizeByCode(c){for(var i=0;i<PRIZES.length;i++)if(PRIZES[i].code===c)return PRIZES[i];return null;}
+  function tierByCode(c){for(var i=0;i<TIERS.length;i++)if(TIERS[i].code===c)return TIERS[i];return null;}
+  function tierByScore(sc){var t=TIERS[0];for(var i=0;i<TIERS.length;i++){if(sc>=TIERS[i].min)t=TIERS[i];}return t;}
+  function nextTier(sc){for(var i=0;i<TIERS.length;i++){if(sc<TIERS[i].min)return TIERS[i];}return null;}
   function streak(){var s=store();if(!s.plays)return 0;var n=0,d=new Date();for(;;){var k=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);if(s.plays[k]){n++;d.setDate(d.getDate()-1);}else break;}return n;}
-  var spinning=false,openedAt=0,nextTimer=null,gateTimer=null,msgTimer=null;
+  var openedAt=0,nextTimer=null,gateTimer=null,msgTimer=null,expTimer=null;
+  /* run state */
+  var MODE='idle'; /* idle | spinning | settling | scoring | done */
+  var run={spin:0,score:0,combo:0},practice=false,stopsLeft=0,curSyms=[];
   function msg(t){var m=document.getElementById('mps-msg');if(!m)return;if(msgTimer){clearTimeout(msgTimer);msgTimer=null;}m.style.color='';m.textContent=t||'';}
   function clearErr(){var e=document.getElementById('mps-em');if(e)e.style.borderColor='';msg('');}
   function warn(el,text){el.focus();el.style.borderColor='#e01936';msg(text||'');}
+  /* --- HUD / ladder --- */
+  function buildLadder(){
+    var ticks=document.getElementById('mps-ticks'),tiers=document.getElementById('mps-tiers');
+    var th='',lh='';
+    for(var i=0;i<TIERS.length;i++){
+      if(i>0)th+="<div class='mps-tick' style='left:"+((TIERS[i].min/MAXSCORE)*100)+"%'></div>";
+      lh+="<div class='mps-tier' data-i='"+i+"'>"+TIERS[i].lbl+"</div>";
+    }
+    ticks.innerHTML=th;tiers.innerHTML=lh;
+  }
+  buildLadder();
+  var lastTierIdx=0;
+  function updHud(animTier){
+    document.getElementById('mps-score').textContent=run.score;
+    document.getElementById('mps-spinno').textContent=(run.spin<3?(run.spin+1):3)+'/3';
+    var cb=document.getElementById('mps-combo');
+    var mult=run.combo<=1?1:(run.combo===2?1.5:2);
+    cb.textContent='×'+mult;cb.className='hv'+(mult>1?' combo-on':'');
+    document.getElementById('mps-fill').style.width=Math.min(100,(run.score/MAXSCORE)*100)+'%';
+    var cur=tierByScore(run.score),curIdx=0;
+    for(var i=0;i<TIERS.length;i++)if(TIERS[i].k===cur.k)curIdx=i;
+    var tEls=document.querySelectorAll('#mps .mps-tier');
+    for(var j=0;j<tEls.length;j++){tEls[j].className='mps-tier'+(j<curIdx?' on':(j===curIdx?' won-t':''));}
+    var nt=nextTier(run.score),nx=document.getElementById('mps-nexttier');
+    nx.innerHTML=nt?('NEXT: '+nt.short+' at '+nt.min+' — need '+(nt.min-run.score)):'MAXED OUT — JACKPOT TIER 🏆';
+    if(animTier&&curIdx>lastTierIdx){sndTierUp();var cab=document.getElementById('mps-cab');cab.className='mps-cab rush shake';setTimeout(function(){if(MODE==='spinning'){cab.className='mps-cab rush';}else{cab.className='mps-cab';}},450);}
+    lastTierIdx=curIdx;
+  }
+  function scoreSpin(syms){
+    var a=syms[0],b=syms[1],c=syms[2];
+    if(a===b&&b===c)return {pts:PTS[a]*12,kind:'TRIPLE'};
+    if(a===b||b===c||a===c){var p=(a===b||a===c)?a:b;return {pts:PTS[p]*4,kind:'PAIR'};}
+    return {pts:Math.round((PTS[a]+PTS[b]+PTS[c])/2),kind:''};
+  }
+  function popScore(txt){
+    var sp=document.getElementById('mps-scorepop');
+    sp.textContent=txt;sp.className='mps-scorepop';
+    void sp.offsetHeight;sp.className='mps-scorepop go';
+  }
+  /* --- run flow --- */
+  function setBtn(label,stopmode,disabled){pullBtn.innerHTML=label;pullBtn.className='mps-pull'+(stopmode?' stopmode':'');pullBtn.disabled=!!disabled;}
+  function startSpin(){
+    MODE='spinning';stopsLeft=3;curSyms=[];
+    for(var i=0;i<3;i++){R[i].start();}
+    document.getElementById('mps-cab').className='mps-cab rush';
+    setBtn('&#128721; STOP',true,false);
+    /* anti-grind: mark the spin in-flight; a refresh mid-spin forfeits it (see open()) */
+    if(!practice){var sp=store();sp.runDay=today();sp.run={spin:run.spin,score:run.score,combo:run.combo,pend:1};save(sp);}
+    updHud(false);
+  }
+  function stopNext(){
+    if(MODE!=='spinning'||stopsLeft<=0)return;
+    var idx=3-stopsLeft;stopsLeft--;
+    if(stopsLeft===0){MODE='settling';setBtn('&#8987;',true,true);}
+    R[idx].stop(function(sym){
+      sndStop(idx);curSyms.push(sym);
+      if(curSyms.length===3){scoreCurrent();}
+    });
+  }
+  function scoreCurrent(){
+    MODE='scoring';
+    var res=scoreSpin(curSyms);
+    var hadMatch=res.kind!=='';
+    run.combo=hadMatch?run.combo+1:0;
+    var mult=run.combo<=1?1:(run.combo===2?1.5:2);
+    var gained=Math.round(res.pts*mult);
+    run.score+=gained;run.spin++;
+    if(hadMatch){for(var i=0;i<3;i++)reelWraps[i].className='mps-reel hit';setTimeout(function(){for(var j=0;j<3;j++)reelWraps[j].className='mps-reel';},900);}
+    popScore('+'+gained+(res.kind?' '+res.kind:'')+(mult>1?' ×'+mult:''));
+    sndScore();
+    if(!practice){var s=store();s.run={spin:run.spin,score:run.score,combo:run.combo};s.runDay=today();save(s);}
+    updHud(true);
+    setTimeout(function(){
+      if(run.spin>=3){finishRun();}
+      else if(root.hasAttribute('hidden')){MODE='idle';setBtn('&#127809; '+(practice?'START PRACTICE':'RESUME RUN — SPIN '+(run.spin+1)+'/3'),false,false);document.getElementById('mps-cab').className='mps-cab';}
+      else{startSpin();}
+    },1050);
+  }
+  function finishRun(){
+    MODE='done';
+    document.getElementById('mps-cab').className='mps-cab';
+    var t=tierByScore(run.score);
+    if(practice){
+      var s=store();var best=s.best||0;
+      var isPB=run.score>best;
+      if(isPB){s.best=run.score;save(s);}
+      setBtn('&#127919; PLAY AGAIN',false,false);
+      var m=document.getElementById('mps-msg');
+      msg('');m.style.color='#ffd76a';
+      m.textContent='Practice run: '+run.score+' pts ('+t.short+' tier)'+(isPB?' — NEW PERSONAL BEST! 🔥':(best?' — best: '+best:''));
+      msgTimer=setTimeout(function(){m.style.color='';},8000);
+      if(run.score>=1300)shower(false);
+      return;
+    }
+    var s2=store();
+    s2.plays=s2.plays||{};s2.plays[today()]=t.code;s2.lastPullAt=Date.now();
+    delete s2.run;delete s2.runDay;
+    save(s2);
+    setBtn('&#10003; RUN DONE',false,true);
+    runWinSequence(t);
+  }
+  /* --- celebration --- */
+  function shower(big){
+    if(root.hasAttribute('hidden'))return;
+    var n=big?80:44;
+    for(var i=0;i<n;i++){(function(){
+      var s=document.createElement('div');s.className='mps-conf';
+      var r=rnd();s.innerHTML=r<0.55?'🍁':(r<0.85?'🪙':'🎉');
+      s.style.left=(rnd()*100)+'vw';
+      var dur=2000+rnd()*2600,x=(rnd()*200-100);
+      s.style.transition='transform '+dur+'ms linear, opacity '+dur+'ms linear';
+      document.body.appendChild(s);
+      requestAnimationFrame(function(){s.style.transform='translate('+x+'px,'+(window.innerHeight+90)+'px) rotate('+(rnd()*720-360)+'deg)';s.style.opacity='0';});
+      setTimeout(function(){if(s.parentNode)s.parentNode.removeChild(s);},dur+90);
+    })();}
+  }
+  function fmtHMS(ms){var s=Math.max(0,Math.floor(ms/1000));var h=Math.floor(s/3600);s-=h*3600;var m=Math.floor(s/60);s-=m*60;function p(n){return(n<10?'0':'')+n;}return p(h)+':'+p(m)+':'+p(s);}
+  function fmtDHMS(ms){var s=Math.max(0,Math.floor(ms/1000));var d=Math.floor(s/86400);s-=d*86400;return (d>0?d+'d ':'')+fmtHMS(s*1000);}
+  function runWinSequence(t){
+    var jack=(t.k==='m40');
+    if(root.hasAttribute('hidden')){showWin(t,false);return;}
+    var cab=document.getElementById('mps-cab');
+    cab.className='mps-cab rush '+(jack?'megashake':'shake');
+    if(jack){sndJackpot();}else{sndWin();}
+    setTimeout(function(){
+      if(root.hasAttribute('hidden')){cab.className='mps-cab';showWin(t,false);return;}
+      var burst=document.getElementById('mps-burst');
+      var bv=document.getElementById('mps-bv'),bn=document.getElementById('mps-bn');
+      bn.innerHTML='FINAL SCORE '+run.score+' — YOU WON '+(t.pct?'A 5% BONUS':(t.k==='ship'?'FREE EXPRESS SHIPPING':t.name.replace('a ','').replace('the ','').toUpperCase()));
+      burst.style.display='flex';
+      var t0=null,DUR=900,target=t.pct?5:t.val;
+      function step(ts){
+        if(!t0)t0=ts;
+        var f=Math.min(1,(ts-t0)/DUR);
+        var eased=1-Math.pow(1-f,3);
+        var v=target*eased;
+        bv.textContent=t.pct?(v.toFixed(1)+'%'):('$'+v.toFixed(2));
+        if(f<1){requestAnimationFrame(step);}
+        else{bv.textContent=t.pct?(target+'%'):('$'+target.toFixed(2));}
+      }
+      requestAnimationFrame(step);
+      shower(jack);
+      setTimeout(function(){
+        burst.style.display='none';
+        cab.className='mps-cab';
+        showWin(t,false);
+      },1900);
+    },800);
+  }
   function resetToPlay(){
     root.querySelector('.mps-play').style.display='';
     root.querySelector('.mps-win').style.display='none';
+    document.getElementById('mps-burst').style.display='none';
     if(nextTimer){clearInterval(nextTimer);nextTimer=null;}
-    initIdle();clearErr();
-    var rows=document.querySelectorAll('#mps .mps-lrow');
-    for(var j=0;j<rows.length;j++){rows[j].className='mps-lrow'+(rows[j].getAttribute('data-k')==='m40'?' hot':'');}
+    if(expTimer){clearInterval(expTimer);expTimer=null;}
+    clearErr();
+    document.getElementById('mps-practflag').style.display=practice?'block':'none';
+    updHud(false);
   }
-  function armPull(){
+  function armPull(label){
     if(gateTimer){clearTimeout(gateTimer);gateTimer=null;}
-    pullBtn.disabled=true;pullBtn.textContent='READY…';
+    setBtn(label||'&#127809; START RUN',false,true);
     gateTimer=setTimeout(function(){
-      if(Date.now()>GAME_END){pullBtn.disabled=true;pullBtn.textContent='GAME OVER';return;}
-      if(!playedToday()&&!spinning){pullBtn.disabled=false;pullBtn.innerHTML='🍁 PULL';}
+      if(Date.now()>GAME_END){setBtn('GAME OVER',false,true);return;}
+      if(MODE==='idle'&&(!playedToday()||practice)){pullBtn.disabled=false;}
     },1550);
   }
   function open(){
     root.removeAttribute('hidden');openedAt=Date.now();
-    if(Date.now()>GAME_END){pullBtn.disabled=true;pullBtn.textContent='GAME OVER';return;}
-    var tp=playedToday()?prizeByCode(store().plays[today()]):null;
-    if(tp){showWin(tp,true);}
-    else{resetToPlay();armPull();}
+    if(Date.now()>GAME_END){setBtn('GAME OVER',false,true);return;}
+    if(MODE==='spinning'||MODE==='settling'||MODE==='scoring')return;
+    if(playedToday())practice=false;
+    var tp=playedToday()?tierByCode(store().plays[today()]):null;
+    if(tp&&!practice){showWin(tp,true);}
+    else{
+      var s=store();
+      if(!practice&&s.run&&s.runDay===today()){
+        run={spin:s.run.spin,score:s.run.score,combo:s.run.combo||0};
+        if(s.run.pend){
+          run.spin++;run.combo=0;
+          var s3=store();s3.run={spin:run.spin,score:run.score,combo:0};save(s3);
+        }
+        lastTierIdx=0;MODE='idle';resetToPlay();
+        if(run.spin>=3){finishRun();return;}
+        armPull('&#127809; RESUME RUN — SPIN '+(run.spin+1)+'/3');
+      }
+      else{if(MODE!=='done'){run={spin:0,score:0,combo:0};lastTierIdx=0;}MODE='idle';resetToPlay();armPull(practice?'&#127919; START PRACTICE':undefined);}
+    }
   }
   function close(){root.setAttribute('hidden','');}
   var BADDOM=['mailinator.com','guerrillamail.com','10minutemail.com','tempmail.com','temp-mail.org','yopmail.com','trashmail.com','sharklasers.com','getnada.com','dispostable.com','maildrop.cc','fakeinbox.com','throwawaymail.com','mailnesia.com','tempmailo.com','moakt.com','emailondeck.com','mohmal.com','tempr.email','discard.email'];
   function postEmail(em){try{var b='form_type=customer&utf8=%E2%9C%93&contact%5Btags%5D=maple-slots&contact%5Bemail%5D='+encodeURIComponent(em);fetch('/contact',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b}).catch(function(){});}catch(e){}}
-  function confetti(){for(var i=0;i<44;i++){(function(){var s=document.createElement('div');s.className='mps-conf';s.innerHTML=rnd()<0.8?'🍁':'🎉';s.style.left=(rnd()*100)+'vw';var dur=2200+rnd()*2400,x=(rnd()*180-90);s.style.transition='transform '+dur+'ms linear, opacity '+dur+'ms linear';document.body.appendChild(s);requestAnimationFrame(function(){s.style.transform='translate('+x+'px,'+(window.innerHeight+90)+'px) rotate('+(rnd()*720-360)+'deg)';s.style.opacity='0';});setTimeout(function(){if(s.parentNode)s.parentNode.removeChild(s);},dur+90);})();}}
-  function fmtHMS(ms){var s=Math.max(0,Math.floor(ms/1000));var h=Math.floor(s/3600);s-=h*3600;var m=Math.floor(s/60);s-=m*60;function p(n){return(n<10?'0':'')+n;}return p(h)+':'+p(m)+':'+p(s);}
-  function showWin(p,replayView){
-    if(!p)return;
+  function showWin(t,replayView){
+    if(!t)return;
+    practice=false;
+    if(expTimer){clearInterval(expTimer);expTimer=null;}
     root.querySelector('.mps-play').style.display='none';
     root.querySelector('.mps-win').style.display='block';
-    document.getElementById('mps-we').innerHTML=p.k==='m40'?'🏆':'🎉';
-    document.getElementById('mps-wt').textContent=(replayView?'Today you won ':'You won ')+p.name+'!';
-    document.getElementById('mps-ws').textContent=p.sub;
-    document.getElementById('mps-codeval').value=p.code;
-    document.getElementById('mps-go').href='/discount/'+p.code+'?redirect=/collections/all';
+    document.getElementById('mps-burst').style.display='none';
+    document.getElementById('mps-we').innerHTML=t.k==='m40'?'🏆':'🎉';
+    document.getElementById('mps-wt').textContent=(replayView?'Today you won ':'You won ')+t.name+'!';
+    document.getElementById('mps-ws').textContent=t.sub;
+    var stack=document.getElementById('mps-stack');
+    stack.innerHTML=
+      "<div class='mps-srow'><span class='se'>🍁</span><span>WIN #1 — <b>20% OFF EVERYTHING</b> storewide</span><span class='tag'>ACTIVE</span></div>"+
+      "<div class='mps-srow'><span class='se'>🎰</span><span>WIN #2 — your run: <b>"+(t.pct?'extra 5% off':(t.k==='ship'?'free express shipping':'$'+t.val+' off'))+"</b></span><span class='tag'>LOCKED IN</span></div>"+
+      "<div class='mps-srow'><span class='se'>🚚</span><span>WIN #3 — <b>FREE EXPRESS SHIPPING</b> over $150</span><span class='tag'>ACTIVE</span></div>";
+    var rows=stack.querySelectorAll('.mps-srow');
+    for(var ri=0;ri<rows.length;ri++){(function(r,d){setTimeout(function(){r.className='mps-srow in';},replayView?10:(220+d*260));})(rows[ri],ri);}
+    document.getElementById('mps-total').textContent='💰 '+t.stack;
+    document.getElementById('mps-codeval').value=t.code;
+    document.getElementById('mps-go').href='/discount/'+t.code+'?redirect=/collections/all';
+    var exp=document.getElementById('mps-exp');
+    var expFn=function(){var left=GAME_END-Date.now();if(left<=0){exp.textContent='Code expired.';clearInterval(expTimer);expTimer=null;return;}exp.innerHTML='⏳ Your code is live now and expires in <b>'+fmtDHMS(left)+'</b>';};
+    expFn();expTimer=setInterval(expFn,1000);
+    document.getElementById('mps-tease').textContent=t.k==='m40'?'You maxed the board. Absolute legend.':'Tomorrow’s free run could hit the 2600-point 🍁 MEGA JACKPOT — practice tonight, cash in tomorrow.';
     var st=streak();
     document.getElementById('mps-streakbox').innerHTML=st>1?"<span class='mps-streak'>🔥 "+st+"-day streak</span>":'';
     var nx=document.getElementById('mps-next');
@@ -198,55 +515,36 @@
         var left=end.getTime()-Date.now();
         if(left<=0){
           clearInterval(nextTimer);nextTimer=null;
+          MODE='idle';run={spin:0,score:0,combo:0};lastTierIdx=0;
           resetToPlay();armPull();
-          var m=document.getElementById('mps-msg');if(m){msg('');m.style.color='#ffd76a';m.textContent='🍁 A new day, a new free pull — go!';msgTimer=setTimeout(function(){m.style.color='';m.textContent='';msgTimer=null;},6000);}
+          var m=document.getElementById('mps-msg');if(m){msg('');m.style.color='#ffd76a';m.textContent='🍁 A new day, a new prize run — go!';msgTimer=setTimeout(function(){m.style.color='';m.textContent='';msgTimer=null;},6000);}
           return;
         }
-        nx.innerHTML='Next free pull in <b>'+fmtHMS(left)+'</b> &mdash; come back tomorrow, a bigger prize might be waiting';
+        nx.innerHTML='Next prize run in <b>'+fmtHMS(left)+'</b> &mdash; practice now, jackpot tomorrow';
       };
       tickFn();if(nextTimer===null&&root.querySelector('.mps-win').style.display==='block'){nextTimer=setInterval(tickFn,1000);}
     }
     var s=store(),w=document.getElementById('mps-wallet'),h='';
     if(s.plays){var days=[];for(var k in s.plays)if(s.plays.hasOwnProperty(k))days.push(k);days.sort();
-      if(days.length>1){h="<p class='wl-t'>Your prize wallet</p>";for(var i=0;i<days.length;i++){var pp=prizeByCode(s.plays[days[i]]);if(pp)h+="<div class='mps-wrow'><span>"+days[i].slice(5).replace('-','/')+" &middot; "+pp.name+"</span><b>"+pp.code+"</b></div>";}}
+      if(days.length>1){
+        var banked=0;
+        h="<p class='wl-t'>Your winnings this week</p>";
+        for(var i=0;i<days.length;i++){var pp=tierByCode(s.plays[days[i]]);if(pp){banked+=pp.val;h+="<div class='mps-wrow'><span>"+days[i].slice(5).replace('-','/')+" &middot; "+pp.name+"</span><b>"+pp.code+"</b></div>";}}
+        h+="<div class='mps-wrow' style='border-color:#d4ba6a'><span>💰 Codes banked this week</span><b>~$"+banked+" of value</b></div>";
+      }
     }
     w.innerHTML=h;
-    var rows=document.querySelectorAll('#mps .mps-lrow');for(var j=0;j<rows.length;j++){rows[j].className='mps-lrow'+(rows[j].getAttribute('data-k')===p.k?' won':(rows[j].getAttribute('data-k')==='m40'?' hot':''));}
   }
-  function spinReel(el,target,loopMs,done){
-    buildStrip(el,SYMS[Math.floor(rnd()*SYMS.length)]);
-    void el.offsetHeight;
-    el.style.transition='transform '+loopMs+'ms linear';
-    el.style.transform='translateY(-'+((STRIPN-1)*CELL)+'px)';
-    setTimeout(function(){
-      var h='',i;
-      for(i=0;i<4;i++){h+="<div class='mps-cell'>"+SYMS[Math.floor(rnd()*SYMS.length)]+"</div>";}
-      var near=(target==='🍁')?'💎':'🍁';
-      h+="<div class='mps-cell'>"+near+"</div><div class='mps-cell'>"+target+"</div><div class='mps-cell'>"+SYMS[Math.floor(rnd()*SYMS.length)]+"</div>";
-      el.style.transition='none';el.innerHTML=h;el.style.transform='translateY(0px)';
-      void el.offsetHeight;
-      el.style.transition='transform 640ms cubic-bezier(.22,.9,.35,1.12)';
-      el.style.transform='translateY(-'+(5*CELL)+'px)';
-      setTimeout(done,720);
-    },loopMs);
-  }
-  function spinTo(p,done){
-    var loops=[700,1350,2100],remaining=3;
-    for(var i=0;i<3;i++){
-      (function(i){
-        spinReel(reels[i],p.combo[i],loops[i],function(){
-          remaining--;
-          if(i===2){var cab=document.getElementById('mps-cab');cab.className='mps-cab shake';setTimeout(function(){cab.className='mps-cab';},450);}
-          if(remaining===0)done();
-        });
-      })(i);
-    }
-  }
-  function doPull(){
-    if(spinning)return;
-    if(playedToday()){var pz=prizeByCode(store().plays[today()]);if(pz){showWin(pz,true);return;}}
+  /* --- main button --- */
+  function onMainBtn(){
+    if(Date.now()>GAME_END){setBtn('GAME OVER',false,true);msg('Maple Slots has ended — thanks for playing!');return;}
+    if(MODE==='spinning'){stopNext();return;}
+    if(MODE!=='idle'&&MODE!=='done')return;
+    if(MODE==='done'&&practice){run={spin:0,score:0,combo:0};lastTierIdx=0;MODE='idle';updHud(false);startSpin();return;}
+    /* starting a run from idle */
+    if(practice){if(run.spin>=3){run={spin:0,score:0,combo:0};lastTierIdx=0;updHud(false);}startSpin();return;}
+    if(playedToday()){var pz=tierByCode(store().plays[today()]);if(pz){showWin(pz,true);return;}}
     var emEl=document.getElementById('mps-em');
-    if(Date.now()>GAME_END){pullBtn.disabled=true;pullBtn.textContent='GAME OVER';msg('Maple Slots has ended — thanks for playing!');return;}
     var hp=document.getElementById('mps-hp');if(hp&&hp.value)return;
     if(Date.now()-openedAt<1500){return;}
     var t=today();
@@ -254,33 +552,50 @@
     var s=store();
     var em=(emEl.value||'').trim().toLowerCase();
     if(!em&&s.email)em=s.email;
-    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){warn(emEl,'Enter your email to pull');return;}
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){warn(emEl,'Enter your email to start your run');return;}
     if(BADDOM.indexOf(em.split('@')[1])>-1){warn(emEl,'Please use a real email');return;}
-    if(s.lastPullAt){
-      if(Date.now()<s.lastPullAt-3600000){warn(emEl,'Device clock looks off — pull unavailable');return;}
+    var resuming=(s.run&&s.runDay===t);
+    if(!resuming&&s.lastPullAt){
+      if(Date.now()<s.lastPullAt-3600000){warn(emEl,'Device clock looks off — run unavailable');return;}
       if(Date.now()-s.lastPullAt<600000){var wm=Math.max(1,Math.ceil((600000-(Date.now()-s.lastPullAt))/60000));warn(emEl,'Easy there, eh! Try again in '+wm+' min'+(wm>1?'utes':'ute')+'.');return;}
     }
-    try{if(document.cookie.indexOf('ccSlots'+t.replace(/-/g,'')+'=1')>-1){warn(emEl,'You already pulled today — come back tomorrow, eh!');return;}}catch(e){}
-    spinning=true;clearErr();
-    pullBtn.disabled=true;pullBtn.textContent='SPINNING…';
+    try{if(!resuming&&document.cookie.indexOf('ccSlots'+t.replace(/-/g,'')+'=1')>-1){warn(emEl,'You already ran today — come back tomorrow, eh!');return;}}catch(e){}
+    clearErr();
+    var c=ac();if(c&&c.state==='suspended'){try{c.resume();}catch(e){}}
     if(!s.email){postEmail(em);}
     try{document.cookie='ccSlots'+t.replace(/-/g,'')+'=1;path=/;max-age=172800';}catch(e){}
-    var p=pick();
-    s.email=em;s.plays=s.plays||{};s.plays[t]=p.code;s.lastPullAt=Date.now();save(s);
-    spinTo(p,function(){
-      spinning=false;pullBtn.disabled=true;pullBtn.textContent='✓ PULLED TODAY';
-      confetti();showWin(p,false);
-    });
+    s.email=em;if(!resuming){s.runDay=t;s.run={spin:0,score:0,combo:0};}
+    save(s);
+    if(resuming){run={spin:s.run.spin,score:s.run.score,combo:s.run.combo};}
+    updHud(false);
+    startSpin();
   }
-  pullBtn.addEventListener('click',doPull);
+  pullBtn.addEventListener('click',onMainBtn);
+  document.getElementById('mps-pract').addEventListener('click',function(){
+    practice=true;MODE='idle';run={spin:0,score:0,combo:0};lastTierIdx=0;
+    resetToPlay();
+    setBtn('&#127919; START PRACTICE',false,false);
+  });
   document.getElementById('mps-em').addEventListener('input',clearErr);
   document.getElementById('mps-copy').addEventListener('click',function(){var v=document.getElementById('mps-codeval');try{v.select();document.execCommand('copy');}catch(e){}try{navigator.clipboard.writeText(v.value);}catch(e){}var b=this;b.textContent='Copied!';setTimeout(function(){b.textContent='Copy';},1600);});
-  var cs=root.querySelectorAll('[data-close]');for(var i=0;i<cs.length;i++)cs[i].addEventListener('click',close);
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+  var cs=root.querySelectorAll('[data-close]');
+  function doClose(){
+    /* closing mid-spin forfeits control: reels auto-stop where they are and the spin scores — no re-rolls */
+    if(MODE==='spinning'){
+      for(var i2=0;i2<3;i2++)R[i2].halt();
+      while(curSyms.length<3){curSyms.push(R[curSyms.length].current());}
+      stopsLeft=0;close();scoreCurrent();return;
+    }
+    close();
+  }
+  for(var i=0;i<cs.length;i++)cs[i].addEventListener('click',doClose);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')doClose();});
+  document.addEventListener('keydown',function(e){if((e.key===' '||e.key==='Enter')&&MODE==='spinning'&&!root.hasAttribute('hidden')){e.preventDefault();stopNext();}});
   tab.addEventListener('click',open);
   document.addEventListener('ccOpenSlots',open);
   var s0=store();
   if(s0.email){document.getElementById('mps-em').value=s0.email;}
+  updHud(false);
   try{if(!sessionStorage.getItem('mpsSeen')){sessionStorage.setItem('mpsSeen','1');setTimeout(open,3200);}}catch(e){}
 })();
 </script>
