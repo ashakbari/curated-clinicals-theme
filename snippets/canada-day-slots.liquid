@@ -1,4 +1,4 @@
-{%- comment -%} MAPLE SLOTS v4 (skill arcade) — Curated Clinicals Canada Day week game (Jul 1-7 2026). TRUE minigame: skill-stop reels (player taps STOP per reel), 3-spin daily run, combo multipliers, live score + tier ladder (score decides which of the 6 real capped Shopify codes you win — everyone wins >= 5%), tier-up fanfares, endless PRACTICE mode after the daily run (personal best, no prizes = zero cost). Keeps all prior anti-abuse (email/honeypot/date-window/clock guards, once-per-customer + capped + expiring codes = hard economic bound; skill can only drain caps first-come-first-served, every redemption margin-positive via min carts). Run state persists per spin (abandon = resume, no rerolls). v3 verify fixes applied: burst hidden on showWin, no confetti/burst when modal closed. Mounted from layout/theme.liquid. Self-hides after 2026-07-08T06:59:59Z. {%- endcomment -%}
+{%- comment -%} MAPLE DROP v5 (plinko) — Curated Clinicals Canada Day week game (Jul 1-7 2026). Dead-simple + addictive: tap the board, a maple leaf drops through pegs into a prize bucket. 3 drops/day, BEST drop counts, every bucket is a real prize (capped single-use Shopify codes, minimums lowered 2026-07-01 for conversion: SHIP $50+/ $10 off $75+/ $15 off $125+/ $25 off $175+/ $40 off $250+). Edges = jackpot like real plinko. Endless practice mode after the daily run. Anti-abuse kept: email gate, honeypot, date-window/clock guards, per-drop persistence (refresh mid-fall forfeits that drop), daily cookie; hard bound = once/customer + global caps. Legacy MAPLE5 kept for wallet lookups of earlier winners. Mounted from layout/theme.liquid. Self-hides after 2026-07-08T06:59:59Z. {%- endcomment -%}
 <style>
 #mps-tab{position:fixed;right:0;bottom:110px;z-index:9998;background:linear-gradient(180deg,#e01936,#8f0618);color:#fff;border:0;padding:13px 9px 15px;border-radius:14px 0 0 14px;cursor:pointer;box-shadow:-5px 6px 22px rgba(0,0,0,.3);display:flex;flex-direction:column;align-items:center;gap:7px;font-family:inherit;transition:transform .18s ease;animation:mpsPulse 2.6s ease-in-out infinite}
 @keyframes mpsPulse{0%,100%{transform:translateX(0)}50%{transform:translateX(-4px)}}
@@ -18,60 +18,36 @@
 #mps .mps-ey{text-transform:uppercase;letter-spacing:3px;font-size:10.5px;color:#d4ba6a;font-weight:800;margin:0 0 3px}
 #mps .mps-ti{font-family:Georgia,serif;font-size:26px;margin:0 0 2px;line-height:1.1;color:#fff}
 #mps .mps-ti .lf{font-size:21px}
-#mps .mps-sub{font-size:11.5px;color:#a99a82;margin:0 0 10px}
+#mps .mps-sub{font-size:12px;color:#a99a82;margin:0 0 10px}
 #mps .mps-hud{display:flex;gap:6px;justify-content:center;margin:0 0 8px}
 #mps .mps-hbox{flex:1;background:#0f0c09;border:1px solid #2c2418;border-radius:10px;padding:6px 4px}
 #mps .mps-hbox .hl{font-size:8.5px;letter-spacing:1.5px;color:#7d715f;font-weight:800;text-transform:uppercase}
 #mps .mps-hbox .hv{font-size:17px;font-weight:800;color:#ffd76a;font-variant-numeric:tabular-nums;line-height:1.2}
-#mps .mps-hbox .hv.combo-on{color:#ff9daa;animation:mpsBlink .5s step-end infinite}
-#mps .mps-cab{position:relative;background:linear-gradient(180deg,#241c14,#171310);border:1px solid #4a3c28;border-radius:16px;padding:24px 12px 12px;margin:0 0 10px;box-shadow:inset 0 2px 12px rgba(0,0,0,.5)}
-#mps .mps-marq{position:absolute;top:7px;left:14px;right:14px;height:8px;border-radius:999px;background:repeating-linear-gradient(90deg,#ffd76a 0 6px,#3a2f22 6px 18px);animation:mpsChase .5s linear infinite;opacity:.85}
-@keyframes mpsChase{to{background-position:18px 0}}
-#mps .mps-cab.rush .mps-marq{animation-duration:.18s;opacity:1;box-shadow:0 0 14px rgba(255,215,106,.6)}
-#mps .mps-reels{display:flex;gap:8px;justify-content:center;position:relative}
-#mps .mps-reel{width:84px;height:84px;background:#fdf8ee;border-radius:10px;overflow:hidden;position:relative;box-shadow:inset 0 4px 10px rgba(0,0,0,.28),inset 0 -4px 10px rgba(0,0,0,.18)}
-#mps .mps-reel.pop{animation:mpsPop .4s ease}
-@keyframes mpsPop{0%,100%{transform:scale(1)}45%{transform:scale(1.12)}}
-#mps .mps-strip{position:absolute;left:0;top:0;width:100%;will-change:transform}
-#mps .mps-cell{height:84px;display:flex;align-items:center;justify-content:center;font-size:46px;line-height:1}
-#mps .mps-payline{position:absolute;left:6px;right:6px;top:50%;height:0;border-top:2px dashed rgba(224,25,54,.35);pointer-events:none}
-#mps .mps-reel.hit .mps-payline{border-top:3px solid #ffd76a;box-shadow:0 0 12px 2px rgba(255,215,106,.85);animation:mpsLine .3s ease 4}
-@keyframes mpsLine{50%{opacity:.25}}
-#mps .mps-scorepop{position:absolute;left:0;right:0;top:-6px;text-align:center;font-family:Georgia,serif;font-size:30px;font-weight:700;color:#ffd76a;text-shadow:0 0 16px rgba(255,215,106,.6);opacity:0;pointer-events:none;z-index:4}
-#mps .mps-scorepop.go{animation:mpsRise 1s ease forwards}
-@keyframes mpsRise{0%{opacity:0;transform:translateY(14px) scale(.8)}25%{opacity:1;transform:translateY(-2px) scale(1.08)}70%{opacity:1}100%{opacity:0;transform:translateY(-30px) scale(1)}}
-#mps .mps-cab.shake{animation:mpsShake .4s ease}
+#mps .mps-board{position:relative;background:linear-gradient(180deg,#241c14,#171310);border:1px solid #4a3c28;border-radius:16px;padding:10px 8px 8px;margin:0 0 8px;box-shadow:inset 0 2px 12px rgba(0,0,0,.5)}
+#mps .mps-board.shake{animation:mpsShake .4s ease}
 @keyframes mpsShake{0%,100%{transform:none}25%{transform:translateX(-4px) rotate(-.4deg)}75%{transform:translateX(4px) rotate(.4deg)}}
-#mps .mps-cab.megashake{animation:mpsMega .7s ease}
+#mps .mps-board.megashake{animation:mpsMega .7s ease}
 @keyframes mpsMega{0%,100%{transform:none}15%{transform:translate(-6px,2px) rotate(-.8deg)}35%{transform:translate(6px,-2px) rotate(.8deg)}55%{transform:translate(-5px,1px) rotate(-.6deg)}75%{transform:translate(4px,-1px) rotate(.5deg)}}
-#mps .mps-ladder{margin:0 0 8px;background:#0f0c09;border:1px solid #2c2418;border-radius:12px;padding:9px 11px 11px;text-align:left}
-#mps .mps-ladder .ld-t{display:flex;justify-content:space-between;font-size:9.5px;letter-spacing:1.5px;text-transform:uppercase;color:#d4ba6a;font-weight:800;margin:0 0 6px}
-#mps .mps-ladder .ld-t .nx{color:#ff9daa;letter-spacing:.3px;text-transform:none}
-#mps .mps-bar{position:relative;height:14px;background:#241c14;border-radius:999px;overflow:hidden}
-#mps .mps-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(90deg,#b3081f,#e01936,#d4ba6a);border-radius:999px;transition:width .6s cubic-bezier(.2,.8,.3,1)}
-#mps .mps-ticks{position:absolute;inset:0}
-#mps .mps-tick{position:absolute;top:0;bottom:0;width:2px;background:rgba(23,19,16,.85)}
-#mps .mps-tiers{display:flex;margin-top:5px}
-#mps .mps-tier{flex:1;text-align:center;font-size:8.5px;font-weight:800;color:#7d715f;letter-spacing:.3px;line-height:1.25}
-#mps .mps-tier.on{color:#ffd76a}
-#mps .mps-tier.won-t{color:#ffe9a8;text-shadow:0 0 8px rgba(255,215,106,.7)}
-#mps .mps-em{width:100%;box-sizing:border-box;border:1.5px solid #4a3c28;background:#0f0c09;color:#f3ede2;border-radius:10px;padding:11px 13px;font-size:16px;margin:8px 0 0;font-family:inherit}
+#mps canvas{display:block;width:100%;height:auto;border-radius:10px;touch-action:manipulation;cursor:pointer}
+#mps .mps-scorepop{position:absolute;left:0;right:0;top:2px;text-align:center;font-family:Georgia,serif;font-size:30px;font-weight:700;color:#ffd76a;text-shadow:0 0 16px rgba(255,215,106,.6);opacity:0;pointer-events:none;z-index:4}
+#mps .mps-scorepop.go{animation:mpsRise 1.1s ease forwards}
+@keyframes mpsRise{0%{opacity:0;transform:translateY(14px) scale(.8)}25%{opacity:1;transform:translateY(-2px) scale(1.08)}70%{opacity:1}100%{opacity:0;transform:translateY(-30px) scale(1)}}
+#mps .mps-mins{font-size:9.5px;color:#7d715f;margin:0 0 8px;line-height:1.5}
+#mps .mps-mins b{color:#c9a26a;font-weight:800}
+#mps .mps-em{width:100%;box-sizing:border-box;border:1.5px solid #4a3c28;background:#0f0c09;color:#f3ede2;border-radius:10px;padding:11px 13px;font-size:16px;margin:2px 0 0;font-family:inherit}
 #mps .mps-em::placeholder{color:#7d715f}
 #mps .mps-em:focus{outline:0;border-color:#d4ba6a}
 #mps .mps-msg{min-height:15px;font-size:11.5px;color:#ff9daa;margin:6px 0 0;font-weight:700}
-#mps .mps-pull{display:block;width:100%;background:linear-gradient(90deg,#d4ba6a,#b89234);color:#241800;border:0;font-weight:800;font-size:18px;padding:15px;border-radius:999px;cursor:pointer;letter-spacing:2px;margin-top:8px;transition:transform .12s,filter .15s,opacity .2s;box-shadow:0 4px 14px rgba(212,186,106,.25)}
+#mps .mps-pull{display:block;width:100%;background:linear-gradient(90deg,#d4ba6a,#b89234);color:#241800;border:0;font-weight:800;font-size:17px;padding:14px;border-radius:999px;cursor:pointer;letter-spacing:1.5px;margin-top:8px;transition:transform .12s,filter .15s,opacity .2s;box-shadow:0 4px 14px rgba(212,186,106,.25)}
 #mps .mps-pull:hover{transform:translateY(-1px);filter:brightness(1.07)}
 #mps .mps-pull:active{transform:scale(.97)}
 #mps .mps-pull[disabled]{opacity:.55;cursor:not-allowed;transform:none}
-#mps .mps-pull.stopmode{background:linear-gradient(90deg,#e01936,#b3081f);color:#fff;animation:mpsGlow 1s ease-in-out infinite}
+#mps .mps-pull.dropmode{background:linear-gradient(90deg,#e01936,#b3081f);color:#fff;animation:mpsGlow 1s ease-in-out infinite}
+#mps .mps-pull.dropmode[disabled]{opacity:1;cursor:default}
 #mps .mps-practbtn{display:block;width:100%;background:transparent;border:1.5px dashed #4a3c28;color:#d4ba6a;font-weight:800;font-size:13px;padding:11px;border-radius:999px;cursor:pointer;margin-top:9px;letter-spacing:1px}
 #mps .mps-practbtn:hover{border-color:#d4ba6a}
 #mps .mps-practflag{display:none;background:rgba(224,25,54,.12);border:1px dashed rgba(224,25,54,.5);color:#ff9daa;font-size:10.5px;font-weight:800;border-radius:8px;padding:5px 8px;margin:0 0 8px;letter-spacing:.6px}
 #mps .mps-fine{font-size:10px;color:#7d715f;margin:8px 0 0;line-height:1.5}
-#mps .mps-payt{margin:10px 0 0;text-align:left;background:#0f0c09;border:1px solid #2c2418;border-radius:12px;padding:9px 12px}
-#mps .mps-payt .lg-t{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#d4ba6a;font-weight:800;margin:0 0 5px;text-align:center}
-#mps .mps-prow{display:flex;justify-content:space-between;font-size:11px;padding:2px 0;color:#cbbfa8}
-#mps .mps-prow b{color:#ffd76a}
 #mps-burst{position:absolute;inset:0;background:rgba(15,10,6,.92);border-radius:22px;display:none;align-items:center;justify-content:center;flex-direction:column;z-index:5;animation:mpsIn .25s ease}
 #mps-burst .bw{font-size:15px;letter-spacing:5px;color:#ffd76a;font-weight:800;animation:mpsBlink .35s step-end infinite}
 @keyframes mpsBlink{50%{opacity:.35}}
@@ -105,47 +81,33 @@
 #mps .mps-wrow b{color:#ffd76a;letter-spacing:1px}
 .mps-conf{position:fixed;top:-40px;z-index:100000;pointer-events:none;font-size:22px;will-change:transform,opacity}
 </style>
-<button id='mps-tab' type='button' aria-label='Play Maple Slots'>
-  <span class='g1'>&#127920;</span><span class='g2'>Maple Slots</span><span class='g3'>WIN</span>
+<button id='mps-tab' type='button' aria-label='Play Maple Drop'>
+  <span class='g1'>&#127809;</span><span class='g2'>Maple Drop</span><span class='g3'>WIN</span>
 </button>
 <div id='mps' hidden>
   <div class='mps-ov' data-close></div>
-  <div class='mps-card' role='dialog' aria-modal='true' aria-label='Maple Slots — Canada Day game'>
+  <div class='mps-card' role='dialog' aria-modal='true' aria-label='Maple Drop — Canada Day game'>
     <button class='mps-x' type='button' data-close aria-label='Close'>&times;</button>
     <button class='mps-snd' type='button' id='mps-snd' aria-label='Toggle sound'>&#128266;</button>
     <p class='mps-ey'>Canada Day Week &middot; July 1 to 7</p>
-    <h2 class='mps-ti'><span class='lf'>&#127809;</span> MAPLE SLOTS <span class='lf'>&#127809;</span></h2>
-    <p class='mps-sub'>3 spins. YOU stop the reels. Score decides your prize &mdash; every run pays out, eh.</p>
+    <h2 class='mps-ti'><span class='lf'>&#127809;</span> MAPLE DROP <span class='lf'>&#127809;</span></h2>
+    <p class='mps-sub'>Tap the board. Watch it bounce. Win the bucket. <strong>3 free drops a day &mdash; your best one counts.</strong></p>
     <div class='mps-play'>
-      <div class='mps-practflag' id='mps-practflag'>&#127919; PRACTICE MODE &mdash; chasing your best, prizes unlock tomorrow</div>
+      <div class='mps-practflag' id='mps-practflag'>&#127919; PRACTICE MODE &mdash; endless drops, prizes unlock tomorrow</div>
       <div class='mps-hud'>
-        <div class='mps-hbox'><div class='hl'>Score</div><div class='hv' id='mps-score'>0</div></div>
-        <div class='mps-hbox'><div class='hl'>Spin</div><div class='hv' id='mps-spinno'>&ndash;</div></div>
-        <div class='mps-hbox'><div class='hl'>Combo</div><div class='hv' id='mps-combo'>&times;1</div></div>
+        <div class='mps-hbox'><div class='hl'>Drops left</div><div class='hv' id='mps-drops'>3</div></div>
+        <div class='mps-hbox'><div class='hl'>Best prize so far</div><div class='hv' id='mps-best'>&ndash;</div></div>
       </div>
-      <div class='mps-cab' id='mps-cab'>
-        <div class='mps-marq'></div>
+      <div class='mps-board' id='mps-board'>
         <div class='mps-scorepop' id='mps-scorepop'></div>
-        <div class='mps-reels'>
-          <div class='mps-reel' id='mps-rw0'><div class='mps-strip' id='mps-r0'></div><div class='mps-payline'></div></div>
-          <div class='mps-reel' id='mps-rw1'><div class='mps-strip' id='mps-r1'></div><div class='mps-payline'></div></div>
-          <div class='mps-reel' id='mps-rw2'><div class='mps-strip' id='mps-r2'></div><div class='mps-payline'></div></div>
-        </div>
+        <canvas id='mps-cv' width='352' height='430' aria-label='Maple Drop board — tap to drop'></canvas>
       </div>
-      <div class='mps-ladder'>
-        <div class='ld-t'><span>Prize ladder</span><span class='nx' id='mps-nexttier'></span></div>
-        <div class='mps-bar'><div class='mps-fill' id='mps-fill'></div><div class='mps-ticks' id='mps-ticks'></div></div>
-        <div class='mps-tiers' id='mps-tiers'></div>
-      </div>
-      <input class='mps-em' id='mps-em' type='email' placeholder='Email to unlock your run' autocomplete='email'>
+      <p class='mps-mins'>Every bucket wins. Minimums: <b>SHIP</b> free express shipping $50+ &middot; <b>$10</b> off $75+ &middot; <b>$15</b> off $125+ &middot; <b>$25</b> off $175+ &middot; <b>&#127809;$40</b> off $250+ &middot; all stack with the 20% sale</p>
+      <input class='mps-em' id='mps-em' type='email' placeholder='Email to unlock your 3 free drops' autocomplete='email'>
       <input id='mps-hp' type='text' tabindex='-1' autocomplete='off' aria-hidden='true' style='position:absolute;left:-9999px;top:auto;width:1px;height:1px;opacity:0'>
       <div class='mps-msg' id='mps-msg'></div>
-      <button class='mps-pull' id='mps-pull' type='button'>&#127809; START RUN</button>
-      <p class='mps-fine'>One prize run per person per day through July 7. Codes are single-use, stack with the 20% sale, and expire July 7 at 11:59 PM PT. Playing joins our email list. Unlimited practice after your run.</p>
-      <div class='mps-payt'>
-        <p class='lg-t'>Symbol values &middot; triple &times;12 &middot; pair &times;4 &middot; combo streak up to &times;2</p>
-        <div class='mps-prow'><span>&#127809; 60 &nbsp; &#128142; 50 &nbsp; &#11088; 40</span><span>&#128666; 30 &nbsp; &#127873; 20 &nbsp; &#129532; 10</span></div>
-      </div>
+      <button class='mps-pull' id='mps-pull' type='button'>&#127809; START MY 3 FREE DROPS</button>
+      <p class='mps-fine'>3 prize drops per person per day through July 7 &mdash; best drop counts. Codes are single-use, stack with the 20% sale, and expire July 7 at 11:59 PM PT. Playing joins our email list. Unlimited practice after your drops.</p>
     </div>
     <div class='mps-win'>
       <div class='we' id='mps-we'>&#127881;</div>
@@ -159,15 +121,15 @@
       </div>
       <div class='mps-exp' id='mps-exp'></div>
       <a class='mps-go' id='mps-go' href='/collections/all'>&#128176; CASH OUT &mdash; SHOP NOW &rarr;</a>
-      <button class='mps-practbtn' id='mps-pract' type='button'>&#127919; PRACTICE MODE &mdash; beat your score</button>
+      <button class='mps-practbtn' id='mps-pract' type='button'>&#127919; PRACTICE MODE &mdash; keep dropping for fun</button>
       <div class='mps-tease' id='mps-tease'></div>
       <div id='mps-streakbox'></div>
       <div class='mps-next' id='mps-next'></div>
       <div class='mps-wallet' id='mps-wallet'></div>
     </div>
     <div id='mps-burst'>
-      <div class='bw'>&#11088; RUN COMPLETE &#11088;</div>
-      <div class='bv' id='mps-bv'>0</div>
+      <div class='bw'>&#11088; WINNER WINNER &#11088;</div>
+      <div class='bv' id='mps-bv'>$0</div>
       <div class='bn' id='mps-bn'></div>
     </div>
   </div>
@@ -178,23 +140,19 @@
   var GAME_END=new Date('2026-07-08T06:59:59Z').getTime();
   if(Date.now()>GAME_END){tab.style.display='none';return;}
   function dec(s){try{return atob(s);}catch(e){return '';}}
-  /* tiers low->high; everyone lands at least tier 0 */
-  var TIERS=[
-    {k:'m5',  c:'TUFQTEU1LUo3TA==',     min:0,    val:5,  pct:true,  short:'5% OFF',    lbl:'5%<br>0',        name:'a BONUS PAYOUT — 5% off everything', sub:'An extra 5% on your whole order, stacked on the 20% sale.', stack:'Stacked: 25%+ off retail on anything you grab'},
-    {k:'ship',c:'TUFQTEVTSElQLVEyTg==', min:400,  val:15, pct:false, short:'FREE SHIP', lbl:'SHIP<br>400',    name:'FREE EXPRESS SHIPPING',               sub:'On orders of $75 or more. Stacks with the sale.',           stack:'Stacked: $30+ off retail + shipping on a $75 order'},
-    {k:'m10', c:'TUFQTEUxMC1YNFQ=',     min:800,  val:10, pct:false, short:'$10 OFF',   lbl:'$10<br>800',     name:'a $10 CASH DROP',                     sub:'On orders of $125 or more. Stacks with the sale.',          stack:'Stacked: $40+ off retail on a $125 order'},
-    {k:'m15', c:'TUFQTEUxNS1COFc=',     min:1300, val:15, pct:false, short:'$15 OFF',   lbl:'$15<br>1300',    name:'a $15 CASH DROP',                     sub:'On orders of $175 or more. Stacks with the sale.',          stack:'Stacked: $55+ off retail on a $175 order'},
-    {k:'m25', c:'TUFQTEUyNS1SM0s=',     min:1900, val:25, pct:false, short:'$25 OFF',   lbl:'$25<br>1900',    name:'a BIG WIN — $25 off',                 sub:'On orders of $250 or more. Stacks with the sale.',          stack:'Stacked: $85+ off retail on a $250 order'},
-    {k:'m40', c:'TUFQTEU0MC1aOUY=',     min:2600, val:40, pct:false, short:'JACKPOT',   lbl:'&#127809;$40<br>2600', name:'the $40 MEGA JACKPOT',           sub:'On orders of $300 or more. The top payout, eh!',            stack:'Stacked: $110+ off retail on a $300 order'}
-  ];
-  for(var ti=0;ti<TIERS.length;ti++){TIERS[ti].code=dec(TIERS[ti].c);}
-  var MAXSCORE=2600;
-  var SYMS=['🍁','💎','⭐','🚚','🎁','🧴'];
-  var PTS={'🍁':60,'💎':50,'⭐':40,'🚚':30,'🎁':20,'🧴':10};
-  var CELL=84,NSTRIP=30,SPEEDS=[500,570,640];
-  var reels=[document.getElementById('mps-r0'),document.getElementById('mps-r1'),document.getElementById('mps-r2')];
-  var reelWraps=[document.getElementById('mps-rw0'),document.getElementById('mps-rw1'),document.getElementById('mps-rw2')];
-  var pullBtn=document.getElementById('mps-pull');
+  /* rank: higher = better; m5 legacy (not on board) for old wallet entries */
+  var TIERS={
+    m5:  {k:'m5',  c:'TUFQTEU1LUo3TA==',     rank:0, val:5,  pct:true,  short:'5%',   name:'a BONUS PAYOUT — 5% off everything', sub:'An extra 5% on your whole order, stacked on the 20% sale.', stack:'Stacked: 25%+ off retail on anything you grab'},
+    m10: {k:'m10', c:'TUFQTEUxMC1YNFQ=',     rank:1, val:10, pct:false, short:'$10',  name:'a $10 CASH DROP',                     sub:'On orders of just $75 or more. Stacks with the 20% sale.', stack:'Stacked: $28+ off retail on a $75 order'},
+    ship:{k:'ship',c:'TUFQTEVTSElQLVEyTg==', rank:2, val:15, pct:false, short:'SHIP', name:'FREE EXPRESS SHIPPING',               sub:'On orders of just $50 or more. Stacks with the sale.',      stack:'Stacked: $25+ in savings on a $50 order'},
+    m15: {k:'m15', c:'TUFQTEUxNS1COFc=',     rank:3, val:15, pct:false, short:'$15',  name:'a $15 CASH DROP',                     sub:'On orders of $125 or more. Stacks with the 20% sale.',      stack:'Stacked: $45+ off retail on a $125 order'},
+    m25: {k:'m25', c:'TUFQTEUyNS1SM0s=',     rank:4, val:25, pct:false, short:'$25',  name:'a BIG WIN — $25 off',                 sub:'On orders of $175 or more. Stacks with the 20% sale.',      stack:'Stacked: $65+ off retail on a $175 order'},
+    m40: {k:'m40', c:'TUFQTEU0MC1aOUY=',     rank:5, val:40, pct:false, short:'$40',  name:'the $40 MEGA JACKPOT',                sub:'On orders of $250 or more. The top bucket, eh!',            stack:'Stacked: $100+ off retail on a $250 order'}
+  };
+  for(var tk in TIERS){if(TIERS.hasOwnProperty(tk))TIERS[tk].code=dec(TIERS[tk].c);}
+  /* board buckets left->right; edges = jackpot, classic plinko */
+  var BUCKETS=['m40','m25','m15','ship','m10','ship','m15','m25','m40'];
+  var BCOLORS={m40:'#e01936',m25:'#d4ba6a',m15:'#b89234',ship:'#7fa8d4',m10:'#8fbf7f'};
   function rnd(){try{var a=new Uint32Array(1);(window.crypto||window.msCrypto).getRandomValues(a);return a[0]/4294967296;}catch(e){return (new Date().getTime()%997)/997;}}
   /* --- sound --- */
   var muted=false;try{muted=localStorage.getItem('ccSlotsMute')==='1';}catch(e){}
@@ -210,185 +168,181 @@
       o.connect(g);g.connect(c.destination);o.start(t0);o.stop(t0+(dur||0.09)+0.02);
     }catch(e){}
   }
-  function sndStop(i){beep(420+i*140,0.08,0,'square',0.05);}
-  function sndScore(){beep(880,0.07,0,'triangle',0.06);beep(1174,0.09,0.08,'triangle',0.06);}
-  function sndTierUp(){var n=[784,988,1318];for(var i=0;i<n.length;i++)beep(n[i],0.11,i*0.07,'triangle',0.07);}
+  var lastTick=0;
+  function sndPeg(){var n=Date.now();if(n-lastTick<45)return;lastTick=n;beep(900+rnd()*500,0.03,0,'square',0.03);}
+  function sndBucket(){beep(880,0.07,0,'triangle',0.06);beep(1174,0.09,0.08,'triangle',0.06);}
   function sndWin(){var n=[660,830,990,1320];for(var i=0;i<n.length;i++)beep(n[i],0.12,i*0.09,'triangle',0.06);}
   function sndJackpot(){var n=[523,659,784,1046,1318,1568,2093];for(var i=0;i<n.length;i++)beep(n[i],0.16,i*0.09,'triangle',0.07);for(var j=0;j<5;j++)beep(2093,0.05,0.7+j*0.07,'square',0.04);}
   var sndBtn=document.getElementById('mps-snd');
   function sndIcon(){sndBtn.innerHTML=muted?'&#128263;':'&#128266;';}
   sndIcon();
   sndBtn.addEventListener('click',function(){muted=!muted;try{localStorage.setItem('ccSlotsMute',muted?'1':'0');}catch(e){}sndIcon();});
-  /* --- reel engine: continuous loop + skill stop --- */
-  function Reel(stripEl,wrapEl,speed){
-    this.el=stripEl;this.wrap=wrapEl;this.speed=speed;
-    this.syms=[];this.off=0;this.raf=null;this.running=false;this.last=0;
-    this.build();
-  }
-  Reel.prototype.build=function(){
-    this.syms=[];var h='';
-    for(var i=0;i<NSTRIP;i++){var s=SYMS[Math.floor(rnd()*SYMS.length)];this.syms.push(s);}
-    for(var r=0;r<2;r++){for(var j=0;j<NSTRIP;j++){h+="<div class='mps-cell'>"+this.syms[j]+"</div>";}}
-    this.el.innerHTML=h;this.off=Math.floor(rnd()*NSTRIP)*CELL;this.paint();
-  };
-  Reel.prototype.paint=function(){this.el.style.transform='translateY(-'+this.off+'px)';};
-  Reel.prototype.start=function(){
-    if(this.running)return;this.running=true;this.last=0;this.lockIdx=null;
-    var self=this;
-    function frame(ts){
-      if(!self.running)return;
-      if(!self.last)self.last=ts;
-      var dt=Math.min(50,ts-self.last);self.last=ts;
-      self.off+=self.speed*dt/1000;
-      if(self.off>=NSTRIP*CELL)self.off-=NSTRIP*CELL;
-      self.paint();
-      self.raf=requestAnimationFrame(frame);
-    }
-    this.raf=requestAnimationFrame(frame);
-  };
-  Reel.prototype.stop=function(done){
-    if(!this.running){done(this.current());return;}
-    this.running=false;if(this.raf)cancelAnimationFrame(this.raf);
-    var k=Math.ceil(this.off/CELL);
-    this.lockIdx=k%NSTRIP;
-    var target=k*CELL;var self=this;
-    var startOff=this.off,dist=target-startOff,t0=null,DUR=220;
-    function settle(ts){
-      if(!t0)t0=ts;
-      var f=Math.min(1,(ts-t0)/DUR);
-      var e=1-Math.pow(1-f,2);
-      self.off=startOff+dist*e;self.paint();
-      if(f<1){self.raf=requestAnimationFrame(settle);}
-      else{
-        if(self.off>=NSTRIP*CELL){self.off-=NSTRIP*CELL;self.paint();}
-        self.wrap.className='mps-reel pop';
-        (function(w){setTimeout(function(){if(w.className==='mps-reel pop'){w.className='mps-reel';}},380);})(self.wrap);
-        done(self.current());
-      }
-    }
-    this.raf=requestAnimationFrame(settle);
-  };
-  Reel.prototype.current=function(){if(this.lockIdx!=null)return this.syms[this.lockIdx];var k=Math.round(this.off/CELL)%NSTRIP;return this.syms[k];};
-  Reel.prototype.halt=function(){this.running=false;if(this.raf)cancelAnimationFrame(this.raf);};
-  var R=[new Reel(reels[0],reelWraps[0],SPEEDS[0]),new Reel(reels[1],reelWraps[1],SPEEDS[1]),new Reel(reels[2],reelWraps[2],SPEEDS[2])];
-  /* --- storage / helpers --- */
+  /* --- storage --- */
   function store(){try{return JSON.parse(localStorage.getItem('ccSlots')||'{}');}catch(e){return {};}}
   function save(o){try{localStorage.setItem('ccSlots',JSON.stringify(o));}catch(e){}}
   function today(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
   function playedToday(){var s=store();return !!(s.plays&&s.plays[today()]);}
-  function tierByCode(c){for(var i=0;i<TIERS.length;i++)if(TIERS[i].code===c)return TIERS[i];return null;}
-  function tierByScore(sc){var t=TIERS[0];for(var i=0;i<TIERS.length;i++){if(sc>=TIERS[i].min)t=TIERS[i];}return t;}
-  function nextTier(sc){for(var i=0;i<TIERS.length;i++){if(sc<TIERS[i].min)return TIERS[i];}return null;}
+  function tierByCode(c){for(var tk in TIERS){if(TIERS.hasOwnProperty(tk)&&TIERS[tk].code===c)return TIERS[tk];}return null;}
+  function bestOf(keys){var b=null;for(var i=0;i<keys.length;i++){var t=TIERS[keys[i]];if(t&&(!b||t.rank>b.rank))b=t;}return b;}
   function streak(){var s=store();if(!s.plays)return 0;var n=0,d=new Date();for(;;){var k=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);if(s.plays[k]){n++;d.setDate(d.getDate()-1);}else break;}return n;}
   var openedAt=0,nextTimer=null,gateTimer=null,msgTimer=null,expTimer=null;
-  /* run state */
-  var MODE='idle'; /* idle | spinning | settling | scoring | done */
-  var run={spin:0,score:0,combo:0},practice=false,stopsLeft=0,curSyms=[];
+  var MODE='idle'; /* idle | aiming | dropping | scoring | done */
+  var practice=false;
+  var run={drops:[]}; /* tier keys landed this run */
   function msg(t){var m=document.getElementById('mps-msg');if(!m)return;if(msgTimer){clearTimeout(msgTimer);msgTimer=null;}m.style.color='';m.textContent=t||'';}
   function clearErr(){var e=document.getElementById('mps-em');if(e)e.style.borderColor='';msg('');}
   function warn(el,text){el.focus();el.style.borderColor='#e01936';msg(text||'');}
-  /* --- HUD / ladder --- */
-  function buildLadder(){
-    var ticks=document.getElementById('mps-ticks'),tiers=document.getElementById('mps-tiers');
-    var th='',lh='';
-    for(var i=0;i<TIERS.length;i++){
-      if(i>0)th+="<div class='mps-tick' style='left:"+((TIERS[i].min/MAXSCORE)*100)+"%'></div>";
-      lh+="<div class='mps-tier' data-i='"+i+"'>"+TIERS[i].lbl+"</div>";
+  /* --- plinko engine (canvas) --- */
+  var cv=document.getElementById('mps-cv'),ctx=cv.getContext('2d');
+  var W=352,H=430,BW=W/9,BUCKET_Y=372;
+  var PEGS=[];
+  (function(){
+    var rows=9,y0=78,dy=30;
+    for(var r=0;r<rows;r++){
+      var off=(r%2===0)?0:16,n=Math.floor((W-24)/32)+1;
+      for(var i=0;i<n;i++){
+        var x=12+off+i*32;
+        if(x>10&&x<W-10)PEGS.push({x:x,y:y0+r*dy,glow:0});
+      }
     }
-    ticks.innerHTML=th;tiers.innerHTML=lh;
+  })();
+  var ball=null; /* {x,y,vx,vy} */
+  var hintT=0,drawRaf=null,drawing=false;
+  function tierAtBucket(i){return TIERS[BUCKETS[Math.max(0,Math.min(8,i))]];}
+  function draw(ts){
+    if(!drawing)return;
+    hintT=ts||0;
+    ctx.clearRect(0,0,W,H);
+    /* drop zone hint */
+    if(MODE==='aiming'){
+      ctx.save();
+      ctx.globalAlpha=0.75+0.25*Math.sin(hintT/300);
+      ctx.fillStyle='#ffd76a';
+      ctx.font='700 13px sans-serif';ctx.textAlign='center';
+      ctx.fillText('TAP ANYWHERE TO DROP',W/2,26);
+      var ax=W/2+Math.sin(hintT/500)*100;
+      ctx.font='20px sans-serif';
+      ctx.fillText('🍁',ax,52);
+      ctx.font='700 14px sans-serif';
+      ctx.fillText('▼',ax,66);
+      ctx.restore();
+    }
+    /* pegs */
+    for(var p=0;p<PEGS.length;p++){
+      var pg=PEGS[p];
+      ctx.beginPath();ctx.arc(pg.x,pg.y,4,0,6.2832);
+      if(pg.glow>0){ctx.fillStyle='#ffd76a';pg.glow-=0.06;}else{ctx.fillStyle='#6b5a3e';}
+      ctx.fill();
+    }
+    /* buckets */
+    for(var b=0;b<9;b++){
+      var t=tierAtBucket(b),x0=b*BW;
+      ctx.fillStyle='rgba(15,12,9,.9)';
+      ctx.fillRect(x0+1,BUCKET_Y,BW-2,H-BUCKET_Y-2);
+      ctx.strokeStyle=BCOLORS[t.k];ctx.lineWidth=1.5;
+      ctx.strokeRect(x0+1,BUCKET_Y,BW-2,H-BUCKET_Y-2);
+      ctx.fillStyle=BCOLORS[t.k];
+      ctx.font=(t.k==='m40'?'800 12px':'800 11px')+' sans-serif';ctx.textAlign='center';
+      ctx.fillText(t.short,x0+BW/2,BUCKET_Y+22);
+      if(t.k==='m40'){ctx.font='10px sans-serif';ctx.fillText('🍁',x0+BW/2,BUCKET_Y+38);}
+      else{ctx.fillStyle='#7d715f';ctx.font='800 8px sans-serif';ctx.fillText(t.k==='ship'?'FREE':'OFF',x0+BW/2,BUCKET_Y+36);}
+    }
+    /* ball */
+    if(ball){
+      ctx.font='20px sans-serif';ctx.textAlign='center';
+      ctx.fillText('🍁',ball.x,ball.y+7);
+    }
+    drawRaf=requestAnimationFrame(draw);
   }
-  buildLadder();
-  var lastTierIdx=0;
-  function updHud(animTier){
-    document.getElementById('mps-score').textContent=run.score;
-    document.getElementById('mps-spinno').textContent=(run.spin<3?(run.spin+1):3)+'/3';
-    var cb=document.getElementById('mps-combo');
-    var mult=run.combo<=1?1:(run.combo===2?1.5:2);
-    cb.textContent='×'+mult;cb.className='hv'+(mult>1?' combo-on':'');
-    document.getElementById('mps-fill').style.width=Math.min(100,(run.score/MAXSCORE)*100)+'%';
-    var cur=tierByScore(run.score),curIdx=0;
-    for(var i=0;i<TIERS.length;i++)if(TIERS[i].k===cur.k)curIdx=i;
-    var tEls=document.querySelectorAll('#mps .mps-tier');
-    for(var j=0;j<tEls.length;j++){tEls[j].className='mps-tier'+(j<curIdx?' on':(j===curIdx?' won-t':''));}
-    var nt=nextTier(run.score),nx=document.getElementById('mps-nexttier');
-    nx.innerHTML=nt?('NEXT: '+nt.short+' at '+nt.min+' — need '+(nt.min-run.score)):'MAXED OUT — JACKPOT TIER 🏆';
-    if(animTier&&curIdx>lastTierIdx){sndTierUp();var cab=document.getElementById('mps-cab');cab.className='mps-cab rush shake';setTimeout(function(){if(MODE==='spinning'){cab.className='mps-cab rush';}else{cab.className='mps-cab';}},450);}
-    lastTierIdx=curIdx;
+  function startDrawing(){if(!drawing){drawing=true;drawRaf=requestAnimationFrame(draw);}}
+  function stopDrawing(){drawing=false;if(drawRaf)cancelAnimationFrame(drawRaf);}
+  var physLast=0,physRaf=null,dropT=0;
+  function simulate(ts){
+    if(!ball){return;}
+    if(Date.now()-dropT>15000){var wb=Math.max(0,Math.min(8,Math.floor(ball.x/BW)));ball=null;landDrop(wb);return;}
+    if(!physLast)physLast=ts;
+    var dt=Math.min(32,ts-physLast)/1000;physLast=ts;
+    var steps=4,sdt=dt/steps;
+    for(var s=0;s<steps;s++){
+      ball.vy+=1500*sdt;
+      ball.x+=ball.vx*sdt;ball.y+=ball.vy*sdt;
+      if(ball.x<8){ball.x=8;ball.vx=Math.abs(ball.vx)*0.6;}
+      if(ball.x>W-8){ball.x=W-8;ball.vx=-Math.abs(ball.vx)*0.6;}
+      for(var p=0;p<PEGS.length;p++){
+        var pg=PEGS[p],dx=ball.x-pg.x,dy2=ball.y-pg.y,d2=dx*dx+dy2*dy2,minD=11;
+        if(d2<minD*minD&&d2>0.01){
+          var d=Math.sqrt(d2),nx=dx/d,ny=dy2/d;
+          ball.x=pg.x+nx*minD;ball.y=pg.y+ny*minD;
+          var dot=ball.vx*nx+ball.vy*ny;
+          ball.vx=(ball.vx-2*dot*nx)*0.55+(rnd()-0.5)*70;
+          ball.vy=(ball.vy-2*dot*ny)*0.55;
+          if(ball.vy<40)ball.vy=40;
+          pg.glow=1;sndPeg();
+        }
+      }
+      if(ball.y>=BUCKET_Y-8){
+        var bi=Math.max(0,Math.min(8,Math.floor(ball.x/BW)));
+        ball=null;landDrop(bi);
+        return;
+      }
+    }
+    physRaf=requestAnimationFrame(simulate);
   }
-  function scoreSpin(syms){
-    var a=syms[0],b=syms[1],c=syms[2];
-    if(a===b&&b===c)return {pts:PTS[a]*12,kind:'TRIPLE'};
-    if(a===b||b===c||a===c){var p=(a===b||a===c)?a:b;return {pts:PTS[p]*4,kind:'PAIR'};}
-    return {pts:Math.round((PTS[a]+PTS[b]+PTS[c])/2),kind:''};
+  function dropAt(x){
+    if(MODE!=='aiming')return;
+    MODE='dropping';
+    var c=ac();if(c&&c.state==='suspended'){try{c.resume();}catch(e){}}
+    if(!practice){var sp=store();sp.runDay=today();sp.run={drops:run.drops.slice(0),pend:1};save(sp);}
+    ball={x:Math.max(20,Math.min(W-20,x)),y:14,vx:(rnd()-0.5)*30,vy:60};
+    physLast=0;dropT=Date.now();physRaf=requestAnimationFrame(simulate);
+    updHud();
   }
-  function popScore(txt){
-    var sp=document.getElementById('mps-scorepop');
-    sp.textContent=txt;sp.className='mps-scorepop';
-    void sp.offsetHeight;sp.className='mps-scorepop go';
-  }
-  /* --- run flow --- */
-  function setBtn(label,stopmode,disabled){pullBtn.innerHTML=label;pullBtn.className='mps-pull'+(stopmode?' stopmode':'');pullBtn.disabled=!!disabled;}
-  function startSpin(){
-    MODE='spinning';stopsLeft=3;curSyms=[];
-    for(var i=0;i<3;i++){R[i].start();}
-    document.getElementById('mps-cab').className='mps-cab rush';
-    setBtn('&#128721; STOP',true,false);
-    /* anti-grind: mark the spin in-flight; a refresh mid-spin forfeits it (see open()) */
-    if(!practice){var sp=store();sp.runDay=today();sp.run={spin:run.spin,score:run.score,combo:run.combo,pend:1};save(sp);}
-    updHud(false);
-  }
-  function stopNext(){
-    if(MODE!=='spinning'||stopsLeft<=0)return;
-    var idx=3-stopsLeft;stopsLeft--;
-    if(stopsLeft===0){MODE='settling';setBtn('&#8987;',true,true);}
-    R[idx].stop(function(sym){
-      sndStop(idx);curSyms.push(sym);
-      if(curSyms.length===3){scoreCurrent();}
-    });
-  }
-  function scoreCurrent(){
+  function landDrop(bi){
     MODE='scoring';
-    var res=scoreSpin(curSyms);
-    var hadMatch=res.kind!=='';
-    run.combo=hadMatch?run.combo+1:0;
-    var mult=run.combo<=1?1:(run.combo===2?1.5:2);
-    var gained=Math.round(res.pts*mult);
-    run.score+=gained;run.spin++;
-    if(hadMatch){for(var i=0;i<3;i++)reelWraps[i].className='mps-reel hit';setTimeout(function(){for(var j=0;j<3;j++)reelWraps[j].className='mps-reel';},900);}
-    popScore('+'+gained+(res.kind?' '+res.kind:'')+(mult>1?' ×'+mult:''));
-    sndScore();
-    if(!practice){var s=store();s.run={spin:run.spin,score:run.score,combo:run.combo};s.runDay=today();save(s);}
-    updHud(true);
+    var t=tierAtBucket(bi);
+    run.drops.push(t.k);
+    if(!practice){var s=store();s.run={drops:run.drops.slice(0)};s.runDay=today();save(s);}
+    var board=document.getElementById('mps-board');
+    board.className='mps-board '+(t.k==='m40'?'megashake':'shake');
+    setTimeout(function(){board.className='mps-board';},700);
+    var sp2=document.getElementById('mps-scorepop');
+    sp2.textContent=(t.k==='ship'?'FREE SHIP!':(t.k==='m40'?'🍁 $40 JACKPOT!':t.short+' OFF!'));
+    sp2.className='mps-scorepop';void sp2.offsetHeight;sp2.className='mps-scorepop go';
+    if(!root.hasAttribute('hidden')){if(t.k==='m40'){sndJackpot();shower(true);}else{sndBucket();}}
+    updHud();
     setTimeout(function(){
-      if(run.spin>=3){finishRun();}
-      else if(root.hasAttribute('hidden')){MODE='idle';setBtn('&#127809; '+(practice?'START PRACTICE':'RESUME RUN — SPIN '+(run.spin+1)+'/3'),false,false);document.getElementById('mps-cab').className='mps-cab';}
-      else{startSpin();}
-    },1050);
+      if(run.drops.length>=3){
+        if(practice){
+          MODE='idle';
+          var b=bestOf(run.drops);
+          var m=document.getElementById('mps-msg');
+          msg('');m.style.color='#ffd76a';
+          m.textContent='Practice: best bucket '+(b?b.short:'—')+'. Endless retries, eh!';
+          msgTimer=setTimeout(function(){m.style.color='';m.textContent='';msgTimer=null;},6000);
+          run={drops:[]};updHud();
+          MODE='aiming';
+          setBtn('&#127919; PRACTICE — TAP THE BOARD',true,true);
+        }else{finishRun();}
+      }
+      else{MODE='aiming';setBtn(practice?'&#127919; PRACTICE — TAP TO DROP':'&#127809; TAP THE BOARD — DROP '+(run.drops.length+1)+' OF 3',true,true);}
+    },1100);
+  }
+  function updHud(){
+    document.getElementById('mps-drops').textContent=Math.max(0,3-run.drops.length);
+    var b=bestOf(run.drops);
+    document.getElementById('mps-best').textContent=b?(b.k==='ship'?'FREE SHIP':b.short+' OFF'):'–';
   }
   function finishRun(){
     MODE='done';
-    document.getElementById('mps-cab').className='mps-cab';
-    var t=tierByScore(run.score);
-    if(practice){
-      var s=store();var best=s.best||0;
-      var isPB=run.score>best;
-      if(isPB){s.best=run.score;save(s);}
-      setBtn('&#127919; PLAY AGAIN',false,false);
-      var m=document.getElementById('mps-msg');
-      msg('');m.style.color='#ffd76a';
-      m.textContent='Practice run: '+run.score+' pts ('+t.short+' tier)'+(isPB?' — NEW PERSONAL BEST! 🔥':(best?' — best: '+best:''));
-      msgTimer=setTimeout(function(){m.style.color='';},8000);
-      if(run.score>=1300)shower(false);
-      return;
-    }
-    var s2=store();
-    s2.plays=s2.plays||{};s2.plays[today()]=t.code;s2.lastPullAt=Date.now();
-    delete s2.run;delete s2.runDay;
-    save(s2);
-    setBtn('&#10003; RUN DONE',false,true);
+    var t=bestOf(run.drops)||TIERS.m10;
+    var s=store();
+    s.plays=s.plays||{};s.plays[today()]=t.code;s.lastPullAt=Date.now();
+    delete s.run;delete s.runDay;
+    save(s);
+    setBtn('&#10003; DONE FOR TODAY',false,true);
     runWinSequence(t);
   }
-  /* --- celebration --- */
+  /* --- celebration + payout (shared shell) --- */
   function shower(big){
     if(root.hasAttribute('hidden'))return;
     var n=big?80:44;
@@ -408,14 +362,12 @@
   function runWinSequence(t){
     var jack=(t.k==='m40');
     if(root.hasAttribute('hidden')){showWin(t,false);return;}
-    var cab=document.getElementById('mps-cab');
-    cab.className='mps-cab rush '+(jack?'megashake':'shake');
     if(jack){sndJackpot();}else{sndWin();}
     setTimeout(function(){
-      if(root.hasAttribute('hidden')){cab.className='mps-cab';showWin(t,false);return;}
+      if(root.hasAttribute('hidden')){showWin(t,false);return;}
       var burst=document.getElementById('mps-burst');
       var bv=document.getElementById('mps-bv'),bn=document.getElementById('mps-bn');
-      bn.innerHTML='FINAL SCORE '+run.score+' — YOU WON '+(t.pct?'A 5% BONUS':(t.k==='ship'?'FREE EXPRESS SHIPPING':t.name.replace('a ','').replace('the ','').toUpperCase()));
+      bn.innerHTML='YOUR BEST DROP — YOU WON '+(t.pct?'A 5% BONUS':(t.k==='ship'?'FREE EXPRESS SHIPPING':t.name.replace('a ','').replace('the ','').toUpperCase()));
       burst.style.display='flex';
       var t0=null,DUR=900,target=t.pct?5:t.val;
       function step(ts){
@@ -431,10 +383,9 @@
       shower(jack);
       setTimeout(function(){
         burst.style.display='none';
-        cab.className='mps-cab';
         showWin(t,false);
       },1900);
-    },800);
+    },700);
   }
   function resetToPlay(){
     root.querySelector('.mps-play').style.display='';
@@ -444,11 +395,13 @@
     if(expTimer){clearInterval(expTimer);expTimer=null;}
     clearErr();
     document.getElementById('mps-practflag').style.display=practice?'block':'none';
-    updHud(false);
+    updHud();startDrawing();
   }
+  function setBtn(label,dropmode,disabled){pullBtn.innerHTML=label;pullBtn.className='mps-pull'+(dropmode?' dropmode':'');pullBtn.disabled=!!disabled;}
+  var pullBtn=document.getElementById('mps-pull');
   function armPull(label){
     if(gateTimer){clearTimeout(gateTimer);gateTimer=null;}
-    setBtn(label||'&#127809; START RUN',false,true);
+    setBtn(label||'&#127809; START MY 3 FREE DROPS',false,true);
     gateTimer=setTimeout(function(){
       if(Date.now()>GAME_END){setBtn('GAME OVER',false,true);return;}
       if(MODE==='idle'&&(!playedToday()||practice)){pullBtn.disabled=false;}
@@ -457,32 +410,33 @@
   function open(){
     root.removeAttribute('hidden');openedAt=Date.now();
     if(Date.now()>GAME_END){setBtn('GAME OVER',false,true);return;}
-    if(MODE==='spinning'||MODE==='settling'||MODE==='scoring')return;
+    if(MODE==='aiming'||MODE==='dropping'||MODE==='scoring'){startDrawing();return;}
     if(playedToday())practice=false;
     var tp=playedToday()?tierByCode(store().plays[today()]):null;
     if(tp&&!practice){showWin(tp,true);}
     else{
       var s=store();
       if(!practice&&s.run&&s.runDay===today()){
-        run={spin:s.run.spin,score:s.run.score,combo:s.run.combo||0};
+        run={drops:(s.run.drops||[]).slice(0)};
         if(s.run.pend){
-          run.spin++;run.combo=0;
-          var s3=store();s3.run={spin:run.spin,score:run.score,combo:0};save(s3);
+          run.drops.push('forfeit');
+          var s3=store();s3.run={drops:run.drops.slice(0)};save(s3);
         }
-        lastTierIdx=0;MODE='idle';resetToPlay();
-        if(run.spin>=3){finishRun();return;}
-        armPull('&#127809; RESUME RUN — SPIN '+(run.spin+1)+'/3');
+        MODE='idle';resetToPlay();
+        if(run.drops.length>=3){finishRun();return;}
+        armPull('&#127809; RESUME — DROP '+(run.drops.length+1)+' OF 3');
       }
-      else{if(MODE!=='done'){run={spin:0,score:0,combo:0};lastTierIdx=0;}MODE='idle';resetToPlay();armPull(practice?'&#127919; START PRACTICE':undefined);}
+      else{run={drops:[]};MODE='idle';resetToPlay();armPull(practice?'&#127919; START PRACTICE':undefined);}
     }
   }
-  function close(){root.setAttribute('hidden','');}
+  function close(){root.setAttribute('hidden','');stopDrawing();}
   var BADDOM=['mailinator.com','guerrillamail.com','10minutemail.com','tempmail.com','temp-mail.org','yopmail.com','trashmail.com','sharklasers.com','getnada.com','dispostable.com','maildrop.cc','fakeinbox.com','throwawaymail.com','mailnesia.com','tempmailo.com','moakt.com','emailondeck.com','mohmal.com','tempr.email','discard.email'];
   function postEmail(em){try{var b='form_type=customer&utf8=%E2%9C%93&contact%5Btags%5D=maple-slots&contact%5Bemail%5D='+encodeURIComponent(em);fetch('/contact',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b}).catch(function(){});}catch(e){}}
   function showWin(t,replayView){
     if(!t)return;
     practice=false;
     if(expTimer){clearInterval(expTimer);expTimer=null;}
+    stopDrawing();
     root.querySelector('.mps-play').style.display='none';
     root.querySelector('.mps-win').style.display='block';
     document.getElementById('mps-burst').style.display='none';
@@ -492,7 +446,7 @@
     var stack=document.getElementById('mps-stack');
     stack.innerHTML=
       "<div class='mps-srow'><span class='se'>🍁</span><span>WIN #1 — <b>20% OFF EVERYTHING</b> storewide</span><span class='tag'>ACTIVE</span></div>"+
-      "<div class='mps-srow'><span class='se'>🎰</span><span>WIN #2 — your run: <b>"+(t.pct?'extra 5% off':(t.k==='ship'?'free express shipping':'$'+t.val+' off'))+"</b></span><span class='tag'>LOCKED IN</span></div>"+
+      "<div class='mps-srow'><span class='se'>🎯</span><span>WIN #2 — your drop: <b>"+(t.pct?'extra 5% off':(t.k==='ship'?'free express shipping':'$'+t.val+' off'))+"</b></span><span class='tag'>LOCKED IN</span></div>"+
       "<div class='mps-srow'><span class='se'>🚚</span><span>WIN #3 — <b>FREE EXPRESS SHIPPING</b> over $150</span><span class='tag'>ACTIVE</span></div>";
     var rows=stack.querySelectorAll('.mps-srow');
     for(var ri=0;ri<rows.length;ri++){(function(r,d){setTimeout(function(){r.className='mps-srow in';},replayView?10:(220+d*260));})(rows[ri],ri);}
@@ -502,25 +456,25 @@
     var exp=document.getElementById('mps-exp');
     var expFn=function(){var left=GAME_END-Date.now();if(left<=0){exp.textContent='Code expired.';clearInterval(expTimer);expTimer=null;return;}exp.innerHTML='⏳ Your code is live now and expires in <b>'+fmtDHMS(left)+'</b>';};
     expFn();expTimer=setInterval(expFn,1000);
-    document.getElementById('mps-tease').textContent=t.k==='m40'?'You maxed the board. Absolute legend.':'Tomorrow’s free run could hit the 2600-point 🍁 MEGA JACKPOT — practice tonight, cash in tomorrow.';
+    document.getElementById('mps-tease').textContent=t.k==='m40'?'You hit the edge bucket. Absolute legend.':'The 🍁 $40 JACKPOT lives in the edge buckets — tomorrow’s 3 free drops could land it.';
     var st=streak();
     document.getElementById('mps-streakbox').innerHTML=st>1?"<span class='mps-streak'>🔥 "+st+"-day streak</span>":'';
     var nx=document.getElementById('mps-next');
     var end=new Date();end.setHours(24,0,0,0);
     var lastDay=Date.now()>GAME_END-86400000;
     if(nextTimer){clearInterval(nextTimer);nextTimer=null;}
-    if(lastDay){nx.innerHTML='That was the final day &mdash; thanks for playing Maple Slots! 🍁';}
+    if(lastDay){nx.innerHTML='That was the final day &mdash; thanks for playing Maple Drop! 🍁';}
     else{
       var tickFn=function(){
         var left=end.getTime()-Date.now();
         if(left<=0){
           clearInterval(nextTimer);nextTimer=null;
-          MODE='idle';run={spin:0,score:0,combo:0};lastTierIdx=0;
+          MODE='idle';run={drops:[]};
           resetToPlay();armPull();
-          var m=document.getElementById('mps-msg');if(m){msg('');m.style.color='#ffd76a';m.textContent='🍁 A new day, a new prize run — go!';msgTimer=setTimeout(function(){m.style.color='';m.textContent='';msgTimer=null;},6000);}
+          var m=document.getElementById('mps-msg');if(m){msg('');m.style.color='#ffd76a';m.textContent='🍁 A new day — 3 fresh drops are ready!';msgTimer=setTimeout(function(){m.style.color='';m.textContent='';msgTimer=null;},6000);}
           return;
         }
-        nx.innerHTML='Next prize run in <b>'+fmtHMS(left)+'</b> &mdash; practice now, jackpot tomorrow';
+        nx.innerHTML='3 more free drops in <b>'+fmtHMS(left)+'</b> &mdash; practice now, jackpot tomorrow';
       };
       tickFn();if(nextTimer===null&&root.querySelector('.mps-win').style.display==='block'){nextTimer=setInterval(tickFn,1000);}
     }
@@ -535,44 +489,52 @@
     }
     w.innerHTML=h;
   }
-  /* --- main button --- */
+  /* --- main button: only used to START (drops happen by tapping the board) --- */
   function onMainBtn(){
-    if(Date.now()>GAME_END){setBtn('GAME OVER',false,true);msg('Maple Slots has ended — thanks for playing!');return;}
-    if(MODE==='spinning'){stopNext();return;}
-    if(MODE!=='idle'&&MODE!=='done')return;
-    if(MODE==='done'&&practice){run={spin:0,score:0,combo:0};lastTierIdx=0;MODE='idle';updHud(false);startSpin();return;}
-    /* starting a run from idle */
-    if(practice){if(run.spin>=3){run={spin:0,score:0,combo:0};lastTierIdx=0;updHud(false);}startSpin();return;}
+    if(Date.now()>GAME_END){setBtn('GAME OVER',false,true);msg('Maple Drop has ended — thanks for playing!');return;}
+    if(MODE!=='idle')return;
+    if(practice){run={drops:[]};updHud();MODE='aiming';setBtn('&#127919; PRACTICE — TAP THE BOARD',true,true);return;}
     if(playedToday()){var pz=tierByCode(store().plays[today()]);if(pz){showWin(pz,true);return;}}
     var emEl=document.getElementById('mps-em');
     var hp=document.getElementById('mps-hp');if(hp&&hp.value)return;
     if(Date.now()-openedAt<1500){return;}
     var t=today();
-    if(t<'2026-07-01'||t>'2026-07-07'){warn(emEl,'Maple Slots runs July 1 to 7 only');return;}
+    if(t<'2026-07-01'||t>'2026-07-07'){warn(emEl,'Maple Drop runs July 1 to 7 only');return;}
     var s=store();
     var em=(emEl.value||'').trim().toLowerCase();
     if(!em&&s.email)em=s.email;
-    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){warn(emEl,'Enter your email to start your run');return;}
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){warn(emEl,'Enter your email to unlock your drops');return;}
     if(BADDOM.indexOf(em.split('@')[1])>-1){warn(emEl,'Please use a real email');return;}
     var resuming=(s.run&&s.runDay===t);
     if(!resuming&&s.lastPullAt){
-      if(Date.now()<s.lastPullAt-3600000){warn(emEl,'Device clock looks off — run unavailable');return;}
+      if(Date.now()<s.lastPullAt-3600000){warn(emEl,'Device clock looks off — drops unavailable');return;}
       if(Date.now()-s.lastPullAt<600000){var wm=Math.max(1,Math.ceil((600000-(Date.now()-s.lastPullAt))/60000));warn(emEl,'Easy there, eh! Try again in '+wm+' min'+(wm>1?'utes':'ute')+'.');return;}
     }
-    try{if(!resuming&&document.cookie.indexOf('ccSlots'+t.replace(/-/g,'')+'=1')>-1){warn(emEl,'You already ran today — come back tomorrow, eh!');return;}}catch(e){}
+    try{if(!resuming&&document.cookie.indexOf('ccSlots'+t.replace(/-/g,'')+'=1')>-1){warn(emEl,'You already dropped today — come back tomorrow, eh!');return;}}catch(e){}
     clearErr();
     var c=ac();if(c&&c.state==='suspended'){try{c.resume();}catch(e){}}
     if(!s.email){postEmail(em);}
     try{document.cookie='ccSlots'+t.replace(/-/g,'')+'=1;path=/;max-age=172800';}catch(e){}
-    s.email=em;if(!resuming){s.runDay=t;s.run={spin:0,score:0,combo:0};}
+    s.email=em;if(!resuming){s.runDay=t;s.run={drops:[]};}
     save(s);
-    if(resuming){run={spin:s.run.spin,score:s.run.score,combo:s.run.combo};}
-    updHud(false);
-    startSpin();
+    if(resuming){run={drops:(s.run.drops||[]).slice(0)};}
+    updHud();
+    MODE='aiming';
+    setBtn('&#127809; TAP THE BOARD — DROP '+(run.drops.length+1)+' OF 3',true,true);
   }
   pullBtn.addEventListener('click',onMainBtn);
+  function cvTap(e){
+    if(MODE!=='aiming')return;
+    var r=cv.getBoundingClientRect();
+    var cx=(e.touches&&e.touches[0]?e.touches[0].clientX:e.clientX);
+    var x=(cx-r.left)*(W/r.width);
+    dropAt(x);
+    if(e.cancelable)e.preventDefault();
+  }
+  cv.addEventListener('mousedown',cvTap);
+  cv.addEventListener('touchstart',cvTap,{passive:false});
   document.getElementById('mps-pract').addEventListener('click',function(){
-    practice=true;MODE='idle';run={spin:0,score:0,combo:0};lastTierIdx=0;
+    practice=true;MODE='idle';run={drops:[]};
     resetToPlay();
     setBtn('&#127919; START PRACTICE',false,false);
   });
@@ -580,22 +542,16 @@
   document.getElementById('mps-copy').addEventListener('click',function(){var v=document.getElementById('mps-codeval');try{v.select();document.execCommand('copy');}catch(e){}try{navigator.clipboard.writeText(v.value);}catch(e){}var b=this;b.textContent='Copied!';setTimeout(function(){b.textContent='Copy';},1600);});
   var cs=root.querySelectorAll('[data-close]');
   function doClose(){
-    /* closing mid-spin forfeits control: reels auto-stop where they are and the spin scores — no re-rolls */
-    if(MODE==='spinning'){
-      for(var i2=0;i2<3;i2++)R[i2].halt();
-      while(curSyms.length<3){curSyms.push(R[curSyms.length].current());}
-      stopsLeft=0;close();scoreCurrent();return;
-    }
+    /* closing mid-fall: the ball finishes falling off-screen and that drop scores wherever it lands (sim continues), no re-rolls */
     close();
   }
   for(var i=0;i<cs.length;i++)cs[i].addEventListener('click',doClose);
   document.addEventListener('keydown',function(e){if(e.key==='Escape')doClose();});
-  document.addEventListener('keydown',function(e){if((e.key===' '||e.key==='Enter')&&MODE==='spinning'&&!root.hasAttribute('hidden')){e.preventDefault();stopNext();}});
   tab.addEventListener('click',open);
   document.addEventListener('ccOpenSlots',open);
   var s0=store();
   if(s0.email){document.getElementById('mps-em').value=s0.email;}
-  updHud(false);
+  updHud();
   try{if(!sessionStorage.getItem('mpsSeen')){sessionStorage.setItem('mpsSeen','1');setTimeout(open,3200);}}catch(e){}
 })();
 </script>
