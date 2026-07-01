@@ -1,4 +1,4 @@
-{%- comment -%} MAPLE DROP v5 (plinko) — Curated Clinicals Canada Day week game (Jul 1-7 2026). Dead-simple + addictive: tap the board, a maple leaf drops through pegs into a prize bucket. 3 drops/day, BEST drop counts, every bucket is a real prize (capped single-use Shopify codes, minimums lowered 2026-07-01 for conversion: SHIP $50+/ $10 off $75+/ $15 off $125+/ $25 off $175+/ $40 off $250+). Edges = jackpot like real plinko. Endless practice mode after the daily run. Anti-abuse kept: email gate, honeypot, date-window/clock guards, per-drop persistence (refresh mid-fall forfeits that drop), daily cookie; hard bound = once/customer + global caps. Legacy MAPLE5 kept for wallet lookups of earlier winners. Mounted from layout/theme.liquid. Self-hides after 2026-07-08T06:59:59Z. {%- endcomment -%}
+{%- comment -%} THE MAPLE WHEEL v6 (Price-is-Right flick wheel) — Curated Clinicals Canada Day week (Jul 1-7 2026). User grabs the wheel and FLINGS it (real drag->momentum physics, flapper ticks each segment, peg drag slows it, near-miss final clicks). ONE prize spin/day; 14 segments: $10x3, SHIPx3, $15x2, GIFTx2 (free $20 toward anything, $100+ = GWP wedge, code MAPLEGIFT-W8N), RESPINx2 (free extra fling), $25x1, JACKPOT $40x1. Segment share = the odds, visible and honest. Too-soft flings don't count ("give'er a real rip"). Endless practice flings after the daily spin. All prizes = real capped single-use Shopify codes (mins: SHIP $50+/$10 $75+/GIFT $100+/$15 $125+/$25 $175+/$40 $250+). Anti-abuse kept: email gate, honeypot, date/clock guards, pend flag (refresh mid-spin forfeits to $10), daily cookie; hard bound = once/customer + caps. Mounted from layout/theme.liquid. Self-hides after 2026-07-08T06:59:59Z. {%- endcomment -%}
 <style>
 #mps-tab{position:fixed;right:0;bottom:110px;z-index:9998;background:linear-gradient(180deg,#e01936,#8f0618);color:#fff;border:0;padding:13px 9px 15px;border-radius:14px 0 0 14px;cursor:pointer;box-shadow:-5px 6px 22px rgba(0,0,0,.3);display:flex;flex-direction:column;align-items:center;gap:7px;font-family:inherit;transition:transform .18s ease;animation:mpsPulse 2.6s ease-in-out infinite}
 @keyframes mpsPulse{0%,100%{transform:translateX(0)}50%{transform:translateX(-4px)}}
@@ -9,7 +9,7 @@
 @media(max-width:600px){#mps-tab{bottom:84px;padding:11px 8px 13px}#mps-tab .g2{font-size:10px}}
 #mps[hidden]{display:none}
 #mps{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;font-family:inherit}
-#mps .mps-ov{position:absolute;inset:0;background:rgba(12,8,4,.74);backdrop-filter:blur(3px)}
+#mps .mps-ov{position:absolute;inset:0;background:rgba(12,8,4,.74);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
 #mps .mps-card{position:relative;background:#171310;color:#f3ede2;max-width:430px;width:100%;border-radius:22px;padding:24px 22px 20px;box-shadow:0 34px 90px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);text-align:center;animation:mpsIn .35s ease;max-height:94vh;overflow:auto;border:1px solid #3a2f22}
 @keyframes mpsIn{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
 #mps .mps-x{position:absolute;top:8px;right:13px;border:0;background:transparent;font-size:26px;line-height:1;color:#7d715f;cursor:pointer;z-index:6}
@@ -19,17 +19,13 @@
 #mps .mps-ti{font-family:Georgia,serif;font-size:26px;margin:0 0 2px;line-height:1.1;color:#fff}
 #mps .mps-ti .lf{font-size:21px}
 #mps .mps-sub{font-size:12px;color:#a99a82;margin:0 0 10px}
-#mps .mps-hud{display:flex;gap:6px;justify-content:center;margin:0 0 8px}
-#mps .mps-hbox{flex:1;background:#0f0c09;border:1px solid #2c2418;border-radius:10px;padding:6px 4px}
-#mps .mps-hbox .hl{font-size:8.5px;letter-spacing:1.5px;color:#7d715f;font-weight:800;text-transform:uppercase}
-#mps .mps-hbox .hv{font-size:17px;font-weight:800;color:#ffd76a;font-variant-numeric:tabular-nums;line-height:1.2}
-#mps .mps-board{position:relative;background:linear-gradient(180deg,#241c14,#171310);border:1px solid #4a3c28;border-radius:16px;padding:10px 8px 8px;margin:0 0 8px;box-shadow:inset 0 2px 12px rgba(0,0,0,.5)}
+#mps .mps-board{position:relative;background:linear-gradient(180deg,#241c14,#171310);border:1px solid #4a3c28;border-radius:16px;padding:8px;margin:0 0 8px;box-shadow:inset 0 2px 12px rgba(0,0,0,.5)}
 #mps .mps-board.shake{animation:mpsShake .4s ease}
 @keyframes mpsShake{0%,100%{transform:none}25%{transform:translateX(-4px) rotate(-.4deg)}75%{transform:translateX(4px) rotate(.4deg)}}
 #mps .mps-board.megashake{animation:mpsMega .7s ease}
 @keyframes mpsMega{0%,100%{transform:none}15%{transform:translate(-6px,2px) rotate(-.8deg)}35%{transform:translate(6px,-2px) rotate(.8deg)}55%{transform:translate(-5px,1px) rotate(-.6deg)}75%{transform:translate(4px,-1px) rotate(.5deg)}}
-#mps canvas{display:block;width:100%;height:auto;border-radius:10px;touch-action:manipulation;cursor:pointer}
-#mps .mps-scorepop{position:absolute;left:0;right:0;top:2px;text-align:center;font-family:Georgia,serif;font-size:30px;font-weight:700;color:#ffd76a;text-shadow:0 0 16px rgba(255,215,106,.6);opacity:0;pointer-events:none;z-index:4}
+#mps canvas{display:block;width:100%;height:auto;border-radius:10px;touch-action:none;cursor:grab}
+#mps .mps-scorepop{position:absolute;left:0;right:0;top:6px;text-align:center;font-family:Georgia,serif;font-size:30px;font-weight:700;color:#ffd76a;text-shadow:0 0 16px rgba(255,215,106,.6);opacity:0;pointer-events:none;z-index:4}
 #mps .mps-scorepop.go{animation:mpsRise 1.1s ease forwards}
 @keyframes mpsRise{0%{opacity:0;transform:translateY(14px) scale(.8)}25%{opacity:1;transform:translateY(-2px) scale(1.08)}70%{opacity:1}100%{opacity:0;transform:translateY(-30px) scale(1)}}
 #mps .mps-mins{font-size:9.5px;color:#7d715f;margin:0 0 8px;line-height:1.5}
@@ -81,33 +77,29 @@
 #mps .mps-wrow b{color:#ffd76a;letter-spacing:1px}
 .mps-conf{position:fixed;top:-40px;z-index:100000;pointer-events:none;font-size:22px;will-change:transform,opacity}
 </style>
-<button id='mps-tab' type='button' aria-label='Play Maple Drop'>
-  <span class='g1'>&#127809;</span><span class='g2'>Maple Drop</span><span class='g3'>WIN</span>
+<button id='mps-tab' type='button' aria-label='Spin the Maple Wheel'>
+  <span class='g1'>&#127905;</span><span class='g2'>Maple Wheel</span><span class='g3'>WIN</span>
 </button>
 <div id='mps' hidden>
   <div class='mps-ov' data-close></div>
-  <div class='mps-card' role='dialog' aria-modal='true' aria-label='Maple Drop — Canada Day game'>
+  <div class='mps-card' role='dialog' aria-modal='true' aria-label='The Maple Wheel — Canada Day game'>
     <button class='mps-x' type='button' data-close aria-label='Close'>&times;</button>
     <button class='mps-snd' type='button' id='mps-snd' aria-label='Toggle sound'>&#128266;</button>
     <p class='mps-ey'>Canada Day Week &middot; July 1 to 7</p>
-    <h2 class='mps-ti'><span class='lf'>&#127809;</span> MAPLE DROP <span class='lf'>&#127809;</span></h2>
-    <p class='mps-sub'>Tap the board. Watch it bounce. Win the bucket. <strong>3 free drops a day &mdash; your best one counts.</strong></p>
+    <h2 class='mps-ti'><span class='lf'>&#127809;</span> THE MAPLE WHEEL <span class='lf'>&#127809;</span></h2>
+    <p class='mps-sub'><strong>Grab the wheel and give it a rip.</strong> One prize spin a day &mdash; every wedge wins something.</p>
     <div class='mps-play'>
-      <div class='mps-practflag' id='mps-practflag'>&#127919; PRACTICE MODE &mdash; endless drops, prizes unlock tomorrow</div>
-      <div class='mps-hud'>
-        <div class='mps-hbox'><div class='hl'>Drops left</div><div class='hv' id='mps-drops'>3</div></div>
-        <div class='mps-hbox'><div class='hl'>Best prize so far</div><div class='hv' id='mps-best'>&ndash;</div></div>
-      </div>
+      <div class='mps-practflag' id='mps-practflag'>&#127919; PRACTICE MODE &mdash; endless flings, prizes unlock tomorrow</div>
       <div class='mps-board' id='mps-board'>
         <div class='mps-scorepop' id='mps-scorepop'></div>
-        <canvas id='mps-cv' width='352' height='430' aria-label='Maple Drop board — tap to drop'></canvas>
+        <canvas id='mps-cv' width='352' height='392' aria-label='The Maple Wheel — drag to spin'></canvas>
       </div>
-      <p class='mps-mins'>Every bucket wins. Minimums: <b>SHIP</b> free express shipping $50+ &middot; <b>$10</b> off $75+ &middot; <b>$15</b> off $125+ &middot; <b>$25</b> off $175+ &middot; <b>&#127809;$40</b> off $250+ &middot; all stack with the 20% sale</p>
-      <input class='mps-em' id='mps-em' type='email' placeholder='Email to unlock your 3 free drops' autocomplete='email'>
+      <p class='mps-mins'>Every wedge wins: <b>SHIP</b> free express shipping $50+ &middot; <b>$10</b> off $75+ &middot; <b>&#127873; GIFT</b> $20 toward anything $100+ &middot; <b>$15</b> off $125+ &middot; <b>$25</b> off $175+ &middot; <b>&#127809;$40</b> off $250+ &middot; <b>RESPIN</b> free extra fling &middot; all stack with the 20% sale</p>
+      <input class='mps-em' id='mps-em' type='email' placeholder='Email to unlock your daily spin' autocomplete='email'>
       <input id='mps-hp' type='text' tabindex='-1' autocomplete='off' aria-hidden='true' style='position:absolute;left:-9999px;top:auto;width:1px;height:1px;opacity:0'>
       <div class='mps-msg' id='mps-msg'></div>
-      <button class='mps-pull' id='mps-pull' type='button'>&#127809; START MY 3 FREE DROPS</button>
-      <p class='mps-fine'>3 prize drops per person per day through July 7 &mdash; best drop counts. Codes are single-use, stack with the 20% sale, and expire July 7 at 11:59 PM PT. Playing joins our email list. Unlimited practice after your drops.</p>
+      <button class='mps-pull' id='mps-pull' type='button'>&#127809; UNLOCK MY SPIN</button>
+      <p class='mps-fine'>One prize spin per person per day through July 7. Codes are single-use, stack with the 20% sale, and expire July 7 at 11:59 PM PT. Playing joins our email list. Unlimited practice flings after your spin.</p>
     </div>
     <div class='mps-win'>
       <div class='we' id='mps-we'>&#127881;</div>
@@ -121,7 +113,7 @@
       </div>
       <div class='mps-exp' id='mps-exp'></div>
       <a class='mps-go' id='mps-go' href='/collections/all'>&#128176; CASH OUT &mdash; SHOP NOW &rarr;</a>
-      <button class='mps-practbtn' id='mps-pract' type='button'>&#127919; PRACTICE MODE &mdash; keep dropping for fun</button>
+      <button class='mps-practbtn' id='mps-pract' type='button'>&#127919; KEEP SPINNING &mdash; just for fun</button>
       <div class='mps-tease' id='mps-tease'></div>
       <div id='mps-streakbox'></div>
       <div class='mps-next' id='mps-next'></div>
@@ -140,19 +132,20 @@
   var GAME_END=new Date('2026-07-08T06:59:59Z').getTime();
   if(Date.now()>GAME_END){tab.style.display='none';return;}
   function dec(s){try{return atob(s);}catch(e){return '';}}
-  /* rank: higher = better; m5 legacy (not on board) for old wallet entries */
   var TIERS={
-    m5:  {k:'m5',  c:'TUFQTEU1LUo3TA==',     rank:0, val:5,  pct:true,  short:'5%',   name:'a BONUS PAYOUT — 5% off everything', sub:'An extra 5% on your whole order, stacked on the 20% sale.', stack:'Stacked: 25%+ off retail on anything you grab'},
-    m10: {k:'m10', c:'TUFQTEUxMC1YNFQ=',     rank:1, val:10, pct:false, short:'$10',  name:'a $10 CASH DROP',                     sub:'On orders of just $75 or more. Stacks with the 20% sale.', stack:'Stacked: $28+ off retail on a $75 order'},
-    ship:{k:'ship',c:'TUFQTEVTSElQLVEyTg==', rank:2, val:15, pct:false, short:'SHIP', name:'FREE EXPRESS SHIPPING',               sub:'On orders of just $50 or more. Stacks with the sale.',      stack:'Stacked: $25+ in savings on a $50 order'},
-    m15: {k:'m15', c:'TUFQTEUxNS1COFc=',     rank:3, val:15, pct:false, short:'$15',  name:'a $15 CASH DROP',                     sub:'On orders of $125 or more. Stacks with the 20% sale.',      stack:'Stacked: $45+ off retail on a $125 order'},
-    m25: {k:'m25', c:'TUFQTEUyNS1SM0s=',     rank:4, val:25, pct:false, short:'$25',  name:'a BIG WIN — $25 off',                 sub:'On orders of $175 or more. Stacks with the 20% sale.',      stack:'Stacked: $65+ off retail on a $175 order'},
-    m40: {k:'m40', c:'TUFQTEU0MC1aOUY=',     rank:5, val:40, pct:false, short:'$40',  name:'the $40 MEGA JACKPOT',                sub:'On orders of $250 or more. The top bucket, eh!',            stack:'Stacked: $100+ off retail on a $250 order'}
+    m5:  {k:'m5',  c:'TUFQTEU1LUo3TA==',     rank:0, val:5,  pct:true,  short:'5%',    name:'a BONUS PAYOUT — 5% off everything', sub:'An extra 5% on your whole order, stacked on the 20% sale.', stack:'Stacked: 25%+ off retail on anything you grab'},
+    m10: {k:'m10', c:'TUFQTEUxMC1YNFQ=',     rank:1, val:10, pct:false, short:'$10',   name:'a $10 CASH PRIZE',                    sub:'On orders of just $75 or more. Stacks with the 20% sale.', stack:'Stacked: $28+ off retail on a $75 order'},
+    ship:{k:'ship',c:'TUFQTEVTSElQLVEyTg==', rank:2, val:15, pct:false, short:'SHIP',  name:'FREE EXPRESS SHIPPING',               sub:'On orders of just $50 or more. Stacks with the sale.',      stack:'Stacked: $25+ in savings on a $50 order'},
+    gift:{k:'gift',c:'TUFQTEVHSUZULVc4Tg==', rank:3, val:20, pct:false, short:'GIFT',  name:'a FREE GIFT ON US',                   sub:'Pick anything up to $20 — it is on us, with orders of $100 or more.', stack:'Stacked: $45+ in savings on a $100 order'},
+    m15: {k:'m15', c:'TUFQTEUxNS1COFc=',     rank:4, val:15, pct:false, short:'$15',   name:'a $15 CASH PRIZE',                    sub:'On orders of $125 or more. Stacks with the 20% sale.',      stack:'Stacked: $45+ off retail on a $125 order'},
+    m25: {k:'m25', c:'TUFQTEUyNS1SM0s=',     rank:5, val:25, pct:false, short:'$25',   name:'a BIG WIN — $25 off',                 sub:'On orders of $175 or more. Stacks with the 20% sale.',      stack:'Stacked: $65+ off retail on a $175 order'},
+    m40: {k:'m40', c:'TUFQTEU0MC1aOUY=',     rank:6, val:40, pct:false, short:'$40',   name:'the $40 MEGA JACKPOT',                sub:'On orders of $250 or more. The top wedge, eh!',             stack:'Stacked: $100+ off retail on a $250 order'}
   };
   for(var tk in TIERS){if(TIERS.hasOwnProperty(tk))TIERS[tk].code=dec(TIERS[tk].c);}
-  /* board buckets left->right; edges = jackpot, classic plinko */
-  var BUCKETS=['m40','m25','m15','ship','m10','ship','m15','m25','m40'];
-  var BCOLORS={m40:'#e01936',m25:'#d4ba6a',m15:'#b89234',ship:'#7fa8d4',m10:'#8fbf7f'};
+  /* 14 wedges — physical share = the odds, honest and visible */
+  var SEGS=['m10','ship','m15','respin','m10','gift','m25','ship','m10','m40','ship','m15','respin','gift'];
+  var SEGCOL={m10:'#8fbf7f',ship:'#7fa8d4',m15:'#b89234',m25:'#d4ba6a',m40:'#e01936',gift:'#e07fae',respin:'#f3ede2'};
+  var SEGTXT={m10:'#0f2408',ship:'#0a1d33',m15:'#241800',m25:'#241800',m40:'#ffffff',gift:'#3d0a24',respin:'#5a4a20'};
   function rnd(){try{var a=new Uint32Array(1);(window.crypto||window.msCrypto).getRandomValues(a);return a[0]/4294967296;}catch(e){return (new Date().getTime()%997)/997;}}
   /* --- sound --- */
   var muted=false;try{muted=localStorage.getItem('ccSlotsMute')==='1';}catch(e){}
@@ -169,8 +162,8 @@
     }catch(e){}
   }
   var lastTick=0;
-  function sndPeg(){var n=Date.now();if(n-lastTick<45)return;lastTick=n;beep(900+rnd()*500,0.03,0,'square',0.03);}
-  function sndBucket(){beep(880,0.07,0,'triangle',0.06);beep(1174,0.09,0.08,'triangle',0.06);}
+  function sndPeg(){var n=Date.now();if(n-lastTick<35)return;lastTick=n;beep(1050+rnd()*250,0.025,0,'square',0.035);}
+  function sndLand(){beep(880,0.07,0,'triangle',0.06);beep(1174,0.09,0.08,'triangle',0.06);}
   function sndWin(){var n=[660,830,990,1320];for(var i=0;i<n.length;i++)beep(n[i],0.12,i*0.09,'triangle',0.06);}
   function sndJackpot(){var n=[523,659,784,1046,1318,1568,2093];for(var i=0;i<n.length;i++)beep(n[i],0.16,i*0.09,'triangle',0.07);for(var j=0;j<5;j++)beep(2093,0.05,0.7+j*0.07,'square',0.04);}
   var sndBtn=document.getElementById('mps-snd');
@@ -183,166 +176,183 @@
   function today(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
   function playedToday(){var s=store();return !!(s.plays&&s.plays[today()]);}
   function tierByCode(c){for(var tk in TIERS){if(TIERS.hasOwnProperty(tk)&&TIERS[tk].code===c)return TIERS[tk];}return null;}
-  function bestOf(keys){var b=null;for(var i=0;i<keys.length;i++){var t=TIERS[keys[i]];if(t&&(!b||t.rank>b.rank))b=t;}return b;}
   function streak(){var s=store();if(!s.plays)return 0;var n=0,d=new Date();for(;;){var k=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);if(s.plays[k]){n++;d.setDate(d.getDate()-1);}else break;}return n;}
   var openedAt=0,nextTimer=null,gateTimer=null,msgTimer=null,expTimer=null;
-  var MODE='idle'; /* idle | aiming | dropping | scoring | done */
+  var MODE='idle'; /* idle | aiming | spinning | scoring | done */
   var practice=false;
-  var run={drops:[]}; /* tier keys landed this run */
   function msg(t){var m=document.getElementById('mps-msg');if(!m)return;if(msgTimer){clearTimeout(msgTimer);msgTimer=null;}m.style.color='';m.textContent=t||'';}
   function clearErr(){var e=document.getElementById('mps-em');if(e)e.style.borderColor='';msg('');}
   function warn(el,text){el.focus();el.style.borderColor='#e01936';msg(text||'');}
-  /* --- plinko engine (canvas) --- */
+  /* --- wheel engine --- */
   var cv=document.getElementById('mps-cv'),ctx=cv.getContext('2d');
-  var W=352,H=430,BW=W/9,BUCKET_Y=372;
-  var PEGS=[];
-  (function(){
-    var rows=9,y0=78,dy=30;
-    for(var r=0;r<rows;r++){
-      var off=(r%2===0)?0:16,n=Math.floor((W-24)/32)+1;
-      for(var i=0;i<n;i++){
-        var x=12+off+i*32;
-        if(x>10&&x<W-10)PEGS.push({x:x,y:y0+r*dy,glow:0});
-      }
-    }
-  })();
-  var ball=null; /* {x,y,vx,vy} */
-  var hintT=0,drawRaf=null,drawing=false;
-  function tierAtBucket(i){return TIERS[BUCKETS[Math.max(0,Math.min(8,i))]];}
-  function draw(ts){
+  var W=352,H=392,CX=176,CY=204,R=158;
+  var N=SEGS.length,SEGA=Math.PI*2/N;
+  var theta=rnd()*6.28,omega=0,fricK=0.55,flap=0,prevIdx=-1;
+  var dragging=false,dragSamples=[],dragPrev=0;
+  var drawRaf=null,drawing=false,drawLast=0;
+  function mod2pi(a){a=a%(Math.PI*2);if(a<0)a+=Math.PI*2;return a;}
+  function idxUnderPointer(){return Math.floor(mod2pi(-Math.PI/2-theta)/SEGA)%N;}
+  function drawWheel(ts){
     if(!drawing)return;
-    hintT=ts||0;
-    ctx.clearRect(0,0,W,H);
-    /* drop zone hint */
-    if(MODE==='aiming'){
-      ctx.save();
-      ctx.globalAlpha=0.75+0.25*Math.sin(hintT/300);
-      ctx.fillStyle='#ffd76a';
-      ctx.font='700 13px sans-serif';ctx.textAlign='center';
-      ctx.fillText('TAP ANYWHERE TO DROP',W/2,26);
-      var ax=W/2+Math.sin(hintT/500)*100;
-      ctx.font='20px sans-serif';
-      ctx.fillText('🍁',ax,52);
-      ctx.font='700 14px sans-serif';
-      ctx.fillText('▼',ax,66);
-      ctx.restore();
+    if(!drawLast)drawLast=ts;
+    var dt=Math.min(50,ts-drawLast)/1000;drawLast=ts;
+    /* physics */
+    if(MODE==='spinning'&&!dragging){
+      theta+=omega*dt;
+      omega*=Math.exp(-fricK*dt);
+      var ci=idxUnderPointer();
+      if(ci!==prevIdx){prevIdx=ci;flap=1;omega*=0.982;sndPeg();}
+      if(Math.abs(omega)<0.06){omega=0;MODE='scoring';setTimeout(function(){land(idxUnderPointer());},250);}
+    }else if(MODE==='aiming'&&!dragging){
+      theta+=0.12*dt; /* idle drift so it looks alive */
+      var ci2=idxUnderPointer();if(ci2!==prevIdx)prevIdx=ci2;
     }
-    /* pegs */
-    for(var p=0;p<PEGS.length;p++){
-      var pg=PEGS[p];
-      ctx.beginPath();ctx.arc(pg.x,pg.y,4,0,6.2832);
-      if(pg.glow>0){ctx.fillStyle='#ffd76a';pg.glow-=0.06;}else{ctx.fillStyle='#6b5a3e';}
+    if(flap>0)flap=Math.max(0,flap-dt*6);
+    /* render */
+    ctx.clearRect(0,0,W,H);
+    /* rim lights */
+    for(var L=0;L<24;L++){
+      var la=L*(Math.PI*2/24)+((MODE==='spinning')?theta*0.5:0);
+      var lx=CX+Math.cos(la)*(R+9),ly=CY+Math.sin(la)*(R+9);
+      ctx.beginPath();ctx.arc(lx,ly,2.6,0,6.2832);
+      ctx.fillStyle=(L%2===(Math.floor((ts||0)/250)%2))?'#ffd76a':'#4a3c28';
       ctx.fill();
     }
-    /* buckets */
-    for(var b=0;b<9;b++){
-      var t=tierAtBucket(b),x0=b*BW;
-      ctx.fillStyle='rgba(15,12,9,.9)';
-      ctx.fillRect(x0+1,BUCKET_Y,BW-2,H-BUCKET_Y-2);
-      ctx.strokeStyle=BCOLORS[t.k];ctx.lineWidth=1.5;
-      ctx.strokeRect(x0+1,BUCKET_Y,BW-2,H-BUCKET_Y-2);
-      ctx.fillStyle=BCOLORS[t.k];
-      ctx.font=(t.k==='m40'?'800 12px':'800 11px')+' sans-serif';ctx.textAlign='center';
-      ctx.fillText(t.short,x0+BW/2,BUCKET_Y+22);
-      if(t.k==='m40'){ctx.font='10px sans-serif';ctx.fillText('🍁',x0+BW/2,BUCKET_Y+38);}
-      else{ctx.fillStyle='#7d715f';ctx.font='800 8px sans-serif';ctx.fillText(t.k==='ship'?'FREE':'OFF',x0+BW/2,BUCKET_Y+36);}
+    /* wedges */
+    for(var i=0;i<N;i++){
+      var a0=theta+i*SEGA,a1=a0+SEGA,key=SEGS[i];
+      ctx.beginPath();ctx.moveTo(CX,CY);ctx.arc(CX,CY,R,a0,a1);ctx.closePath();
+      ctx.fillStyle=SEGCOL[key];ctx.fill();
+      ctx.strokeStyle='rgba(23,19,16,.8)';ctx.lineWidth=2;ctx.stroke();
+      /* label */
+      ctx.save();
+      ctx.translate(CX,CY);ctx.rotate(a0+SEGA/2);
+      ctx.textAlign='center';ctx.fillStyle=SEGTXT[key];
+      if(key==='respin'){ctx.font='800 11px sans-serif';ctx.fillText('RESPIN',103,4);}
+      else if(key==='gift'){ctx.font='14px sans-serif';ctx.fillText('🎁',118,5);ctx.font='800 12px sans-serif';ctx.fillText('GIFT',88,5);}
+      else if(key==='m40'){ctx.font='14px sans-serif';ctx.fillText('🍁',122,5);ctx.font='800 14px sans-serif';ctx.fillText('$40',90,6);}
+      else{ctx.font='800 14px sans-serif';ctx.fillText(TIERS[key].short,103,5);}
+      ctx.restore();
     }
-    /* ball */
-    if(ball){
-      ctx.font='20px sans-serif';ctx.textAlign='center';
-      ctx.fillText('🍁',ball.x,ball.y+7);
+    /* hub */
+    ctx.beginPath();ctx.arc(CX,CY,30,0,6.2832);ctx.fillStyle='#171310';ctx.fill();
+    ctx.strokeStyle='#d4ba6a';ctx.lineWidth=2.5;ctx.stroke();
+    ctx.font='22px sans-serif';ctx.textAlign='center';ctx.fillText('🍁',CX,CY+8);
+    /* flapper at 12 o'clock */
+    ctx.save();
+    ctx.translate(CX,CY-R-2);
+    ctx.rotate(flap*0.6*((omega>=0)?-1:1));
+    ctx.beginPath();ctx.moveTo(-11,-12);ctx.lineTo(11,-12);ctx.lineTo(0,16);ctx.closePath();
+    ctx.fillStyle='#ffd76a';ctx.fill();
+    ctx.strokeStyle='#8f6a1a';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.restore();
+    /* aiming hint */
+    if(MODE==='aiming'&&!dragging){
+      ctx.save();
+      ctx.globalAlpha=0.8+0.2*Math.sin((ts||0)/280);
+      ctx.fillStyle='#ffd76a';ctx.font='800 13px sans-serif';ctx.textAlign='center';
+      ctx.fillText(practice?'GRAB & RIP IT — PRACTICE':'GRAB THE WHEEL & RIP IT 👋',CX,H-8);
+      ctx.restore();
     }
-    drawRaf=requestAnimationFrame(draw);
+    drawRaf=requestAnimationFrame(drawWheel);
   }
-  function startDrawing(){if(!drawing){drawing=true;drawRaf=requestAnimationFrame(draw);}}
+  function startDrawing(){if(!drawing){drawing=true;drawLast=0;drawRaf=requestAnimationFrame(drawWheel);}}
   function stopDrawing(){drawing=false;if(drawRaf)cancelAnimationFrame(drawRaf);}
-  var physLast=0,physRaf=null,dropT=0;
-  function simulate(ts){
-    if(!ball){return;}
-    if(Date.now()-dropT>15000){var wb=Math.max(0,Math.min(8,Math.floor(ball.x/BW)));ball=null;landDrop(wb);return;}
-    if(!physLast)physLast=ts;
-    var dt=Math.min(32,ts-physLast)/1000;physLast=ts;
-    var steps=4,sdt=dt/steps;
-    for(var s=0;s<steps;s++){
-      ball.vy+=1500*sdt;
-      ball.x+=ball.vx*sdt;ball.y+=ball.vy*sdt;
-      if(ball.x<8){ball.x=8;ball.vx=Math.abs(ball.vx)*0.6;}
-      if(ball.x>W-8){ball.x=W-8;ball.vx=-Math.abs(ball.vx)*0.6;}
-      for(var p=0;p<PEGS.length;p++){
-        var pg=PEGS[p],dx=ball.x-pg.x,dy2=ball.y-pg.y,d2=dx*dx+dy2*dy2,minD=11;
-        if(d2<minD*minD&&d2>0.01){
-          var d=Math.sqrt(d2),nx=dx/d,ny=dy2/d;
-          ball.x=pg.x+nx*minD;ball.y=pg.y+ny*minD;
-          var dot=ball.vx*nx+ball.vy*ny;
-          ball.vx=(ball.vx-2*dot*nx)*0.55+(rnd()-0.5)*70;
-          ball.vy=(ball.vy-2*dot*ny)*0.55;
-          if(ball.vy<40)ball.vy=40;
-          pg.glow=1;sndPeg();
-        }
-      }
-      if(ball.y>=BUCKET_Y-8){
-        var bi=Math.max(0,Math.min(8,Math.floor(ball.x/BW)));
-        ball=null;landDrop(bi);
-        return;
-      }
-    }
-    physRaf=requestAnimationFrame(simulate);
+  /* --- drag / fling --- */
+  function ptAngle(e){
+    var r=cv.getBoundingClientRect();
+    var cx=(e.touches&&e.touches[0]?e.touches[0].clientX:e.clientX);
+    var cy=(e.touches&&e.touches[0]?e.touches[0].clientY:e.clientY);
+    var x=(cx-r.left)*(W/r.width),y=(cy-r.top)*(H/r.height);
+    return Math.atan2(y-CY,x-CX);
   }
-  function dropAt(x){
+  function dragStart(e){
     if(MODE!=='aiming')return;
-    MODE='dropping';
+    dragging=true;dragPrev=ptAngle(e);dragSamples=[{t:Date.now(),a:0}];
+    if(e.cancelable)e.preventDefault();
+  }
+  function dragMove(e){
+    if(!dragging)return;
+    var a=ptAngle(e);
+    var d=a-dragPrev;
+    if(d>Math.PI)d-=Math.PI*2;if(d<-Math.PI)d+=Math.PI*2;
+    theta+=d;dragPrev=a;
+    var last=dragSamples[dragSamples.length-1];
+    dragSamples.push({t:Date.now(),a:last.a+d});
+    if(dragSamples.length>8)dragSamples.shift();
+    if(e.cancelable)e.preventDefault();
+  }
+  function dragEnd(){
+    if(!dragging)return;
+    dragging=false;
+    if(MODE!=='aiming')return;
+    var now=Date.now(),first=null,last=dragSamples[dragSamples.length-1];
+    for(var i=0;i<dragSamples.length;i++){if(now-dragSamples[i].t<=140){first=dragSamples[i];break;}}
+    if(!first||first===last){return;}
+    var w=(last.a-first.a)/Math.max(1,(last.t-first.t))*1000;
+    if(Math.abs(w)<6.5){
+      msg("Too soft — give'er a REAL rip, eh! 💪");
+      msgTimer=setTimeout(function(){msg('');},2500);
+      return;
+    }
+    omega=Math.max(-16,Math.min(16,w));
+    fricK=0.5+rnd()*0.18; /* per-spin friction jitter — no aim mastery */
     var c=ac();if(c&&c.state==='suspended'){try{c.resume();}catch(e){}}
-    if(!practice){var sp=store();sp.runDay=today();sp.run={drops:run.drops.slice(0),pend:1};save(sp);}
-    ball={x:Math.max(20,Math.min(W-20,x)),y:14,vx:(rnd()-0.5)*30,vy:60};
-    physLast=0;dropT=Date.now();physRaf=requestAnimationFrame(simulate);
-    updHud();
+    if(!practice){
+      var sp=store();sp.runDay=today();sp.run={pend:1};save(sp);
+      try{document.cookie='ccSlots'+today().replace(/-/g,'')+'=1;path=/;max-age=172800';}catch(e){}
+    }
+    clearErr();
+    MODE='spinning';
+    setBtn('&#127905; NO WHAMMIES…',true,true);
   }
-  function landDrop(bi){
-    MODE='scoring';
-    var t=tierAtBucket(bi);
-    run.drops.push(t.k);
-    if(!practice){var s=store();s.run={drops:run.drops.slice(0)};s.runDay=today();save(s);}
-    var board=document.getElementById('mps-board');
-    board.className='mps-board '+(t.k==='m40'?'megashake':'shake');
-    setTimeout(function(){board.className='mps-board';},700);
+  cv.addEventListener('mousedown',dragStart);
+  document.addEventListener('mousemove',dragMove);
+  document.addEventListener('mouseup',dragEnd);
+  cv.addEventListener('touchstart',dragStart,{passive:false});
+  cv.addEventListener('touchmove',dragMove,{passive:false});
+  document.addEventListener('touchend',dragEnd);
+  /* --- landing --- */
+  function popTxt(txt){
     var sp2=document.getElementById('mps-scorepop');
-    sp2.textContent=(t.k==='ship'?'FREE SHIP!':(t.k==='m40'?'🍁 $40 JACKPOT!':t.short+' OFF!'));
+    sp2.textContent=txt;
     sp2.className='mps-scorepop';void sp2.offsetHeight;sp2.className='mps-scorepop go';
-    if(!root.hasAttribute('hidden')){if(t.k==='m40'){sndJackpot();shower(true);}else{sndBucket();}}
-    updHud();
-    setTimeout(function(){
-      if(run.drops.length>=3){
-        if(practice){
-          MODE='idle';
-          var b=bestOf(run.drops);
-          var m=document.getElementById('mps-msg');
-          msg('');m.style.color='#ffd76a';
-          m.textContent='Practice: best bucket '+(b?b.short:'—')+'. Endless retries, eh!';
-          msgTimer=setTimeout(function(){m.style.color='';m.textContent='';msgTimer=null;},6000);
-          run={drops:[]};updHud();
-          MODE='aiming';
-          setBtn('&#127919; PRACTICE — TAP THE BOARD',true,true);
-        }else{finishRun();}
-      }
-      else{MODE='aiming';setBtn(practice?'&#127919; PRACTICE — TAP TO DROP':'&#127809; TAP THE BOARD — DROP '+(run.drops.length+1)+' OF 3',true,true);}
-    },1100);
   }
-  function updHud(){
-    document.getElementById('mps-drops').textContent=Math.max(0,3-run.drops.length);
-    var b=bestOf(run.drops);
-    document.getElementById('mps-best').textContent=b?(b.k==='ship'?'FREE SHIP':b.short+' OFF'):'–';
-  }
-  function finishRun(){
-    MODE='done';
-    var t=bestOf(run.drops)||TIERS.m10;
+  function land(idx){
+    var key=SEGS[idx];
+    var board=document.getElementById('mps-board');
+    if(key==='respin'){
+      if(!root.hasAttribute('hidden')){sndLand();board.className='mps-board shake';setTimeout(function(){board.className='mps-board';},700);}
+      popTxt('🍁 FREE RESPIN!');
+      setTimeout(function(){MODE='aiming';setBtn(practice?'&#127919; RIP IT AGAIN':'&#127905; BONUS SPIN — RIP IT!',true,true);},1000);
+      return;
+    }
+    var t=TIERS[key];
+    if(!root.hasAttribute('hidden')){
+      board.className='mps-board '+(t.k==='m40'?'megashake':'shake');
+      setTimeout(function(){board.className='mps-board';},700);
+      if(t.k==='m40'){sndJackpot();shower(true);}else{sndLand();}
+    }
+    popTxt(t.k==='ship'?'FREE SHIP!':(t.k==='gift'?'🎁 FREE GIFT!':(t.k==='m40'?'🍁 $40 JACKPOT!':t.short+' OFF!')));
+    if(practice){
+      setTimeout(function(){
+        var m=document.getElementById('mps-msg');
+        msg('');m.style.color='#ffd76a';
+        m.textContent='Practice: you landed '+(t.k==='ship'?'FREE SHIPPING':(t.k==='gift'?'the FREE GIFT':t.short+' OFF'))+' — the real spin pays out tomorrow!';
+        msgTimer=setTimeout(function(){m.style.color='';m.textContent='';msgTimer=null;},6000);
+        MODE='aiming';setBtn('&#127919; RIP IT AGAIN',true,true);
+      },1000);
+      return;
+    }
     var s=store();
     s.plays=s.plays||{};s.plays[today()]=t.code;s.lastPullAt=Date.now();
     delete s.run;delete s.runDay;
     save(s);
-    setBtn('&#10003; DONE FOR TODAY',false,true);
-    runWinSequence(t);
+    MODE='done';
+    setBtn('&#10003; SPUN FOR TODAY',false,true);
+    setTimeout(function(){runWinSequence(t);},900);
   }
-  /* --- celebration + payout (shared shell) --- */
+  /* --- celebration + payout shell --- */
   function shower(big){
     if(root.hasAttribute('hidden'))return;
     var n=big?80:44;
@@ -367,7 +377,7 @@
       if(root.hasAttribute('hidden')){showWin(t,false);return;}
       var burst=document.getElementById('mps-burst');
       var bv=document.getElementById('mps-bv'),bn=document.getElementById('mps-bn');
-      bn.innerHTML='YOUR BEST DROP — YOU WON '+(t.pct?'A 5% BONUS':(t.k==='ship'?'FREE EXPRESS SHIPPING':t.name.replace('a ','').replace('the ','').toUpperCase()));
+      bn.innerHTML='THE WHEEL HAS SPOKEN — YOU WON '+(t.pct?'A 5% BONUS':(t.k==='ship'?'FREE EXPRESS SHIPPING':(t.k==='gift'?'A FREE GIFT ON US':t.name.replace('a ','').replace('the ','').toUpperCase())));
       burst.style.display='flex';
       var t0=null,DUR=900,target=t.pct?5:t.val;
       function step(ts){
@@ -395,13 +405,13 @@
     if(expTimer){clearInterval(expTimer);expTimer=null;}
     clearErr();
     document.getElementById('mps-practflag').style.display=practice?'block':'none';
-    updHud();startDrawing();
+    if(!root.hasAttribute('hidden'))startDrawing();
   }
-  function setBtn(label,dropmode,disabled){pullBtn.innerHTML=label;pullBtn.className='mps-pull'+(dropmode?' dropmode':'');pullBtn.disabled=!!disabled;}
+  function setBtn(label,hot,disabled){pullBtn.innerHTML=label;pullBtn.className='mps-pull'+(hot?' dropmode':'');pullBtn.disabled=!!disabled;}
   var pullBtn=document.getElementById('mps-pull');
   function armPull(label){
     if(gateTimer){clearTimeout(gateTimer);gateTimer=null;}
-    setBtn(label||'&#127809; START MY 3 FREE DROPS',false,true);
+    setBtn(label||'&#127809; UNLOCK MY SPIN',false,true);
     gateTimer=setTimeout(function(){
       if(Date.now()>GAME_END){setBtn('GAME OVER',false,true);return;}
       if(MODE==='idle'&&(!playedToday()||practice)){pullBtn.disabled=false;}
@@ -410,23 +420,21 @@
   function open(){
     root.removeAttribute('hidden');openedAt=Date.now();
     if(Date.now()>GAME_END){setBtn('GAME OVER',false,true);return;}
-    if(MODE==='aiming'||MODE==='dropping'||MODE==='scoring'){startDrawing();return;}
+    if(MODE==='aiming'||MODE==='spinning'||MODE==='scoring'){startDrawing();return;}
     if(playedToday())practice=false;
     var tp=playedToday()?tierByCode(store().plays[today()]):null;
     if(tp&&!practice){showWin(tp,true);}
     else{
       var s=store();
-      if(!practice&&s.run&&s.runDay===today()){
-        run={drops:(s.run.drops||[]).slice(0)};
-        if(s.run.pend){
-          run.drops.push('forfeit');
-          var s3=store();s3.run={drops:run.drops.slice(0)};save(s3);
-        }
+      if(!practice&&s.run&&s.run.pend&&s.runDay===today()){
+        /* refresh mid-spin = forfeit to the smallest prize (still a win, no re-roll incentive) */
         MODE='idle';resetToPlay();
-        if(run.drops.length>=3){finishRun();return;}
-        armPull('&#127809; RESUME — DROP '+(run.drops.length+1)+' OF 3');
+        var ft=TIERS.m10;
+        var s3=store();s3.plays=s3.plays||{};s3.plays[today()]=ft.code;s3.lastPullAt=Date.now();delete s3.run;delete s3.runDay;save(s3);
+        MODE='done';setBtn('&#10003; SPUN FOR TODAY',false,true);
+        showWin(ft,false);
       }
-      else{run={drops:[]};MODE='idle';resetToPlay();armPull(practice?'&#127919; START PRACTICE':undefined);}
+      else{MODE='idle';resetToPlay();armPull(practice?'&#127919; START PRACTICE':undefined);}
     }
   }
   function close(){root.setAttribute('hidden','');stopDrawing();}
@@ -440,13 +448,13 @@
     root.querySelector('.mps-play').style.display='none';
     root.querySelector('.mps-win').style.display='block';
     document.getElementById('mps-burst').style.display='none';
-    document.getElementById('mps-we').innerHTML=t.k==='m40'?'🏆':'🎉';
+    document.getElementById('mps-we').innerHTML=t.k==='m40'?'🏆':(t.k==='gift'?'🎁':'🎉');
     document.getElementById('mps-wt').textContent=(replayView?'Today you won ':'You won ')+t.name+'!';
     document.getElementById('mps-ws').textContent=t.sub;
     var stack=document.getElementById('mps-stack');
     stack.innerHTML=
       "<div class='mps-srow'><span class='se'>🍁</span><span>WIN #1 — <b>20% OFF EVERYTHING</b> storewide</span><span class='tag'>ACTIVE</span></div>"+
-      "<div class='mps-srow'><span class='se'>🎯</span><span>WIN #2 — your drop: <b>"+(t.pct?'extra 5% off':(t.k==='ship'?'free express shipping':'$'+t.val+' off'))+"</b></span><span class='tag'>LOCKED IN</span></div>"+
+      "<div class='mps-srow'><span class='se'>🎡</span><span>WIN #2 — your spin: <b>"+(t.pct?'extra 5% off':(t.k==='ship'?'free express shipping':(t.k==='gift'?'$20 gift on us':'$'+t.val+' off')))+"</b></span><span class='tag'>LOCKED IN</span></div>"+
       "<div class='mps-srow'><span class='se'>🚚</span><span>WIN #3 — <b>FREE EXPRESS SHIPPING</b> over $150</span><span class='tag'>ACTIVE</span></div>";
     var rows=stack.querySelectorAll('.mps-srow');
     for(var ri=0;ri<rows.length;ri++){(function(r,d){setTimeout(function(){r.className='mps-srow in';},replayView?10:(220+d*260));})(rows[ri],ri);}
@@ -456,25 +464,25 @@
     var exp=document.getElementById('mps-exp');
     var expFn=function(){var left=GAME_END-Date.now();if(left<=0){exp.textContent='Code expired.';clearInterval(expTimer);expTimer=null;return;}exp.innerHTML='⏳ Your code is live now and expires in <b>'+fmtDHMS(left)+'</b>';};
     expFn();expTimer=setInterval(expFn,1000);
-    document.getElementById('mps-tease').textContent=t.k==='m40'?'You hit the edge bucket. Absolute legend.':'The 🍁 $40 JACKPOT lives in the edge buckets — tomorrow’s 3 free drops could land it.';
+    document.getElementById('mps-tease').textContent=t.k==='m40'?'You hit the 🍁 wedge. Absolute legend.':'The 🍁 $40 JACKPOT wedge is still on the wheel — tomorrow’s spin could hit it.';
     var st=streak();
     document.getElementById('mps-streakbox').innerHTML=st>1?"<span class='mps-streak'>🔥 "+st+"-day streak</span>":'';
     var nx=document.getElementById('mps-next');
     var end=new Date();end.setHours(24,0,0,0);
     var lastDay=Date.now()>GAME_END-86400000;
     if(nextTimer){clearInterval(nextTimer);nextTimer=null;}
-    if(lastDay){nx.innerHTML='That was the final day &mdash; thanks for playing Maple Drop! 🍁';}
+    if(lastDay){nx.innerHTML='That was the final day &mdash; thanks for spinning The Maple Wheel! 🍁';}
     else{
       var tickFn=function(){
         var left=end.getTime()-Date.now();
         if(left<=0){
           clearInterval(nextTimer);nextTimer=null;
-          MODE='idle';run={drops:[]};
+          MODE='idle';
           resetToPlay();armPull();
-          var m=document.getElementById('mps-msg');if(m){msg('');m.style.color='#ffd76a';m.textContent='🍁 A new day — 3 fresh drops are ready!';msgTimer=setTimeout(function(){m.style.color='';m.textContent='';msgTimer=null;},6000);}
+          var m=document.getElementById('mps-msg');if(m){msg('');m.style.color='#ffd76a';m.textContent='🍁 A new day — your prize spin is ready!';msgTimer=setTimeout(function(){m.style.color='';m.textContent='';msgTimer=null;},6000);}
           return;
         }
-        nx.innerHTML='3 more free drops in <b>'+fmtHMS(left)+'</b> &mdash; practice now, jackpot tomorrow';
+        nx.innerHTML='Next prize spin in <b>'+fmtHMS(left)+'</b> &mdash; keep practicing that rip';
       };
       tickFn();if(nextTimer===null&&root.querySelector('.mps-win').style.display==='block'){nextTimer=setInterval(tickFn,1000);}
     }
@@ -489,69 +497,50 @@
     }
     w.innerHTML=h;
   }
-  /* --- main button: only used to START (drops happen by tapping the board) --- */
+  /* --- main button: unlocks the wheel (spin happens by grabbing the wheel) --- */
   function onMainBtn(){
-    if(Date.now()>GAME_END){setBtn('GAME OVER',false,true);msg('Maple Drop has ended — thanks for playing!');return;}
+    if(Date.now()>GAME_END){setBtn('GAME OVER',false,true);msg('The Maple Wheel has ended — thanks for playing!');return;}
     if(MODE!=='idle')return;
-    if(practice){run={drops:[]};updHud();MODE='aiming';setBtn('&#127919; PRACTICE — TAP THE BOARD',true,true);return;}
+    if(practice){MODE='aiming';setBtn('&#127919; GRAB THE WHEEL',true,true);return;}
     if(playedToday()){var pz=tierByCode(store().plays[today()]);if(pz){showWin(pz,true);return;}}
     var emEl=document.getElementById('mps-em');
     var hp=document.getElementById('mps-hp');if(hp&&hp.value)return;
     if(Date.now()-openedAt<1500){return;}
     var t=today();
-    if(t<'2026-07-01'||t>'2026-07-07'){warn(emEl,'Maple Drop runs July 1 to 7 only');return;}
+    if(t<'2026-07-01'||t>'2026-07-07'){warn(emEl,'The Maple Wheel runs July 1 to 7 only');return;}
     var s=store();
     var em=(emEl.value||'').trim().toLowerCase();
     if(!em&&s.email)em=s.email;
-    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){warn(emEl,'Enter your email to unlock your drops');return;}
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){warn(emEl,'Enter your email to unlock your spin');return;}
     if(BADDOM.indexOf(em.split('@')[1])>-1){warn(emEl,'Please use a real email');return;}
-    var resuming=(s.run&&s.runDay===t);
-    if(!resuming&&s.lastPullAt){
-      if(Date.now()<s.lastPullAt-3600000){warn(emEl,'Device clock looks off — drops unavailable');return;}
+    if(s.lastPullAt){
+      if(Date.now()<s.lastPullAt-3600000){warn(emEl,'Device clock looks off — spin unavailable');return;}
       if(Date.now()-s.lastPullAt<600000){var wm=Math.max(1,Math.ceil((600000-(Date.now()-s.lastPullAt))/60000));warn(emEl,'Easy there, eh! Try again in '+wm+' min'+(wm>1?'utes':'ute')+'.');return;}
     }
-    try{if(!resuming&&document.cookie.indexOf('ccSlots'+t.replace(/-/g,'')+'=1')>-1){warn(emEl,'You already dropped today — come back tomorrow, eh!');return;}}catch(e){}
+    try{if(document.cookie.indexOf('ccSlots'+t.replace(/-/g,'')+'=1')>-1){warn(emEl,'You already spun today — come back tomorrow, eh!');return;}}catch(e){}
     clearErr();
     var c=ac();if(c&&c.state==='suspended'){try{c.resume();}catch(e){}}
     if(!s.email){postEmail(em);}
-    try{document.cookie='ccSlots'+t.replace(/-/g,'')+'=1;path=/;max-age=172800';}catch(e){}
-    s.email=em;if(!resuming){s.runDay=t;s.run={drops:[]};}
-    save(s);
-    if(resuming){run={drops:(s.run.drops||[]).slice(0)};}
-    updHud();
+    s.email=em;save(s);
     MODE='aiming';
-    setBtn('&#127809; TAP THE BOARD — DROP '+(run.drops.length+1)+' OF 3',true,true);
+    setBtn('&#127905; GRAB THE WHEEL & RIP IT',true,true);
   }
   pullBtn.addEventListener('click',onMainBtn);
-  function cvTap(e){
-    if(MODE!=='aiming')return;
-    var r=cv.getBoundingClientRect();
-    var cx=(e.touches&&e.touches[0]?e.touches[0].clientX:e.clientX);
-    var x=(cx-r.left)*(W/r.width);
-    dropAt(x);
-    if(e.cancelable)e.preventDefault();
-  }
-  cv.addEventListener('mousedown',cvTap);
-  cv.addEventListener('touchstart',cvTap,{passive:false});
   document.getElementById('mps-pract').addEventListener('click',function(){
-    practice=true;MODE='idle';run={drops:[]};
+    practice=true;MODE='idle';
     resetToPlay();
     setBtn('&#127919; START PRACTICE',false,false);
   });
   document.getElementById('mps-em').addEventListener('input',clearErr);
   document.getElementById('mps-copy').addEventListener('click',function(){var v=document.getElementById('mps-codeval');try{v.select();document.execCommand('copy');}catch(e){}try{navigator.clipboard.writeText(v.value);}catch(e){}var b=this;b.textContent='Copied!';setTimeout(function(){b.textContent='Copy';},1600);});
   var cs=root.querySelectorAll('[data-close]');
-  function doClose(){
-    /* closing mid-fall: the ball finishes falling off-screen and that drop scores wherever it lands (sim continues), no re-rolls */
-    close();
-  }
+  function doClose(){close();}
   for(var i=0;i<cs.length;i++)cs[i].addEventListener('click',doClose);
   document.addEventListener('keydown',function(e){if(e.key==='Escape')doClose();});
   tab.addEventListener('click',open);
   document.addEventListener('ccOpenSlots',open);
   var s0=store();
   if(s0.email){document.getElementById('mps-em').value=s0.email;}
-  updHud();
   try{if(!sessionStorage.getItem('mpsSeen')){sessionStorage.setItem('mpsSeen','1');setTimeout(open,3200);}}catch(e){}
 })();
 </script>
