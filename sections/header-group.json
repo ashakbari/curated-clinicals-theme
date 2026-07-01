@@ -18,7 +18,7 @@
           "type": "_announcement",
           "name": "t:names.announcement",
           "settings": {
-            "text": "SUMMER SALE — <strong>20% OFF EVERYTHING</strong>[ship][sep]FREE EXPRESS SHIPPING OVER $150[/ship]",
+            "text": "🍁 CANADA DAY WEEK — <strong>20% OFF EVERYTHING</strong>[slots][ship][sep]FREE EXPRESS SHIPPING OVER $150[/ship]",
             "link": "",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
