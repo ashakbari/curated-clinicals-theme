@@ -1,4 +1,4 @@
-{%- comment -%} THE MAPLE WHEEL v6 (Price-is-Right flick wheel) — Curated Clinicals Canada Day week (Jul 1-7 2026). User grabs the wheel and FLINGS it (real drag->momentum physics, flapper ticks each segment, peg drag slows it, near-miss final clicks). ONE prize spin/day; 14 segments: $10x3, SHIPx3, $15x2, GIFTx2 (free $20 toward anything, $100+ = GWP wedge, code MAPLEGIFT-W8N), RESPINx2 (free extra fling), $25x1, JACKPOT $40x1. Segment share = the odds, visible and honest. Too-soft flings don't count ("give'er a real rip"). Endless practice flings after the daily spin. All prizes = real capped single-use Shopify codes (mins: SHIP $50+/$10 $75+/GIFT $100+/$15 $125+/$25 $175+/$40 $250+). Anti-abuse kept: email gate, honeypot, date/clock guards, pend flag (refresh mid-spin forfeits to $10), daily cookie; hard bound = once/customer + caps. Mounted from layout/theme.liquid. Self-hides after 2026-07-08T06:59:59Z. {%- endcomment -%}
+{%- comment -%} THE MAPLE WHEEL v7 (one-button) — Curated Clinicals Canada Day week (Jul 1-7 2026). Simplest possible flow: enter email -> press SPIN -> wheel auto-spins (uniform random landing, ~4.6s ease-out w/ flapper ticks + near-miss crawl) -> minimal prize card (emoji, title, code, one-line terms, CASH OUT, next-spin countdown). ONE spin/day, no practice mode. 14 wedges = the odds ($10x3, SHIPx3, $15x2, GIFTx2, RESPINx2 auto-respins, $25, JACKPOT $40). Prizes = real capped single-use codes (SHIP $50+/$10 $75+/GIFT $100+/$15 $125+/$25 $175+/$40 $250+), all stack with the 20% sale, expire 2026-07-08T06:59:59Z. Anti-abuse: email+honeypot+date/clock guards, pend at spin start (refresh mid-spin forfeits to $10), daily cookie; hard bound = once/customer + caps. m5 legacy tier kept for old wallets' code lookup only. Mounted from layout/theme.liquid. Self-hides after game end. {%- endcomment -%}
 <style>
 #mps-tab{position:fixed;right:0;bottom:110px;z-index:9998;background:linear-gradient(180deg,#e01936,#8f0618);color:#fff;border:0;padding:13px 9px 15px;border-radius:14px 0 0 14px;cursor:pointer;box-shadow:-5px 6px 22px rgba(0,0,0,.3);display:flex;flex-direction:column;align-items:center;gap:7px;font-family:inherit;transition:transform .18s ease;animation:mpsPulse 2.6s ease-in-out infinite}
 @keyframes mpsPulse{0%,100%{transform:translateX(0)}50%{transform:translateX(-4px)}}
@@ -10,71 +10,51 @@
 #mps[hidden]{display:none}
 #mps{position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;padding:16px;font-family:inherit}
 #mps .mps-ov{position:absolute;inset:0;background:rgba(12,8,4,.74);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
-#mps .mps-card{position:relative;background:#171310;color:#f3ede2;max-width:430px;width:100%;border-radius:22px;padding:24px 22px 20px;box-shadow:0 34px 90px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);text-align:center;animation:mpsIn .35s ease;max-height:94vh;overflow:auto;border:1px solid #3a2f22}
+#mps .mps-card{position:relative;background:#171310;color:#f3ede2;max-width:420px;width:100%;border-radius:22px;padding:22px 20px 18px;box-shadow:0 34px 90px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.06);text-align:center;animation:mpsIn .35s ease;max-height:94vh;overflow:auto;border:1px solid #3a2f22}
 @keyframes mpsIn{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:none}}
 #mps .mps-x{position:absolute;top:8px;right:13px;border:0;background:transparent;font-size:26px;line-height:1;color:#7d715f;cursor:pointer;z-index:6}
 #mps .mps-x:hover{color:#f3ede2}
 #mps .mps-snd{position:absolute;top:10px;left:13px;border:0;background:transparent;font-size:17px;line-height:1;color:#7d715f;cursor:pointer;z-index:6}
 #mps .mps-ey{text-transform:uppercase;letter-spacing:3px;font-size:10.5px;color:#d4ba6a;font-weight:800;margin:0 0 3px}
-#mps .mps-ti{font-family:Georgia,serif;font-size:26px;margin:0 0 2px;line-height:1.1;color:#fff}
-#mps .mps-ti .lf{font-size:21px}
-#mps .mps-sub{font-size:12px;color:#a99a82;margin:0 0 10px}
-#mps .mps-board{position:relative;background:linear-gradient(180deg,#241c14,#171310);border:1px solid #4a3c28;border-radius:16px;padding:8px;margin:0 0 8px;box-shadow:inset 0 2px 12px rgba(0,0,0,.5)}
+#mps .mps-ti{font-family:Georgia,serif;font-size:25px;margin:0 0 2px;line-height:1.1;color:#fff}
+#mps .mps-sub{font-size:12.5px;color:#a99a82;margin:0 0 10px}
+#mps .mps-board{position:relative;margin:0 0 4px}
 #mps .mps-board.shake{animation:mpsShake .4s ease}
 @keyframes mpsShake{0%,100%{transform:none}25%{transform:translateX(-4px) rotate(-.4deg)}75%{transform:translateX(4px) rotate(.4deg)}}
 #mps .mps-board.megashake{animation:mpsMega .7s ease}
 @keyframes mpsMega{0%,100%{transform:none}15%{transform:translate(-6px,2px) rotate(-.8deg)}35%{transform:translate(6px,-2px) rotate(.8deg)}55%{transform:translate(-5px,1px) rotate(-.6deg)}75%{transform:translate(4px,-1px) rotate(.5deg)}}
-#mps canvas{display:block;width:100%;height:auto;border-radius:10px;touch-action:none;cursor:grab}
+#mps canvas{display:block;width:100%;height:auto}
 #mps .mps-scorepop{position:absolute;left:0;right:0;top:6px;text-align:center;font-family:Georgia,serif;font-size:30px;font-weight:700;color:#ffd76a;text-shadow:0 0 16px rgba(255,215,106,.6);opacity:0;pointer-events:none;z-index:4}
 #mps .mps-scorepop.go{animation:mpsRise 1.1s ease forwards}
 @keyframes mpsRise{0%{opacity:0;transform:translateY(14px) scale(.8)}25%{opacity:1;transform:translateY(-2px) scale(1.08)}70%{opacity:1}100%{opacity:0;transform:translateY(-30px) scale(1)}}
-#mps .mps-mins{font-size:9.5px;color:#7d715f;margin:0 0 8px;line-height:1.5}
-#mps .mps-mins b{color:#c9a26a;font-weight:800}
 #mps .mps-em{width:100%;box-sizing:border-box;border:1.5px solid #4a3c28;background:#0f0c09;color:#f3ede2;border-radius:10px;padding:11px 13px;font-size:16px;margin:2px 0 0;font-family:inherit}
 #mps .mps-em::placeholder{color:#7d715f}
 #mps .mps-em:focus{outline:0;border-color:#d4ba6a}
-#mps .mps-msg{min-height:15px;font-size:11.5px;color:#ff9daa;margin:6px 0 0;font-weight:700}
-#mps .mps-pull{display:block;width:100%;background:linear-gradient(90deg,#d4ba6a,#b89234);color:#241800;border:0;font-weight:800;font-size:17px;padding:14px;border-radius:999px;cursor:pointer;letter-spacing:1.5px;margin-top:8px;transition:transform .12s,filter .15s,opacity .2s;box-shadow:0 4px 14px rgba(212,186,106,.25)}
-#mps .mps-pull:hover{transform:translateY(-1px);filter:brightness(1.07)}
-#mps .mps-pull:active{transform:scale(.97)}
+#mps .mps-msg{min-height:15px;font-size:11.5px;color:#ff9daa;margin:5px 0 0;font-weight:700}
+#mps .mps-pull{display:block;width:100%;background:linear-gradient(180deg,#f5d98a,#d4ba6a 45%,#a37e2c);color:#241800;border:0;border-bottom:4px solid #6e5417;font-weight:800;font-size:19px;padding:16px;border-radius:16px;cursor:pointer;letter-spacing:2px;margin-top:8px;transition:transform .08s,filter .15s,opacity .2s;box-shadow:0 6px 18px rgba(212,186,106,.3)}
+#mps .mps-pull:hover{filter:brightness(1.06)}
+#mps .mps-pull:active{transform:translateY(3px);border-bottom-width:1px}
 #mps .mps-pull[disabled]{opacity:.55;cursor:not-allowed;transform:none}
-#mps .mps-pull.dropmode{background:linear-gradient(90deg,#e01936,#b3081f);color:#fff;animation:mpsGlow 1s ease-in-out infinite}
-#mps .mps-pull.dropmode[disabled]{opacity:1;cursor:default}
-#mps .mps-practbtn{display:block;width:100%;background:transparent;border:1.5px dashed #4a3c28;color:#d4ba6a;font-weight:800;font-size:13px;padding:11px;border-radius:999px;cursor:pointer;margin-top:9px;letter-spacing:1px}
-#mps .mps-practbtn:hover{border-color:#d4ba6a}
-#mps .mps-practflag{display:none;background:rgba(224,25,54,.12);border:1px dashed rgba(224,25,54,.5);color:#ff9daa;font-size:10.5px;font-weight:800;border-radius:8px;padding:5px 8px;margin:0 0 8px;letter-spacing:.6px}
-#mps .mps-fine{font-size:10px;color:#7d715f;margin:8px 0 0;line-height:1.5}
+#mps .mps-pull.spinning{background:linear-gradient(180deg,#ff5a70,#e01936 45%,#8f0618);color:#fff;border-bottom-color:#5c0410;opacity:1;cursor:default;animation:mpsGlow 1s ease-in-out infinite}
+#mps .mps-fine{font-size:10px;color:#7d715f;margin:8px 0 0;line-height:1.6}
+#mps .mps-fine b{color:#c9a26a}
 #mps-burst{position:absolute;inset:0;background:rgba(15,10,6,.92);border-radius:22px;display:none;align-items:center;justify-content:center;flex-direction:column;z-index:5;animation:mpsIn .25s ease}
 #mps-burst .bw{font-size:15px;letter-spacing:5px;color:#ffd76a;font-weight:800;animation:mpsBlink .35s step-end infinite}
 @keyframes mpsBlink{50%{opacity:.35}}
 #mps-burst .bv{font-family:Georgia,serif;font-size:60px;color:#fff;font-weight:700;line-height:1.05;margin:8px 0 4px;text-shadow:0 0 24px rgba(255,215,106,.55);font-variant-numeric:tabular-nums}
 #mps-burst .bn{font-size:14px;color:#d4ba6a;font-weight:800;letter-spacing:1px;padding:0 14px;line-height:1.4}
-#mps .mps-win{display:none}
-#mps .mps-win .we{font-size:42px;line-height:1}
-#mps .mps-win .wt{font-size:20px;font-weight:800;margin:6px 0 2px;color:#ffd76a}
-#mps .mps-win .ws{font-size:12.5px;color:#cbbfa8;margin:0 0 10px;line-height:1.45}
-#mps .mps-stack{margin:0 0 10px;text-align:left}
-#mps .mps-srow{display:flex;align-items:center;gap:9px;background:#0f0c09;border:1px solid #3a2f22;border-radius:10px;padding:8px 11px;margin:5px 0;font-size:12px;color:#e8ddc8;opacity:0;transform:translateX(-14px);transition:opacity .3s ease,transform .3s ease}
-#mps .mps-srow.in{opacity:1;transform:none}
-#mps .mps-srow .se{font-size:17px}
-#mps .mps-srow b{color:#ffd76a}
-#mps .mps-srow .tag{margin-left:auto;background:rgba(212,186,106,.15);border:1px solid rgba(212,186,106,.4);color:#ffd76a;font-size:9px;font-weight:800;padding:2px 7px;border-radius:999px;letter-spacing:1px;white-space:nowrap}
-#mps .mps-total{background:linear-gradient(90deg,rgba(224,25,54,.18),rgba(212,186,106,.18));border:1px dashed #d4ba6a;border-radius:10px;padding:8px 10px;font-size:12.5px;font-weight:800;color:#ffe9a8;margin:0 0 10px;letter-spacing:.4px}
-#mps .mps-code{display:flex;gap:8px;align-items:stretch;margin:0 0 8px}
-#mps .mps-code input{flex:1;min-width:0;border:1.5px dashed #d4ba6a;border-radius:10px;background:#241c10;color:#ffd76a;font-weight:800;font-size:16px;text-align:center;letter-spacing:1.5px;padding:11px;font-family:inherit}
-#mps .mps-code button{background:#d4ba6a;color:#241800;border:0;border-radius:10px;padding:0 15px;font-weight:800;cursor:pointer}
-#mps .mps-exp{font-size:10.5px;color:#c9a26a;margin:0 0 10px;font-variant-numeric:tabular-nums}
-#mps .mps-exp b{color:#ffd76a}
-#mps .mps-go{display:block;background:linear-gradient(90deg,#e01936,#b3081f);color:#fff;text-decoration:none;font-weight:800;padding:15px;border-radius:999px;font-size:16px;letter-spacing:.8px;box-shadow:0 5px 16px rgba(224,25,54,.35);animation:mpsGlow 1.6s ease-in-out infinite}
+#mps .mps-win{display:none;padding-top:6px}
+#mps .mps-win .we{font-size:52px;line-height:1}
+#mps .mps-win .wt{font-family:Georgia,serif;font-size:24px;font-weight:700;margin:8px 0 4px;color:#ffd76a;line-height:1.2}
+#mps .mps-win .ws{font-size:13px;color:#cbbfa8;margin:0 0 14px;line-height:1.5}
+#mps .mps-code{display:flex;gap:8px;align-items:stretch;margin:0 0 6px}
+#mps .mps-code input{flex:1;min-width:0;border:2px dashed #d4ba6a;border-radius:12px;background:#241c10;color:#ffd76a;font-weight:800;font-size:18px;text-align:center;letter-spacing:2px;padding:13px;font-family:inherit}
+#mps .mps-code button{background:#d4ba6a;color:#241800;border:0;border-radius:12px;padding:0 16px;font-weight:800;cursor:pointer;font-size:13px}
+#mps .mps-terms{font-size:10.5px;color:#7d715f;margin:0 0 12px;line-height:1.5}
+#mps .mps-go{display:block;background:linear-gradient(90deg,#e01936,#b3081f);color:#fff;text-decoration:none;font-weight:800;padding:16px;border-radius:999px;font-size:16px;letter-spacing:.8px;box-shadow:0 5px 16px rgba(224,25,54,.35);animation:mpsGlow 1.6s ease-in-out infinite}
 @keyframes mpsGlow{0%,100%{box-shadow:0 5px 16px rgba(224,25,54,.35)}50%{box-shadow:0 5px 26px rgba(224,25,54,.65)}}
-#mps .mps-tease{font-size:11px;color:#ff9daa;margin:10px 0 0;font-weight:700}
-#mps .mps-next{margin:10px 0 0;background:#0f0c09;border:1px dashed #4a3c28;border-radius:12px;padding:10px 12px;font-size:12.5px;color:#cbbfa8}
+#mps .mps-next{margin:12px 0 0;background:#0f0c09;border:1px dashed #4a3c28;border-radius:12px;padding:10px 12px;font-size:12.5px;color:#cbbfa8}
 #mps .mps-next b{color:#d4ba6a;font-variant-numeric:tabular-nums;font-size:14px}
-#mps .mps-streak{display:inline-block;background:rgba(224,25,54,.15);border:1px solid rgba(224,25,54,.4);color:#ff9daa;font-size:11px;font-weight:800;border-radius:999px;padding:3px 10px;margin-top:8px;letter-spacing:.5px}
-#mps .mps-wallet{margin:12px 0 0;text-align:left}
-#mps .mps-wallet .wl-t{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#d4ba6a;font-weight:800;margin:0 0 5px;text-align:center}
-#mps .mps-wrow{display:flex;justify-content:space-between;align-items:center;background:#0f0c09;border:1px solid #2c2418;border-radius:9px;padding:7px 10px;margin:4px 0;font-size:12px;color:#cbbfa8}
-#mps .mps-wrow b{color:#ffd76a;letter-spacing:1px}
 .mps-conf{position:fixed;top:-40px;z-index:100000;pointer-events:none;font-size:22px;will-change:transform,opacity}
 </style>
 <button id='mps-tab' type='button' aria-label='Spin the Maple Wheel'>
@@ -86,38 +66,30 @@
     <button class='mps-x' type='button' data-close aria-label='Close'>&times;</button>
     <button class='mps-snd' type='button' id='mps-snd' aria-label='Toggle sound'>&#128266;</button>
     <p class='mps-ey'>Canada Day Week &middot; July 1 to 7</p>
-    <h2 class='mps-ti'><span class='lf'>&#127809;</span> THE MAPLE WHEEL <span class='lf'>&#127809;</span></h2>
-    <p class='mps-sub'><strong>Grab the wheel and give it a rip.</strong> One prize spin a day &mdash; every wedge wins something.</p>
+    <h2 class='mps-ti'>&#127809; THE MAPLE WHEEL &#127809;</h2>
+    <p class='mps-sub'>One free spin a day. <strong>Every wedge wins.</strong></p>
     <div class='mps-play'>
-      <div class='mps-practflag' id='mps-practflag'>&#127919; PRACTICE MODE &mdash; endless flings, prizes unlock tomorrow</div>
       <div class='mps-board' id='mps-board'>
         <div class='mps-scorepop' id='mps-scorepop'></div>
-        <canvas id='mps-cv' width='352' height='392' aria-label='The Maple Wheel — drag to spin'></canvas>
+        <canvas id='mps-cv' width='360' height='386' aria-label='The Maple Wheel'></canvas>
       </div>
-      <p class='mps-mins'>Every wedge wins: <b>SHIP</b> free express shipping $50+ &middot; <b>$10</b> off $75+ &middot; <b>&#127873; GIFT</b> $20 toward anything $100+ &middot; <b>$15</b> off $125+ &middot; <b>$25</b> off $175+ &middot; <b>&#127809;$40</b> off $250+ &middot; <b>RESPIN</b> free extra fling &middot; all stack with the 20% sale</p>
-      <input class='mps-em' id='mps-em' type='email' placeholder='Email to unlock your daily spin' autocomplete='email'>
+      <input class='mps-em' id='mps-em' type='email' placeholder='Your email' autocomplete='email'>
       <input id='mps-hp' type='text' tabindex='-1' autocomplete='off' aria-hidden='true' style='position:absolute;left:-9999px;top:auto;width:1px;height:1px;opacity:0'>
       <div class='mps-msg' id='mps-msg'></div>
-      <button class='mps-pull' id='mps-pull' type='button'>&#127809; UNLOCK MY SPIN</button>
-      <p class='mps-fine'>One prize spin per person per day through July 7. Codes are single-use, stack with the 20% sale, and expire July 7 at 11:59 PM PT. Playing joins our email list. Unlimited practice flings after your spin.</p>
+      <button class='mps-pull' id='mps-pull' type='button'>&#127905; SPIN THE WHEEL</button>
+      <p class='mps-fine'>Prizes need a minimum order: <b>SHIP</b> $50+ &middot; <b>$10</b> $75+ &middot; <b>&#127873;GIFT</b> ($20 toward anything) $100+ &middot; <b>$15</b> $125+ &middot; <b>$25</b> $175+ &middot; <b>&#127809;$40</b> $250+. All stack with the 20% sale. One spin per person per day through July 7. Codes are single-use and expire July 7, 11:59 PM PT. Playing joins our email list.</p>
     </div>
     <div class='mps-win'>
       <div class='we' id='mps-we'>&#127881;</div>
       <div class='wt' id='mps-wt'></div>
       <div class='ws' id='mps-ws'></div>
-      <div class='mps-stack' id='mps-stack'></div>
-      <div class='mps-total' id='mps-total'></div>
-      <div class='mps-code' id='mps-codewrap'>
+      <div class='mps-code'>
         <input id='mps-codeval' readonly aria-label='Your discount code'>
-        <button type='button' id='mps-copy'>Copy</button>
+        <button type='button' id='mps-copy'>COPY</button>
       </div>
-      <div class='mps-exp' id='mps-exp'></div>
-      <a class='mps-go' id='mps-go' href='/collections/all'>&#128176; CASH OUT &mdash; SHOP NOW &rarr;</a>
-      <button class='mps-practbtn' id='mps-pract' type='button'>&#127919; KEEP SPINNING &mdash; just for fun</button>
-      <div class='mps-tease' id='mps-tease'></div>
-      <div id='mps-streakbox'></div>
+      <p class='mps-terms' id='mps-terms'></p>
+      <a class='mps-go' id='mps-go' href='/collections/all'>&#128176; USE MY PRIZE &mdash; SHOP NOW &rarr;</a>
       <div class='mps-next' id='mps-next'></div>
-      <div class='mps-wallet' id='mps-wallet'></div>
     </div>
     <div id='mps-burst'>
       <div class='bw'>&#11088; WINNER WINNER &#11088;</div>
@@ -133,19 +105,18 @@
   if(Date.now()>GAME_END){tab.style.display='none';return;}
   function dec(s){try{return atob(s);}catch(e){return '';}}
   var TIERS={
-    m5:  {k:'m5',  c:'TUFQTEU1LUo3TA==',     rank:0, val:5,  pct:true,  short:'5%',    name:'a BONUS PAYOUT — 5% off everything', sub:'An extra 5% on your whole order, stacked on the 20% sale.', stack:'Stacked: 25%+ off retail on anything you grab'},
-    m10: {k:'m10', c:'TUFQTEUxMC1YNFQ=',     rank:1, val:10, pct:false, short:'$10',   name:'a $10 CASH PRIZE',                    sub:'On orders of just $75 or more. Stacks with the 20% sale.', stack:'Stacked: $28+ off retail on a $75 order'},
-    ship:{k:'ship',c:'TUFQTEVTSElQLVEyTg==', rank:2, val:15, pct:false, short:'SHIP',  name:'FREE EXPRESS SHIPPING',               sub:'On orders of just $50 or more. Stacks with the sale.',      stack:'Stacked: $25+ in savings on a $50 order'},
-    gift:{k:'gift',c:'TUFQTEVHSUZULVc4Tg==', rank:3, val:20, pct:false, short:'GIFT',  name:'a FREE GIFT ON US',                   sub:'Pick anything up to $20 — it is on us, with orders of $100 or more.', stack:'Stacked: $45+ in savings on a $100 order'},
-    m15: {k:'m15', c:'TUFQTEUxNS1COFc=',     rank:4, val:15, pct:false, short:'$15',   name:'a $15 CASH PRIZE',                    sub:'On orders of $125 or more. Stacks with the 20% sale.',      stack:'Stacked: $45+ off retail on a $125 order'},
-    m25: {k:'m25', c:'TUFQTEUyNS1SM0s=',     rank:5, val:25, pct:false, short:'$25',   name:'a BIG WIN — $25 off',                 sub:'On orders of $175 or more. Stacks with the 20% sale.',      stack:'Stacked: $65+ off retail on a $175 order'},
-    m40: {k:'m40', c:'TUFQTEU0MC1aOUY=',     rank:6, val:40, pct:false, short:'$40',   name:'the $40 MEGA JACKPOT',                sub:'On orders of $250 or more. The top wedge, eh!',             stack:'Stacked: $100+ off retail on a $250 order'}
+    m5:  {k:'m5',  c:'TUFQTEU1LUo3TA==',     val:5,  emoji:'🎉', title:'5% OFF everything!',        terms:'Any order · stacks with the 20% sale · expires July 7, 11:59 PM PT'},
+    m10: {k:'m10', c:'TUFQTEUxMC1YNFQ=',     val:10, emoji:'💵', title:'$10 OFF your order!',       terms:'Orders $75+ · stacks with the 20% sale · expires July 7, 11:59 PM PT'},
+    ship:{k:'ship',c:'TUFQTEVTSElQLVEyTg==', val:15, emoji:'🚚', title:'FREE EXPRESS SHIPPING!',    terms:'Orders $50+ · stacks with the 20% sale · expires July 7, 11:59 PM PT'},
+    gift:{k:'gift',c:'TUFQTEVHSUZULVc4Tg==', val:20, emoji:'🎁', title:'A FREE GIFT on us!',        terms:'$20 toward anything you like, on orders $100+ · stacks with the 20% sale · expires July 7'},
+    m15: {k:'m15', c:'TUFQTEUxNS1COFc=',     val:15, emoji:'💵', title:'$15 OFF your order!',       terms:'Orders $125+ · stacks with the 20% sale · expires July 7, 11:59 PM PT'},
+    m25: {k:'m25', c:'TUFQTEUyNS1SM0s=',     val:25, emoji:'💰', title:'$25 OFF — big win!',        terms:'Orders $175+ · stacks with the 20% sale · expires July 7, 11:59 PM PT'},
+    m40: {k:'m40', c:'TUFQTEU0MC1aOUY=',     val:40, emoji:'🏆', title:'$40 OFF — THE JACKPOT!',    terms:'Orders $250+ · stacks with the 20% sale · expires July 7, 11:59 PM PT'}
   };
   for(var tk in TIERS){if(TIERS.hasOwnProperty(tk))TIERS[tk].code=dec(TIERS[tk].c);}
-  /* 14 wedges — physical share = the odds, honest and visible */
   var SEGS=['m10','ship','m15','respin','m10','gift','m25','ship','m10','m40','ship','m15','respin','gift'];
-  var SEGCOL={m10:'#8fbf7f',ship:'#7fa8d4',m15:'#b89234',m25:'#d4ba6a',m40:'#e01936',gift:'#e07fae',respin:'#f3ede2'};
-  var SEGTXT={m10:'#0f2408',ship:'#0a1d33',m15:'#241800',m25:'#241800',m40:'#ffffff',gift:'#3d0a24',respin:'#5a4a20'};
+  var SEGCOL={m10:['#a8d69a','#6ea05e'],ship:['#9cc0e8','#5f88b8'],m15:['#e8c979','#a8842f'],m25:['#ffe08a','#c9a02f'],m40:['#ff5a70','#b3081f'],gift:['#f2a0c8','#c05a8e'],respin:['#ffffff','#cfc4ae']};
+  var SEGTXT={m10:'#12300a',ship:'#0a1d33',m15:'#241800',m25:'#241800',m40:'#ffffff',gift:'#3d0a24',respin:'#6b5a2a'};
   function rnd(){try{var a=new Uint32Array(1);(window.crypto||window.msCrypto).getRandomValues(a);return a[0]/4294967296;}catch(e){return (new Date().getTime()%997)/997;}}
   /* --- sound --- */
   var muted=false;try{muted=localStorage.getItem('ccSlotsMute')==='1';}catch(e){}
@@ -176,142 +147,107 @@
   function today(){var d=new Date();return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
   function playedToday(){var s=store();return !!(s.plays&&s.plays[today()]);}
   function tierByCode(c){for(var tk in TIERS){if(TIERS.hasOwnProperty(tk)&&TIERS[tk].code===c)return TIERS[tk];}return null;}
-  function streak(){var s=store();if(!s.plays)return 0;var n=0,d=new Date();for(;;){var k=d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);if(s.plays[k]){n++;d.setDate(d.getDate()-1);}else break;}return n;}
-  var openedAt=0,nextTimer=null,gateTimer=null,msgTimer=null,expTimer=null;
-  var MODE='idle'; /* idle | aiming | spinning | scoring | done */
-  var practice=false;
+  var openedAt=0,nextTimer=null,gateTimer=null,msgTimer=null;
+  var MODE='idle'; /* idle | spinning | scoring | done */
   function msg(t){var m=document.getElementById('mps-msg');if(!m)return;if(msgTimer){clearTimeout(msgTimer);msgTimer=null;}m.style.color='';m.textContent=t||'';}
   function clearErr(){var e=document.getElementById('mps-em');if(e)e.style.borderColor='';msg('');}
   function warn(el,text){el.focus();el.style.borderColor='#e01936';msg(text||'');}
-  /* --- wheel engine --- */
+  /* --- wheel --- */
   var cv=document.getElementById('mps-cv'),ctx=cv.getContext('2d');
-  var W=352,H=392,CX=176,CY=204,R=158;
+  var W=360,H=386,CX=180,CY=200,R=152;
   var N=SEGS.length,SEGA=Math.PI*2/N;
-  var theta=rnd()*6.28,omega=0,fricK=0.55,flap=0,prevIdx=-1;
-  var dragging=false,dragSamples=[],dragPrev=0;
+  var theta=rnd()*6.28,prevIdx=-1,flap=0;
+  var anim=null; /* {start,dur,from,to} */
   var drawRaf=null,drawing=false,drawLast=0;
   function mod2pi(a){a=a%(Math.PI*2);if(a<0)a+=Math.PI*2;return a;}
   function idxUnderPointer(){return Math.floor(mod2pi(-Math.PI/2-theta)/SEGA)%N;}
+  function easeOut(f){return 1-Math.pow(1-f,3.6);}
   function drawWheel(ts){
     if(!drawing)return;
     if(!drawLast)drawLast=ts;
     var dt=Math.min(50,ts-drawLast)/1000;drawLast=ts;
-    /* physics */
-    if(MODE==='spinning'&&!dragging){
-      theta+=omega*dt;
-      omega*=Math.exp(-fricK*dt);
+    /* animation */
+    if(MODE==='spinning'&&anim){
+      var f=Math.min(1,(Date.now()-anim.start)/anim.dur);
+      theta=anim.from+(anim.to-anim.from)*easeOut(f);
       var ci=idxUnderPointer();
-      if(ci!==prevIdx){prevIdx=ci;flap=1;omega*=0.982;sndPeg();}
-      if(Math.abs(omega)<0.06){omega=0;MODE='scoring';setTimeout(function(){land(idxUnderPointer());},250);}
-    }else if(MODE==='aiming'&&!dragging){
-      theta+=0.12*dt; /* idle drift so it looks alive */
+      if(ci!==prevIdx){prevIdx=ci;flap=1;sndPeg();}
+      if(f>=1){anim=null;MODE='scoring';setTimeout(function(){land(idxUnderPointer());},350);}
+    }else if(MODE==='idle'){
+      theta+=0.1*dt;
       var ci2=idxUnderPointer();if(ci2!==prevIdx)prevIdx=ci2;
     }
     if(flap>0)flap=Math.max(0,flap-dt*6);
     /* render */
     ctx.clearRect(0,0,W,H);
-    /* rim lights */
-    for(var L=0;L<24;L++){
-      var la=L*(Math.PI*2/24)+((MODE==='spinning')?theta*0.5:0);
-      var lx=CX+Math.cos(la)*(R+9),ly=CY+Math.sin(la)*(R+9);
-      ctx.beginPath();ctx.arc(lx,ly,2.6,0,6.2832);
-      ctx.fillStyle=(L%2===(Math.floor((ts||0)/250)%2))?'#ffd76a':'#4a3c28';
+    /* outer gold band */
+    ctx.beginPath();ctx.arc(CX,CY,R+15,0,6.2832);
+    ctx.fillStyle='#2e2417';ctx.fill();
+    ctx.beginPath();ctx.arc(CX,CY,R+15,0,6.2832);ctx.arc(CX,CY,R+2,0,6.2832,true);
+    var bandG=ctx.createLinearGradient(CX-R,CY-R,CX+R,CY+R);
+    bandG.addColorStop(0,'#8a6a24');bandG.addColorStop(0.5,'#d4ba6a');bandG.addColorStop(1,'#6e5417');
+    ctx.fillStyle=bandG;ctx.fill('evenodd');
+    /* bulbs on the band */
+    var blink=Math.floor((ts||0)/(MODE==='spinning'?110:400))%2;
+    for(var L=0;L<28;L++){
+      var la=L*(Math.PI*2/28);
+      var lx=CX+Math.cos(la)*(R+8.5),ly=CY+Math.sin(la)*(R+8.5);
+      ctx.beginPath();ctx.arc(lx,ly,2.8,0,6.2832);
+      ctx.fillStyle=(L%2===blink)?'#fff3c4':'#7a5f1e';
+      if(L%2===blink){ctx.shadowColor='#ffd76a';ctx.shadowBlur=6;}else{ctx.shadowBlur=0;}
       ctx.fill();
     }
-    /* wedges */
+    ctx.shadowBlur=0;
+    /* wedges w/ radial gradients */
     for(var i=0;i<N;i++){
       var a0=theta+i*SEGA,a1=a0+SEGA,key=SEGS[i];
+      var g=ctx.createRadialGradient(CX,CY,28,CX,CY,R);
+      g.addColorStop(0,SEGCOL[key][0]);g.addColorStop(1,SEGCOL[key][1]);
       ctx.beginPath();ctx.moveTo(CX,CY);ctx.arc(CX,CY,R,a0,a1);ctx.closePath();
-      ctx.fillStyle=SEGCOL[key];ctx.fill();
-      ctx.strokeStyle='rgba(23,19,16,.8)';ctx.lineWidth=2;ctx.stroke();
-      /* label */
+      ctx.fillStyle=g;ctx.fill();
+      ctx.strokeStyle='rgba(23,19,16,.65)';ctx.lineWidth=2;ctx.stroke();
       ctx.save();
       ctx.translate(CX,CY);ctx.rotate(a0+SEGA/2);
       ctx.textAlign='center';ctx.fillStyle=SEGTXT[key];
-      if(key==='respin'){ctx.font='800 11px sans-serif';ctx.fillText('RESPIN',103,4);}
-      else if(key==='gift'){ctx.font='14px sans-serif';ctx.fillText('🎁',118,5);ctx.font='800 12px sans-serif';ctx.fillText('GIFT',88,5);}
-      else if(key==='m40'){ctx.font='14px sans-serif';ctx.fillText('🍁',122,5);ctx.font='800 14px sans-serif';ctx.fillText('$40',90,6);}
-      else{ctx.font='800 14px sans-serif';ctx.fillText(TIERS[key].short,103,5);}
+      if(key==='respin'){ctx.font='16px sans-serif';ctx.fillText('🔄',124,6);ctx.font='800 10.5px sans-serif';ctx.fillText('RESPIN',86,4);}
+      else if(key==='gift'){ctx.font='17px sans-serif';ctx.fillText('🎁',122,6);ctx.font='800 13px sans-serif';ctx.fillText('GIFT',86,5);}
+      else if(key==='m40'){ctx.font='17px sans-serif';ctx.fillText('🍁',124,6);ctx.font='800 15px sans-serif';ctx.fillText('$40',88,6);}
+      else if(key==='ship'){ctx.font='16px sans-serif';ctx.fillText('🚚',122,6);ctx.font='800 12px sans-serif';ctx.fillText('SHIP',86,5);}
+      else{ctx.font='800 16px sans-serif';ctx.fillText(TIERS[key].val===10?'$10':'$'+TIERS[key].val,103,6);}
       ctx.restore();
     }
+    /* gloss */
+    var gl=ctx.createLinearGradient(CX,CY-R,CX,CY);
+    gl.addColorStop(0,'rgba(255,255,255,.16)');gl.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.beginPath();ctx.arc(CX,CY,R-1,Math.PI,0);ctx.closePath();
+    ctx.fillStyle=gl;ctx.fill();
     /* hub */
-    ctx.beginPath();ctx.arc(CX,CY,30,0,6.2832);ctx.fillStyle='#171310';ctx.fill();
-    ctx.strokeStyle='#d4ba6a';ctx.lineWidth=2.5;ctx.stroke();
-    ctx.font='22px sans-serif';ctx.textAlign='center';ctx.fillText('🍁',CX,CY+8);
-    /* flapper at 12 o'clock */
+    var hg=ctx.createRadialGradient(CX-6,CY-8,4,CX,CY,34);
+    hg.addColorStop(0,'#f5d98a');hg.addColorStop(1,'#8a6a24');
+    ctx.beginPath();ctx.arc(CX,CY,32,0,6.2832);ctx.fillStyle=hg;ctx.fill();
+    ctx.beginPath();ctx.arc(CX,CY,25,0,6.2832);ctx.fillStyle='#171310';ctx.fill();
+    ctx.font='24px sans-serif';ctx.textAlign='center';ctx.fillText('🍁',CX,CY+9);
+    /* flapper */
     ctx.save();
-    ctx.translate(CX,CY-R-2);
-    ctx.rotate(flap*0.6*((omega>=0)?-1:1));
-    ctx.beginPath();ctx.moveTo(-11,-12);ctx.lineTo(11,-12);ctx.lineTo(0,16);ctx.closePath();
-    ctx.fillStyle='#ffd76a';ctx.fill();
-    ctx.strokeStyle='#8f6a1a';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.translate(CX,CY-R-14);
+    ctx.rotate(flap*0.55*-1);
+    ctx.shadowColor='rgba(0,0,0,.5)';ctx.shadowBlur=6;
+    ctx.beginPath();ctx.moveTo(-13,-14);ctx.lineTo(13,-14);ctx.lineTo(0,22);ctx.closePath();
+    ctx.fillStyle='#ff4d63';ctx.fill();
+    ctx.shadowBlur=0;
+    ctx.strokeStyle='#8f0618';ctx.lineWidth=2;ctx.stroke();
     ctx.restore();
-    /* aiming hint */
-    if(MODE==='aiming'&&!dragging){
-      ctx.save();
-      ctx.globalAlpha=0.8+0.2*Math.sin((ts||0)/280);
-      ctx.fillStyle='#ffd76a';ctx.font='800 13px sans-serif';ctx.textAlign='center';
-      ctx.fillText(practice?'GRAB & RIP IT — PRACTICE':'GRAB THE WHEEL & RIP IT 👋',CX,H-8);
-      ctx.restore();
-    }
     drawRaf=requestAnimationFrame(drawWheel);
   }
   function startDrawing(){if(!drawing){drawing=true;drawLast=0;drawRaf=requestAnimationFrame(drawWheel);}}
   function stopDrawing(){drawing=false;if(drawRaf)cancelAnimationFrame(drawRaf);}
-  /* --- drag / fling --- */
-  function ptAngle(e){
-    var r=cv.getBoundingClientRect();
-    var cx=(e.touches&&e.touches[0]?e.touches[0].clientX:e.clientX);
-    var cy=(e.touches&&e.touches[0]?e.touches[0].clientY:e.clientY);
-    var x=(cx-r.left)*(W/r.width),y=(cy-r.top)*(H/r.height);
-    return Math.atan2(y-CY,x-CX);
-  }
-  function dragStart(e){
-    if(MODE!=='aiming')return;
-    dragging=true;dragPrev=ptAngle(e);dragSamples=[{t:Date.now(),a:0}];
-    if(e.cancelable)e.preventDefault();
-  }
-  function dragMove(e){
-    if(!dragging)return;
-    var a=ptAngle(e);
-    var d=a-dragPrev;
-    if(d>Math.PI)d-=Math.PI*2;if(d<-Math.PI)d+=Math.PI*2;
-    theta+=d;dragPrev=a;
-    var last=dragSamples[dragSamples.length-1];
-    dragSamples.push({t:Date.now(),a:last.a+d});
-    if(dragSamples.length>8)dragSamples.shift();
-    if(e.cancelable)e.preventDefault();
-  }
-  function dragEnd(){
-    if(!dragging)return;
-    dragging=false;
-    if(MODE!=='aiming')return;
-    var now=Date.now(),first=null,last=dragSamples[dragSamples.length-1];
-    for(var i=0;i<dragSamples.length;i++){if(now-dragSamples[i].t<=140){first=dragSamples[i];break;}}
-    if(!first||first===last){return;}
-    var w=(last.a-first.a)/Math.max(1,(last.t-first.t))*1000;
-    if(Math.abs(w)<6.5){
-      msg("Too soft — give'er a REAL rip, eh! 💪");
-      msgTimer=setTimeout(function(){msg('');},2500);
-      return;
-    }
-    omega=Math.max(-16,Math.min(16,w));
-    fricK=0.5+rnd()*0.18; /* per-spin friction jitter — no aim mastery */
-    var c=ac();if(c&&c.state==='suspended'){try{c.resume();}catch(e){}}
-    if(!practice){
-      var sp=store();sp.runDay=today();sp.run={pend:1};save(sp);
-      try{document.cookie='ccSlots'+today().replace(/-/g,'')+'=1;path=/;max-age=172800';}catch(e){}
-    }
-    clearErr();
+  function beginSpin(){
     MODE='spinning';
+    prevIdx=idxUnderPointer();
+    var total=(5+rnd()*2)*Math.PI*2+rnd()*Math.PI*2;
+    anim={start:Date.now(),dur:4400+rnd()*700,from:theta,to:theta+total};
     setBtn('&#127905; NO WHAMMIES…',true,true);
   }
-  cv.addEventListener('mousedown',dragStart);
-  document.addEventListener('mousemove',dragMove);
-  document.addEventListener('mouseup',dragEnd);
-  cv.addEventListener('touchstart',dragStart,{passive:false});
-  cv.addEventListener('touchmove',dragMove,{passive:false});
-  document.addEventListener('touchend',dragEnd);
   /* --- landing --- */
   function popTxt(txt){
     var sp2=document.getElementById('mps-scorepop');
@@ -323,8 +259,8 @@
     var board=document.getElementById('mps-board');
     if(key==='respin'){
       if(!root.hasAttribute('hidden')){sndLand();board.className='mps-board shake';setTimeout(function(){board.className='mps-board';},700);}
-      popTxt('🍁 FREE RESPIN!');
-      setTimeout(function(){MODE='aiming';setBtn(practice?'&#127919; RIP IT AGAIN':'&#127905; BONUS SPIN — RIP IT!',true,true);},1000);
+      popTxt('🔄 RESPIN!');
+      setTimeout(function(){beginSpin();},1000);
       return;
     }
     var t=TIERS[key];
@@ -333,17 +269,7 @@
       setTimeout(function(){board.className='mps-board';},700);
       if(t.k==='m40'){sndJackpot();shower(true);}else{sndLand();}
     }
-    popTxt(t.k==='ship'?'FREE SHIP!':(t.k==='gift'?'🎁 FREE GIFT!':(t.k==='m40'?'🍁 $40 JACKPOT!':t.short+' OFF!')));
-    if(practice){
-      setTimeout(function(){
-        var m=document.getElementById('mps-msg');
-        msg('');m.style.color='#ffd76a';
-        m.textContent='Practice: you landed '+(t.k==='ship'?'FREE SHIPPING':(t.k==='gift'?'the FREE GIFT':t.short+' OFF'))+' — the real spin pays out tomorrow!';
-        msgTimer=setTimeout(function(){m.style.color='';m.textContent='';msgTimer=null;},6000);
-        MODE='aiming';setBtn('&#127919; RIP IT AGAIN',true,true);
-      },1000);
-      return;
-    }
+    popTxt(t.k==='ship'?'FREE SHIP!':(t.k==='gift'?'🎁 FREE GIFT!':(t.k==='m40'?'🍁 JACKPOT!':'$'+t.val+' OFF!')));
     var s=store();
     s.plays=s.plays||{};s.plays[today()]=t.code;s.lastPullAt=Date.now();
     delete s.run;delete s.runDay;
@@ -352,7 +278,7 @@
     setBtn('&#10003; SPUN FOR TODAY',false,true);
     setTimeout(function(){runWinSequence(t);},900);
   }
-  /* --- celebration + payout shell --- */
+  /* --- celebration --- */
   function shower(big){
     if(root.hasAttribute('hidden'))return;
     var n=big?80:44;
@@ -368,7 +294,6 @@
     })();}
   }
   function fmtHMS(ms){var s=Math.max(0,Math.floor(ms/1000));var h=Math.floor(s/3600);s-=h*3600;var m=Math.floor(s/60);s-=m*60;function p(n){return(n<10?'0':'')+n;}return p(h)+':'+p(m)+':'+p(s);}
-  function fmtDHMS(ms){var s=Math.max(0,Math.floor(ms/1000));var d=Math.floor(s/86400);s-=d*86400;return (d>0?d+'d ':'')+fmtHMS(s*1000);}
   function runWinSequence(t){
     var jack=(t.k==='m40');
     if(root.hasAttribute('hidden')){showWin(t,false);return;}
@@ -377,17 +302,16 @@
       if(root.hasAttribute('hidden')){showWin(t,false);return;}
       var burst=document.getElementById('mps-burst');
       var bv=document.getElementById('mps-bv'),bn=document.getElementById('mps-bn');
-      bn.innerHTML='THE WHEEL HAS SPOKEN — YOU WON '+(t.pct?'A 5% BONUS':(t.k==='ship'?'FREE EXPRESS SHIPPING':(t.k==='gift'?'A FREE GIFT ON US':t.name.replace('a ','').replace('the ','').toUpperCase())));
+      bn.textContent='YOU WON '+t.title.toUpperCase();
       burst.style.display='flex';
-      var t0=null,DUR=900,target=t.pct?5:t.val;
+      var t0=null,DUR=900,target=t.val;
       function step(ts){
         if(!t0)t0=ts;
         var f=Math.min(1,(ts-t0)/DUR);
         var eased=1-Math.pow(1-f,3);
-        var v=target*eased;
-        bv.textContent=t.pct?(v.toFixed(1)+'%'):('$'+v.toFixed(2));
+        bv.textContent='$'+(target*eased).toFixed(2);
         if(f<1){requestAnimationFrame(step);}
-        else{bv.textContent=t.pct?(target+'%'):('$'+target.toFixed(2));}
+        else{bv.textContent='$'+target.toFixed(2);}
       }
       requestAnimationFrame(step);
       shower(jack);
@@ -402,39 +326,34 @@
     root.querySelector('.mps-win').style.display='none';
     document.getElementById('mps-burst').style.display='none';
     if(nextTimer){clearInterval(nextTimer);nextTimer=null;}
-    if(expTimer){clearInterval(expTimer);expTimer=null;}
     clearErr();
-    document.getElementById('mps-practflag').style.display=practice?'block':'none';
     if(!root.hasAttribute('hidden'))startDrawing();
   }
-  function setBtn(label,hot,disabled){pullBtn.innerHTML=label;pullBtn.className='mps-pull'+(hot?' dropmode':'');pullBtn.disabled=!!disabled;}
+  function setBtn(label,hot,disabled){pullBtn.innerHTML=label;pullBtn.className='mps-pull'+(hot?' spinning':'');pullBtn.disabled=!!disabled;}
   var pullBtn=document.getElementById('mps-pull');
-  function armPull(label){
+  function armPull(){
     if(gateTimer){clearTimeout(gateTimer);gateTimer=null;}
-    setBtn(label||'&#127809; UNLOCK MY SPIN',false,true);
+    setBtn('&#127905; SPIN THE WHEEL',false,true);
     gateTimer=setTimeout(function(){
       if(Date.now()>GAME_END){setBtn('GAME OVER',false,true);return;}
-      if(MODE==='idle'&&(!playedToday()||practice)){pullBtn.disabled=false;}
+      if(MODE==='idle'&&!playedToday()){pullBtn.disabled=false;}
     },1550);
   }
   function open(){
     root.removeAttribute('hidden');openedAt=Date.now();
     if(Date.now()>GAME_END){setBtn('GAME OVER',false,true);return;}
-    if(MODE==='aiming'||MODE==='spinning'||MODE==='scoring'){startDrawing();return;}
-    if(playedToday())practice=false;
+    if(MODE==='spinning'||MODE==='scoring'){startDrawing();return;}
     var tp=playedToday()?tierByCode(store().plays[today()]):null;
-    if(tp&&!practice){showWin(tp,true);}
+    if(tp){showWin(tp,true);}
     else{
       var s=store();
-      if(!practice&&s.run&&s.run.pend&&s.runDay===today()){
-        /* refresh mid-spin = forfeit to the smallest prize (still a win, no re-roll incentive) */
-        MODE='idle';resetToPlay();
+      if(s.run&&s.run.pend&&s.runDay===today()){
+        /* refresh mid-spin = smallest prize, no re-rolls */
         var ft=TIERS.m10;
         var s3=store();s3.plays=s3.plays||{};s3.plays[today()]=ft.code;s3.lastPullAt=Date.now();delete s3.run;delete s3.runDay;save(s3);
-        MODE='done';setBtn('&#10003; SPUN FOR TODAY',false,true);
-        showWin(ft,false);
+        MODE='done';showWin(ft,false);
       }
-      else{MODE='idle';resetToPlay();armPull(practice?'&#127919; START PRACTICE':undefined);}
+      else{MODE='idle';resetToPlay();armPull();}
     }
   }
   function close(){root.setAttribute('hidden','');stopDrawing();}
@@ -442,36 +361,21 @@
   function postEmail(em){try{var b='form_type=customer&utf8=%E2%9C%93&contact%5Btags%5D=maple-slots&contact%5Bemail%5D='+encodeURIComponent(em);fetch('/contact',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:b}).catch(function(){});}catch(e){}}
   function showWin(t,replayView){
     if(!t)return;
-    practice=false;
-    if(expTimer){clearInterval(expTimer);expTimer=null;}
     stopDrawing();
     root.querySelector('.mps-play').style.display='none';
     root.querySelector('.mps-win').style.display='block';
     document.getElementById('mps-burst').style.display='none';
-    document.getElementById('mps-we').innerHTML=t.k==='m40'?'🏆':(t.k==='gift'?'🎁':'🎉');
-    document.getElementById('mps-wt').textContent=(replayView?'Today you won ':'You won ')+t.name+'!';
-    document.getElementById('mps-ws').textContent=t.sub;
-    var stack=document.getElementById('mps-stack');
-    stack.innerHTML=
-      "<div class='mps-srow'><span class='se'>🍁</span><span>WIN #1 — <b>20% OFF EVERYTHING</b> storewide</span><span class='tag'>ACTIVE</span></div>"+
-      "<div class='mps-srow'><span class='se'>🎡</span><span>WIN #2 — your spin: <b>"+(t.pct?'extra 5% off':(t.k==='ship'?'free express shipping':(t.k==='gift'?'$20 gift on us':'$'+t.val+' off')))+"</b></span><span class='tag'>LOCKED IN</span></div>"+
-      "<div class='mps-srow'><span class='se'>🚚</span><span>WIN #3 — <b>FREE EXPRESS SHIPPING</b> over $150</span><span class='tag'>ACTIVE</span></div>";
-    var rows=stack.querySelectorAll('.mps-srow');
-    for(var ri=0;ri<rows.length;ri++){(function(r,d){setTimeout(function(){r.className='mps-srow in';},replayView?10:(220+d*260));})(rows[ri],ri);}
-    document.getElementById('mps-total').textContent='💰 '+t.stack;
+    document.getElementById('mps-we').textContent=t.emoji;
+    document.getElementById('mps-wt').textContent=(replayView?'Today you won: ':'You won: ')+t.title;
+    document.getElementById('mps-ws').textContent='Your code is ready — it applies automatically when you tap the button below.';
     document.getElementById('mps-codeval').value=t.code;
+    document.getElementById('mps-terms').textContent=t.terms;
     document.getElementById('mps-go').href='/discount/'+t.code+'?redirect=/collections/all';
-    var exp=document.getElementById('mps-exp');
-    var expFn=function(){var left=GAME_END-Date.now();if(left<=0){exp.textContent='Code expired.';clearInterval(expTimer);expTimer=null;return;}exp.innerHTML='⏳ Your code is live now and expires in <b>'+fmtDHMS(left)+'</b>';};
-    expFn();expTimer=setInterval(expFn,1000);
-    document.getElementById('mps-tease').textContent=t.k==='m40'?'You hit the 🍁 wedge. Absolute legend.':'The 🍁 $40 JACKPOT wedge is still on the wheel — tomorrow’s spin could hit it.';
-    var st=streak();
-    document.getElementById('mps-streakbox').innerHTML=st>1?"<span class='mps-streak'>🔥 "+st+"-day streak</span>":'';
     var nx=document.getElementById('mps-next');
     var end=new Date();end.setHours(24,0,0,0);
     var lastDay=Date.now()>GAME_END-86400000;
     if(nextTimer){clearInterval(nextTimer);nextTimer=null;}
-    if(lastDay){nx.innerHTML='That was the final day &mdash; thanks for spinning The Maple Wheel! 🍁';}
+    if(lastDay){nx.innerHTML='That was the final day &mdash; thanks for spinning! 🍁';}
     else{
       var tickFn=function(){
         var left=end.getTime()-Date.now();
@@ -479,29 +383,18 @@
           clearInterval(nextTimer);nextTimer=null;
           MODE='idle';
           resetToPlay();armPull();
-          var m=document.getElementById('mps-msg');if(m){msg('');m.style.color='#ffd76a';m.textContent='🍁 A new day — your prize spin is ready!';msgTimer=setTimeout(function(){m.style.color='';m.textContent='';msgTimer=null;},6000);}
+          var m=document.getElementById('mps-msg');if(m){msg('');m.style.color='#ffd76a';m.textContent='🍁 A new day — your free spin is ready!';msgTimer=setTimeout(function(){m.style.color='';m.textContent='';msgTimer=null;},6000);}
           return;
         }
-        nx.innerHTML='Next prize spin in <b>'+fmtHMS(left)+'</b> &mdash; keep practicing that rip';
+        nx.innerHTML='🍁 Next free spin in <b>'+fmtHMS(left)+'</b>';
       };
       tickFn();if(nextTimer===null&&root.querySelector('.mps-win').style.display==='block'){nextTimer=setInterval(tickFn,1000);}
     }
-    var s=store(),w=document.getElementById('mps-wallet'),h='';
-    if(s.plays){var days=[];for(var k in s.plays)if(s.plays.hasOwnProperty(k))days.push(k);days.sort();
-      if(days.length>1){
-        var banked=0;
-        h="<p class='wl-t'>Your winnings this week</p>";
-        for(var i=0;i<days.length;i++){var pp=tierByCode(s.plays[days[i]]);if(pp){banked+=pp.val;h+="<div class='mps-wrow'><span>"+days[i].slice(5).replace('-','/')+" &middot; "+pp.name+"</span><b>"+pp.code+"</b></div>";}}
-        h+="<div class='mps-wrow' style='border-color:#d4ba6a'><span>💰 Codes banked this week</span><b>~$"+banked+" of value</b></div>";
-      }
-    }
-    w.innerHTML=h;
   }
-  /* --- main button: unlocks the wheel (spin happens by grabbing the wheel) --- */
+  /* --- the ONE button --- */
   function onMainBtn(){
     if(Date.now()>GAME_END){setBtn('GAME OVER',false,true);msg('The Maple Wheel has ended — thanks for playing!');return;}
     if(MODE!=='idle')return;
-    if(practice){MODE='aiming';setBtn('&#127919; GRAB THE WHEEL',true,true);return;}
     if(playedToday()){var pz=tierByCode(store().plays[today()]);if(pz){showWin(pz,true);return;}}
     var emEl=document.getElementById('mps-em');
     var hp=document.getElementById('mps-hp');if(hp&&hp.value)return;
@@ -511,7 +404,7 @@
     var s=store();
     var em=(emEl.value||'').trim().toLowerCase();
     if(!em&&s.email)em=s.email;
-    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){warn(emEl,'Enter your email to unlock your spin');return;}
+    if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)){warn(emEl,'Pop your email in to spin!');return;}
     if(BADDOM.indexOf(em.split('@')[1])>-1){warn(emEl,'Please use a real email');return;}
     if(s.lastPullAt){
       if(Date.now()<s.lastPullAt-3600000){warn(emEl,'Device clock looks off — spin unavailable');return;}
@@ -521,22 +414,16 @@
     clearErr();
     var c=ac();if(c&&c.state==='suspended'){try{c.resume();}catch(e){}}
     if(!s.email){postEmail(em);}
-    s.email=em;save(s);
-    MODE='aiming';
-    setBtn('&#127905; GRAB THE WHEEL & RIP IT',true,true);
+    s.email=em;s.runDay=t;s.run={pend:1};save(s);
+    try{document.cookie='ccSlots'+t.replace(/-/g,'')+'=1;path=/;max-age=172800';}catch(e){}
+    beginSpin();
   }
   pullBtn.addEventListener('click',onMainBtn);
-  document.getElementById('mps-pract').addEventListener('click',function(){
-    practice=true;MODE='idle';
-    resetToPlay();
-    setBtn('&#127919; START PRACTICE',false,false);
-  });
   document.getElementById('mps-em').addEventListener('input',clearErr);
-  document.getElementById('mps-copy').addEventListener('click',function(){var v=document.getElementById('mps-codeval');try{v.select();document.execCommand('copy');}catch(e){}try{navigator.clipboard.writeText(v.value);}catch(e){}var b=this;b.textContent='Copied!';setTimeout(function(){b.textContent='Copy';},1600);});
+  document.getElementById('mps-copy').addEventListener('click',function(){var v=document.getElementById('mps-codeval');try{v.select();document.execCommand('copy');}catch(e){}try{navigator.clipboard.writeText(v.value);}catch(e){}var b=this;b.textContent='COPIED!';setTimeout(function(){b.textContent='COPY';},1600);});
   var cs=root.querySelectorAll('[data-close]');
-  function doClose(){close();}
-  for(var i=0;i<cs.length;i++)cs[i].addEventListener('click',doClose);
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')doClose();});
+  for(var i=0;i<cs.length;i++)cs[i].addEventListener('click',close);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
   tab.addEventListener('click',open);
   document.addEventListener('ccOpenSlots',open);
   var s0=store();
