@@ -1,0 +1,269 @@
+{%- comment -%}
+  cc-reviews-section — full product reviews block for the PDP.
+  Server-renders the summary (via cc-review-stats) for instant paint;
+  lazily fetches the review list from assets/cc-reviews.json when scrolled near.
+  Renders nothing at all for products without review data.
+  Usage: {% render 'cc-reviews-section', product: product %}
+{%- endcomment -%}
+{%- capture ccr_probe -%}{% render 'cc-review-stats', product: product, display: 'row' %}{%- endcapture -%}
+{%- assign ccr_probe = ccr_probe | strip -%}
+{%- if ccr_probe != blank -%}
+<section
+  class="ccr"
+  id="cc-reviews"
+  data-cc-reviews
+  data-handle="{{ product.handle }}"
+  data-src="{{ 'cc-reviews.json' | asset_url }}"
+  aria-label="Customer reviews"
+>
+  <div class="ccr__inner">
+    <div class="ccr__head">
+      <span class="ccr__eyebrow">Client Reviews</span>
+      <h2 class="ccr__title">What Our Clients Say</h2>
+    </div>
+
+    {% render 'cc-review-stats', product: product, display: 'summary' %}
+
+    <div class="ccr__controls">
+      <span class="ccr__showing" data-ccr-showing></span>
+      <div class="ccr__sortwrap">
+        <label class="ccr__sortlabel" for="ccr-sort">Sort</label>
+        <select id="ccr-sort" class="ccr__sort" data-ccr-sort>
+          <option value="newest">Most recent</option>
+          <option value="highest">Highest rated</option>
+          <option value="lowest">Lowest rated</option>
+          <option value="critical">Critical (3&#9733; and under)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="ccr__list" data-ccr-list aria-live="polite">
+      <p class="ccr__loading" data-ccr-loading>Loading reviews&hellip;</p>
+    </div>
+
+    <button type="button" class="ccr__more" data-ccr-more hidden>Show more reviews</button>
+  </div>
+</section>
+
+<style>
+  .ccr { margin: 4.5rem 0 2rem; padding: 0 2rem; scroll-margin-top: 90px; }
+  .ccr * { box-sizing: border-box; }
+  .ccr__inner { max-width: 860px; margin: 0 auto; border-top: 1px solid rgba(138, 108, 30, 0.25); padding-top: 3.5rem; position: relative; }
+  .ccr__inner::before { content: ''; position: absolute; top: -1px; left: 0; width: 7rem; height: 2px; background: #c19a3d; }
+  .ccr__head { margin-bottom: 2rem; }
+  .ccr__eyebrow { display: block; font-family: 'DM Sans', sans-serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.34em; text-transform: uppercase; color: #8a6c1e; margin-bottom: 0.6rem; }
+  .ccr__title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.9rem, 3vw, 2.6rem); font-weight: 400; color: #1a1411; margin: 0; line-height: 1.1; }
+
+  .ccr-sum { display: flex; gap: 3rem; align-items: center; flex-wrap: wrap; margin-bottom: 2.25rem; }
+  .ccr-sum__left { display: flex; flex-direction: column; gap: 0.35rem; }
+  .ccr-sum__avg { font-family: 'Cormorant Garamond', serif; font-size: 3.6rem; font-weight: 500; line-height: 1; color: #1a1411; }
+  .ccr-sum__count { font-family: 'DM Sans', sans-serif; font-size: 0.78rem; color: #6b635c; }
+  .ccr-st { position: relative; display: inline-block; font-size: 1rem; line-height: 1; color: #d9cdb6; letter-spacing: 0.08em; }
+  .ccr-st--lg { font-size: 1.35rem; }
+  .ccr-st__f { position: absolute; left: 0; top: 0; overflow: hidden; white-space: nowrap; color: #c19a3d; }
+  .ccr-sum__bars { flex: 1; min-width: 240px; max-width: 420px; display: flex; flex-direction: column; gap: 0.4rem; }
+  .ccr-bar { display: grid; grid-template-columns: 2.2rem 1fr 2.2rem; align-items: center; gap: 0.7rem; cursor: pointer; border: 0; background: none; padding: 0.1rem 0; }
+  .ccr-bar__lbl { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; font-weight: 600; color: #3a342f; }
+  .ccr-bar__track { height: 8px; background: rgba(138, 108, 30, 0.14); border-radius: 999px; overflow: hidden; }
+  .ccr-bar__fill { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #8a6c1e, #d8b865); }
+  .ccr-bar__n { font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: #6b635c; text-align: right; }
+  .ccr-bar:hover .ccr-bar__lbl, .ccr-bar.is-active .ccr-bar__lbl { color: #8a6c1e; }
+  .ccr-bar.is-active .ccr-bar__track { outline: 1px solid rgba(138, 108, 30, 0.5); }
+
+  .ccr__controls { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: 0.9rem 0; border-top: 1px solid rgba(0, 0, 0, 0.07); border-bottom: 1px solid rgba(0, 0, 0, 0.07); margin-bottom: 0.5rem; }
+  .ccr__showing { font-family: 'DM Sans', sans-serif; font-size: 0.74rem; color: #6b635c; letter-spacing: 0.04em; }
+  .ccr__sortwrap { display: flex; align-items: center; gap: 0.6rem; }
+  .ccr__sortlabel { font-family: 'DM Sans', sans-serif; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.24em; text-transform: uppercase; color: #8a6c1e; }
+  .ccr__sort { font-family: 'DM Sans', sans-serif; font-size: 0.8rem; color: #1a1411; background: transparent; border: 1px solid rgba(138, 108, 30, 0.35); border-radius: 999px; padding: 0.45rem 1rem; cursor: pointer; }
+
+  .ccr__list { display: flex; flex-direction: column; }
+  .ccr__loading { font-family: 'DM Sans', sans-serif; font-size: 0.85rem; color: #6b635c; padding: 1.5rem 0; }
+  .ccr-item { padding: 1.6rem 0; border-bottom: 1px solid rgba(0, 0, 0, 0.07); animation: ccrIn 0.4s ease both; }
+  @keyframes ccrIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  .ccr-item__top { display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .ccr-item__title { font-family: 'Cormorant Garamond', serif; font-size: 1.22rem; font-weight: 600; color: #1a1411; margin: 0; }
+  .ccr-item__body { font-family: 'DM Sans', sans-serif; font-size: 0.9rem; line-height: 1.65; color: #3a342f; margin: 0 0 0.85rem; max-width: 72ch; }
+  .ccr-item__meta { display: flex; align-items: center; gap: 0.9rem; flex-wrap: wrap; font-family: 'DM Sans', sans-serif; font-size: 0.72rem; color: #6b635c; }
+  .ccr-item__author { font-weight: 700; color: #1a1411; }
+  .ccr-item__vrf { display: inline-flex; align-items: center; gap: 0.3rem; color: #1f7a4d; font-weight: 600; }
+  .ccr-item__vrf::before { content: '\2713'; font-size: 0.8rem; }
+  .ccr-item__skin { background: rgba(138, 108, 30, 0.1); border: 1px solid rgba(138, 108, 30, 0.25); color: #8a6c1e; border-radius: 999px; padding: 0.2rem 0.65rem; font-size: 0.66rem; letter-spacing: 0.04em; }
+  .ccr-item__date { margin-left: auto; }
+
+  .ccr__more { display: block; margin: 2rem auto 0; background: transparent; border: 1px solid #1a1411; border-radius: 999px; padding: 0.95rem 2.4rem; font-family: 'DM Sans', sans-serif; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.3em; text-transform: uppercase; color: #1a1411; cursor: pointer; transition: all 0.3s ease; }
+  .ccr__more:hover { background: #1a1411; color: #f3ead2; }
+
+  .ccr-row--link { display: inline-flex; align-items: center; gap: 0.55rem; text-decoration: none; margin: 0.35rem 0 0; }
+  .ccr-row__val { font-family: 'DM Sans', sans-serif; font-size: 0.85rem; font-weight: 700; color: #1a1411; }
+  .ccr-row__count { font-family: 'DM Sans', sans-serif; font-size: 0.8rem; color: #8a6c1e; border-bottom: 1px solid rgba(138, 108, 30, 0.4); }
+  .ccr-row--link:hover .ccr-row__count { color: #1a1411; border-color: #1a1411; }
+
+  @media (max-width: 640px) {
+    .ccr { padding: 0 1.25rem; margin-top: 3rem; }
+    .ccr-sum { gap: 1.5rem; }
+    .ccr-sum__avg { font-size: 2.8rem; }
+    .ccr-item__date { margin-left: 0; width: 100%; }
+  }
+</style>
+
+<script>
+  (function () {
+    var root = document.getElementById('cc-reviews');
+    if (!root || root.__ccrInit) return;
+    root.__ccrInit = true;
+    var listEl = root.querySelector('[data-ccr-list]');
+    var loadingEl = root.querySelector('[data-ccr-loading]');
+    var moreBtn = root.querySelector('[data-ccr-more]');
+    var sortSel = root.querySelector('[data-ccr-sort]');
+    var showingEl = root.querySelector('[data-ccr-showing]');
+    var handle = root.getAttribute('data-handle');
+    var src = root.getAttribute('data-src');
+    var all = null;
+    var shown = 0;
+    var PAGE = 10;
+    var mode = 'newest';
+    var starFilter = 0;
+
+    function starEl(rt) {
+      var wrap = document.createElement('span');
+      wrap.className = 'ccr-st';
+      wrap.setAttribute('aria-hidden', 'true');
+      var f = document.createElement('span');
+      f.className = 'ccr-st__f';
+      f.style.width = (rt * 20) + '%';
+      f.textContent = '★★★★★';
+      wrap.appendChild(f);
+      wrap.appendChild(document.createTextNode('★★★★★'));
+      return wrap;
+    }
+    function fmtDate(d) {
+      try {
+        return new Date(d + 'T12:00:00').toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' });
+      } catch (e) { return d; }
+    }
+    function currentSet() {
+      var arr = all.slice();
+      if (starFilter > 0) arr = arr.filter(function (r) { return r.rt === starFilter; });
+      if (mode === 'highest') arr.sort(function (a, b) { return b.rt - a.rt || (a.d < b.d ? 1 : -1); });
+      else if (mode === 'lowest') arr.sort(function (a, b) { return a.rt - b.rt || (a.d < b.d ? 1 : -1); });
+      else if (mode === 'critical') { arr = arr.filter(function (r) { return r.rt <= 3; }); arr.sort(function (a, b) { return a.d < b.d ? 1 : -1; }); }
+      else arr.sort(function (a, b) { return a.d < b.d ? 1 : -1; });
+      return arr;
+    }
+    function itemEl(r) {
+      var art = document.createElement('article');
+      art.className = 'ccr-item';
+      var top = document.createElement('div');
+      top.className = 'ccr-item__top';
+      top.appendChild(starEl(r.rt));
+      if (r.t) {
+        var h = document.createElement('h4');
+        h.className = 'ccr-item__title';
+        h.textContent = r.t;
+        top.appendChild(h);
+      }
+      art.appendChild(top);
+      var b = document.createElement('p');
+      b.className = 'ccr-item__body';
+      b.textContent = r.b;
+      art.appendChild(b);
+      var meta = document.createElement('div');
+      meta.className = 'ccr-item__meta';
+      var a = document.createElement('span');
+      a.className = 'ccr-item__author';
+      a.textContent = r.n;
+      meta.appendChild(a);
+      if (r.v) {
+        var vf = document.createElement('span');
+        vf.className = 'ccr-item__vrf';
+        vf.textContent = 'Verified Purchase';
+        meta.appendChild(vf);
+      }
+      if (r.l) {
+        var lo = document.createElement('span');
+        lo.textContent = r.l;
+        meta.appendChild(lo);
+      }
+      if (r.s) {
+        var sk = document.createElement('span');
+        sk.className = 'ccr-item__skin';
+        sk.textContent = r.s + ' skin';
+        meta.appendChild(sk);
+      }
+      var dt = document.createElement('span');
+      dt.className = 'ccr-item__date';
+      dt.textContent = fmtDate(r.d);
+      meta.appendChild(dt);
+      art.appendChild(meta);
+      return art;
+    }
+    function render(reset) {
+      var set = currentSet();
+      if (reset) { listEl.innerHTML = ''; shown = 0; }
+      var next = set.slice(shown, shown + PAGE);
+      next.forEach(function (r) { listEl.appendChild(itemEl(r)); });
+      shown += next.length;
+      moreBtn.hidden = shown >= set.length;
+      if (showingEl) {
+        showingEl.textContent = set.length
+          ? 'Showing ' + shown + ' of ' + set.length + (starFilter ? ' (' + starFilter + '★)' : '')
+          : 'No reviews match this filter';
+      }
+      if (!set.length) {
+        var none = document.createElement('p');
+        none.className = 'ccr__loading';
+        none.textContent = 'No reviews in this view yet.';
+        listEl.appendChild(none);
+      }
+    }
+    function load() {
+      if (all) return;
+      fetch(src)
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          var entry = data && data[handle];
+          all = (entry && entry.r) || [];
+          if (loadingEl && loadingEl.parentNode) loadingEl.parentNode.removeChild(loadingEl);
+          render(true);
+        })
+        .catch(function () {
+          if (loadingEl) loadingEl.textContent = 'Reviews are taking a moment to load. Please refresh to try again.';
+        });
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) { load(); io.disconnect(); }
+        });
+      }, { rootMargin: '700px 0px' });
+      io.observe(root);
+    } else { load(); }
+    sortSel.addEventListener('change', function () {
+      mode = this.value;
+      if (mode === 'critical') starFilter = 0;
+      syncBars();
+      if (all) render(true);
+    });
+    moreBtn.addEventListener('click', function () { render(false); });
+    function syncBars() {
+      root.querySelectorAll('[data-ccr-filter]').forEach(function (bar) {
+        bar.classList.toggle('is-active', parseInt(bar.getAttribute('data-ccr-filter'), 10) === starFilter);
+      });
+    }
+    root.querySelectorAll('[data-ccr-filter]').forEach(function (bar) {
+      function toggle() {
+        var star = parseInt(bar.getAttribute('data-ccr-filter'), 10);
+        starFilter = (starFilter === star) ? 0 : star;
+        if (starFilter && mode === 'critical') { mode = 'newest'; sortSel.value = 'newest'; }
+        syncBars();
+        load();
+        if (all) render(true);
+      }
+      bar.addEventListener('click', toggle);
+      bar.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+      });
+    });
+  })();
+</script>
+{%- endif -%}

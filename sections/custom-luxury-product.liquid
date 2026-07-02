@@ -792,6 +792,8 @@
         <p class="lux-product__tagline">{{ tagline }}</p>
       {%- endif -%}
 
+      {% render 'cc-review-stats', product: product, display: 'rowlink' %}
+
       {%- assign concern_count = 0 -%}
       {%- for c in concerns_list -%}{%- if c != blank -%}{%- assign concern_count = concern_count | plus: 1 -%}{%- endif -%}{%- endfor -%}
       {%- if concern_count > 0 -%}
@@ -945,6 +947,8 @@
 
     </div>
   </div>
+
+  {% render 'cc-reviews-section', product: product %}
 
     <div class="lux-product__mobile-cta" aria-hidden="true">
     <span class="lux-product__mobile-price" data-mobile-price>{{ product.selected_or_first_available_variant.price | money_with_currency }}</span>
