@@ -20,7 +20,8 @@
     endif
   endif
 
-  assign alt_text_fallback = shop.name | escape | append: ' ' | append: 'accessibility.home' | t
+  assign home_label = 'accessibility.home' | t
+  assign alt_text_fallback = shop.name | escape | append: ' ' | append: home_label
 %}
 
 {% comment %}
