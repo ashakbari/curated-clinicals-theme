@@ -1,0 +1,298 @@
+{%- comment -%}
+  cc-signature — "Formulation Signature": a diagnostic-style visual of where each
+  formula concentrates across 6 axes (Hydration, Brightening, Firming, Renewal,
+  Calming, Defense) + strength gauge + AM/PM timing + researched key actives.
+  Editorial positioning, NOT clinical/efficacy claims. Data researched per-product.
+  Usage: {% render 'cc-signature', product: product %}
+{%- endcomment -%}
+{%- assign h = 50 -%}{%- assign b = 50 -%}{%- assign f = 50 -%}{%- assign r = 50 -%}{%- assign c = 50 -%}{%- assign d = 50 -%}
+{%- assign intensity = 3 -%}{%- assign timing = 'Both' -%}{%- assign actives = '' -%}{%- assign has_profile = false -%}
+{%- case product.handle -%}
+  {%- when 'skinceuticals-ce-ferulic' -%}{%- assign h=35 -%}{%- assign b=80 -%}{%- assign f=55 -%}{%- assign r=25 -%}{%- assign c=20 -%}{%- assign d=95 -%}{%- assign intensity=4 -%}{%- assign timing='AM' -%}{%- assign actives='15% L-ascorbic acid || 1% vitamin E || 0.5% ferulic acid' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-phloretin-cf' -%}{%- assign h=30 -%}{%- assign b=85 -%}{%- assign f=50 -%}{%- assign r=30 -%}{%- assign c=15 -%}{%- assign d=90 -%}{%- assign intensity=4 -%}{%- assign timing='AM' -%}{%- assign actives='10% L-ascorbic acid || 2% phloretin || 0.5% ferulic acid' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-silymarin-cf' -%}{%- assign h=25 -%}{%- assign b=80 -%}{%- assign f=50 -%}{%- assign r=40 -%}{%- assign c=15 -%}{%- assign d=90 -%}{%- assign intensity=4 -%}{%- assign timing='AM' -%}{%- assign actives='15% L-ascorbic acid || 0.5% silymarin || 0.5% salicylic acid' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-serum-10-aox' -%}{%- assign h=35 -%}{%- assign b=65 -%}{%- assign f=40 -%}{%- assign r=20 -%}{%- assign c=30 -%}{%- assign d=75 -%}{%- assign intensity=3 -%}{%- assign timing='AM' -%}{%- assign actives='10% L-ascorbic acid || 0.2% ferulic acid || panthenol' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-h-a-intensifier' -%}{%- assign h=80 -%}{%- assign b=40 -%}{%- assign f=45 -%}{%- assign r=15 -%}{%- assign c=50 -%}{%- assign d=30 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='1.3% hyaluronic acid || 10% Proxylane || licorice root' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-hydrating-b5-gel' -%}{%- assign h=90 -%}{%- assign b=5 -%}{%- assign f=10 -%}{%- assign r=5 -%}{%- assign c=65 -%}{%- assign d=10 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='hyaluronic acid || vitamin B5 (panthenol)' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-retinol' -%}{%- assign h=25 -%}{%- assign b=45 -%}{%- assign f=80 -%}{%- assign r=95 -%}{%- assign c=20 -%}{%- assign d=20 -%}{%- assign intensity=5 -%}{%- assign timing='PM' -%}{%- assign actives='0.3–1.0% pure retinol || bisabolol || boswellia' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-triple-lipid-restore-2-4-2' -%}{%- assign h=85 -%}{%- assign b=15 -%}{%- assign f=40 -%}{%- assign r=10 -%}{%- assign c=75 -%}{%- assign d=30 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='2% ceramides || 4% cholesterol || 2% fatty acids' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-a-g-e-interrupter-advanced' -%}{%- assign h=75 -%}{%- assign b=40 -%}{%- assign f=70 -%}{%- assign r=15 -%}{%- assign c=55 -%}{%- assign d=55 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='18% Proxylane || wild-fruit flavonoids || glycyrrhetinic acid' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-retexturing-activator' -%}{%- assign h=65 -%}{%- assign b=40 -%}{%- assign f=20 -%}{%- assign r=70 -%}{%- assign c=35 -%}{%- assign d=25 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='hydroxyethyl urea complex || sodium hyaluronate || glycerin' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-phyto-corrective-gel' -%}{%- assign h=60 -%}{%- assign b=25 -%}{%- assign f=10 -%}{%- assign r=10 -%}{%- assign c=85 -%}{%- assign d=25 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='hyaluronic acid || thyme + cucumber || mulberry extract' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-p-tiox-serum' -%}{%- assign h=45 -%}{%- assign b=45 -%}{%- assign f=70 -%}{%- assign r=45 -%}{%- assign c=40 -%}{%- assign d=30 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='hexapeptide-8 + SYN-AKE || 5% niacinamide || 5% PHA' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-cell-cycle-catalyst-serum' -%}{%- assign h=25 -%}{%- assign b=55 -%}{%- assign f=30 -%}{%- assign r=90 -%}{%- assign c=20 -%}{%- assign d=30 -%}{%- assign intensity=4 -%}{%- assign timing='PM' -%}{%- assign actives='7.7% multi-acid complex || phytic acid || 1% taurine' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-emollience' -%}{%- assign h=90 -%}{%- assign b=10 -%}{%- assign f=25 -%}{%- assign r=10 -%}{%- assign c=70 -%}{%- assign d=30 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='algae + marine extracts || nourishing plant oils || panthenol' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-soothing-cleanser' -%}{%- assign h=25 -%}{%- assign b=5 -%}{%- assign f=5 -%}{%- assign r=5 -%}{%- assign c=75 -%}{%- assign d=10 -%}{%- assign intensity=1 -%}{%- assign timing='Both' -%}{%- assign actives='glycerin + sorbitol || orchid extract || cucumber' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-tripeptide-r-neck-repair' -%}{%- assign h=35 -%}{%- assign b=35 -%}{%- assign f=80 -%}{%- assign r=75 -%}{%- assign c=15 -%}{%- assign d=25 -%}{%- assign intensity=4 -%}{%- assign timing='PM' -%}{%- assign actives='0.2% retinol || 2.5% tripeptide concentrate || glaucine complex' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-advanced-rgn-6' -%}{%- assign h=65 -%}{%- assign b=45 -%}{%- assign f=60 -%}{%- assign r=45 -%}{%- assign c=65 -%}{%- assign d=45 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='10% Glyco-Repair || acetyl tetrapeptide-9 || 2% niacinamide' -%}{%- assign has_profile=true -%}
+  {%- when 'lha-serum' -%}{%- assign h=15 -%}{%- assign b=50 -%}{%- assign f=30 -%}{%- assign r=90 -%}{%- assign c=15 -%}{%- assign d=25 -%}{%- assign intensity=4 -%}{%- assign timing='Both' -%}{%- assign actives='3.5% glycolic acid || 1.5% salicylic + LHA || 2% dioic acid' -%}{%- assign has_profile=true -%}
+  {%- when 'skinceuticals-aox-lip-repair' -%}{%- assign h=55 -%}{%- assign b=15 -%}{%- assign f=25 -%}{%- assign r=25 -%}{%- assign c=45 -%}{%- assign d=70 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='vitamin E || silymarin || sodium hyaluronate' -%}{%- assign has_profile=true -%}
+  {%- when 'elta-md-uv-daily-tinted' -%}{%- assign h=40 -%}{%- assign b=20 -%}{%- assign f=10 -%}{%- assign r=5 -%}{%- assign c=45 -%}{%- assign d=90 -%}{%- assign intensity=1 -%}{%- assign timing='AM' -%}{%- assign actives='9% zinc oxide || 7.5% octinoxate || iron oxide tint' -%}{%- assign has_profile=true -%}
+  {%- when 'eltamd-uv-sport-broad-spectrum-spf-50' -%}{%- assign h=25 -%}{%- assign b=10 -%}{%- assign f=10 -%}{%- assign r=5 -%}{%- assign c=35 -%}{%- assign d=95 -%}{%- assign intensity=1 -%}{%- assign timing='AM' -%}{%- assign actives='9% zinc oxide || 7.5% octinoxate || vitamin E' -%}{%- assign has_profile=true -%}
+  {%- when 'eltamd-uv-sport-spf-50-226g' -%}{%- assign h=25 -%}{%- assign b=10 -%}{%- assign f=10 -%}{%- assign r=5 -%}{%- assign c=35 -%}{%- assign d=95 -%}{%- assign intensity=1 -%}{%- assign timing='AM' -%}{%- assign actives='9% zinc oxide || 7.5% octinoxate || vitamin E' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-growth-factor-serum' -%}{%- assign h=40 -%}{%- assign b=40 -%}{%- assign f=85 -%}{%- assign r=40 -%}{%- assign c=35 -%}{%- assign d=45 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='plant growth factors || low-dose retinol || SYN-AKE peptide' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-growth-factor-serum-eye' -%}{%- assign h=55 -%}{%- assign b=30 -%}{%- assign f=70 -%}{%- assign r=20 -%}{%- assign c=45 -%}{%- assign d=40 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='growth factors || neuropeptide || hyaluronic acid' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-wrinkle-and-texture-repair' -%}{%- assign h=30 -%}{%- assign b=45 -%}{%- assign f=80 -%}{%- assign r=95 -%}{%- assign c=25 -%}{%- assign d=25 -%}{%- assign intensity=5 -%}{%- assign timing='PM' -%}{%- assign actives='0.5% retinol || ZCORE peptide || bisabolol' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-wrinkle-and-texture-repair-travel-size' -%}{%- assign h=30 -%}{%- assign b=45 -%}{%- assign f=80 -%}{%- assign r=95 -%}{%- assign c=25 -%}{%- assign d=25 -%}{%- assign intensity=5 -%}{%- assign timing='PM' -%}{%- assign actives='0.5% retinol || ZCORE peptide || bisabolol' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-firming-serum' -%}{%- assign h=40 -%}{%- assign b=30 -%}{%- assign f=85 -%}{%- assign r=35 -%}{%- assign c=30 -%}{%- assign d=40 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='caprooyl tetrapeptide-3 || sodium DNA || vitamin E' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-renewal-creme' -%}{%- assign h=70 -%}{%- assign b=45 -%}{%- assign f=55 -%}{%- assign r=55 -%}{%- assign c=45 -%}{%- assign d=45 -%}{%- assign intensity=3 -%}{%- assign timing='PM' -%}{%- assign actives='retinol || polyglutamic acid + ectoin || vitamin C' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-hydrating-creme' -%}{%- assign h=85 -%}{%- assign b=15 -%}{%- assign f=30 -%}{%- assign r=15 -%}{%- assign c=75 -%}{%- assign d=30 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='petrolatum + shea || colloidal oatmeal || glycerin' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-brightalive-skin-brightener' -%}{%- assign h=40 -%}{%- assign b=85 -%}{%- assign f=25 -%}{%- assign r=40 -%}{%- assign c=35 -%}{%- assign d=50 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='hexylresorcinol || vitamin C || papain + glucosamine' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-gentle-cleanser' -%}{%- assign h=35 -%}{%- assign b=10 -%}{%- assign f=5 -%}{%- assign r=10 -%}{%- assign c=55 -%}{%- assign d=30 -%}{%- assign intensity=1 -%}{%- assign timing='Both' -%}{%- assign actives='oat amino acids || glycerin || green tea antioxidants' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-gentle-cleanser-travel-size' -%}{%- assign h=35 -%}{%- assign b=10 -%}{%- assign f=5 -%}{%- assign r=10 -%}{%- assign c=55 -%}{%- assign d=30 -%}{%- assign intensity=1 -%}{%- assign timing='Both' -%}{%- assign actives='oat amino acids || glycerin || green tea antioxidants' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-exfoliating-cleanser' -%}{%- assign h=30 -%}{%- assign b=20 -%}{%- assign f=5 -%}{%- assign r=50 -%}{%- assign c=25 -%}{%- assign d=30 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='salicylic acid || jojoba beads || niacinamide' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-exfoliating-cleanser-travel-size' -%}{%- assign h=30 -%}{%- assign b=20 -%}{%- assign f=5 -%}{%- assign r=50 -%}{%- assign c=25 -%}{%- assign d=30 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='salicylic acid || jojoba beads || niacinamide' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-exfoliating-polish' -%}{%- assign h=25 -%}{%- assign b=30 -%}{%- assign f=10 -%}{%- assign r=70 -%}{%- assign c=15 -%}{%- assign d=40 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='magnesium crystals || vitamins A, C, E || tea tree oil' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-dual-action-scrub' -%}{%- assign h=15 -%}{%- assign b=40 -%}{%- assign f=15 -%}{%- assign r=85 -%}{%- assign c=10 -%}{%- assign d=30 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='salicylic + lactic acid || jojoba beads || vitamin C' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-complexion-renewal-pads' -%}{%- assign h=20 -%}{%- assign b=45 -%}{%- assign f=25 -%}{%- assign r=80 -%}{%- assign c=15 -%}{%- assign d=25 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='glycolic acid || salicylic acid || green tea' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-exfoliation-accelerator' -%}{%- assign h=25 -%}{%- assign b=45 -%}{%- assign f=30 -%}{%- assign r=90 -%}{%- assign c=20 -%}{%- assign d=30 -%}{%- assign intensity=4 -%}{%- assign timing='Both' -%}{%- assign actives='10% glycolic/lactic acid || vitamin A || vitamin E' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-acne-treatment-pads' -%}{%- assign h=10 -%}{%- assign b=35 -%}{%- assign f=10 -%}{%- assign r=75 -%}{%- assign c=15 -%}{%- assign d=20 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='2% salicylic acid || glycolic + mandelic || witch hazel' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-calming-toner' -%}{%- assign h=65 -%}{%- assign b=10 -%}{%- assign f=10 -%}{%- assign r=15 -%}{%- assign c=80 -%}{%- assign d=15 -%}{%- assign intensity=1 -%}{%- assign timing='Both' -%}{%- assign actives='hyaluronic acid + PCA || panthenol + allantoin || witch hazel' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-skin-brightening-sheet-mask' -%}{%- assign h=65 -%}{%- assign b=75 -%}{%- assign f=15 -%}{%- assign r=20 -%}{%- assign c=55 -%}{%- assign d=40 -%}{%- assign intensity=1 -%}{%- assign timing='Both' -%}{%- assign actives='vitamin C || arbutin || green tea + aloe' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-daily-skincare-program' -%}{%- assign h=30 -%}{%- assign b=45 -%}{%- assign f=30 -%}{%- assign r=75 -%}{%- assign c=25 -%}{%- assign d=50 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='glycolic + salicylic acids || magnesium polish + vit C || Daily Power Defense' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-getting-skin-ready-kit' -%}{%- assign h=25 -%}{%- assign b=40 -%}{%- assign f=15 -%}{%- assign r=75 -%}{%- assign c=25 -%}{%- assign d=25 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='renewal pads (glycolic + salicylic) || magnesium polish || gentle cleanser' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-skin-normalizing-system' -%}{%- assign h=30 -%}{%- assign b=35 -%}{%- assign f=25 -%}{%- assign r=70 -%}{%- assign c=45 -%}{%- assign d=45 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='2% salicylic acid || Rozatrol anti-redness || Daily Power Defense' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-aggressive-anti-aging-program' -%}{%- assign h=30 -%}{%- assign b=50 -%}{%- assign f=80 -%}{%- assign r=95 -%}{%- assign c=15 -%}{%- assign d=45 -%}{%- assign intensity=5 -%}{%- assign timing='Both' -%}{%- assign actives='1% retinol || glycolic + salicylic acids || Daily Power Defense' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-skin-brightening-program-kit-non-retinol' -%}{%- assign h=35 -%}{%- assign b=70 -%}{%- assign f=30 -%}{%- assign r=65 -%}{%- assign c=40 -%}{%- assign d=45 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='niacinamide + brightening peptide || glycolic + salicylic || Daily Power Defense' -%}{%- assign has_profile=true -%}
+  {%- when 'zo-skin-brightening-program-and-texture-repair' -%}{%- assign h=25 -%}{%- assign b=80 -%}{%- assign f=75 -%}{%- assign r=90 -%}{%- assign c=15 -%}{%- assign d=50 -%}{%- assign intensity=5 -%}{%- assign timing='Both' -%}{%- assign actives='1% + 0.5% retinol || niacinamide + glutathione || vitamin C' -%}{%- assign has_profile=true -%}
+  {%- when 'skinbetter-science-alpharet-overnight-cream' -%}{%- assign h=40 -%}{%- assign b=55 -%}{%- assign f=70 -%}{%- assign r=85 -%}{%- assign c=25 -%}{%- assign d=35 -%}{%- assign intensity=4 -%}{%- assign timing='PM' -%}{%- assign actives='AlphaRet (retinoid) || glycolic acid || niacinamide' -%}{%- assign has_profile=true -%}
+  {%- when 'skinbetter-science-eyemax-alpharet-overnight' -%}{%- assign h=50 -%}{%- assign b=60 -%}{%- assign f=70 -%}{%- assign r=65 -%}{%- assign c=30 -%}{%- assign d=35 -%}{%- assign intensity=3 -%}{%- assign timing='PM' -%}{%- assign actives='AlphaRet (retinoid) || acetyl hexapeptide-37 || astaxanthin' -%}{%- assign has_profile=true -%}
+  {%- when 'skinbetter-science-alpharet-clearing-serum' -%}{%- assign h=30 -%}{%- assign b=60 -%}{%- assign f=50 -%}{%- assign r=90 -%}{%- assign c=25 -%}{%- assign d=30 -%}{%- assign intensity=4 -%}{%- assign timing='PM' -%}{%- assign actives='AlphaRet (retinoid) || salicylic acid || zinc PCA' -%}{%- assign has_profile=true -%}
+  {%- when 'skinbetter-science-alto-advanced-defense-and-repair' -%}{%- assign h=40 -%}{%- assign b=65 -%}{%- assign f=40 -%}{%- assign r=25 -%}{%- assign c=45 -%}{%- assign d=90 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='vitamin C + E || Allyl PQQ || niacinamide' -%}{%- assign has_profile=true -%}
+  {%- when 'skinbetter-science-even-intensive-correcting-serum-face' -%}{%- assign h=35 -%}{%- assign b=90 -%}{%- assign f=25 -%}{%- assign r=55 -%}{%- assign c=40 -%}{%- assign d=45 -%}{%- assign intensity=4 -%}{%- assign timing='Both' -%}{%- assign actives='alpha-arbutin || tranexamic acid || niacinamide' -%}{%- assign has_profile=true -%}
+  {%- when 'skinbetter-science-mystro-active-balance-serum' -%}{%- assign h=45 -%}{%- assign b=50 -%}{%- assign f=30 -%}{%- assign r=30 -%}{%- assign c=80 -%}{%- assign d=60 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='niacinamide || plant adaptogens || astaxanthin' -%}{%- assign has_profile=true -%}
+  {%- when 'skinbetter-science-interfuse-treatment-cream-face-neck' -%}{%- assign h=50 -%}{%- assign b=20 -%}{%- assign f=80 -%}{%- assign r=20 -%}{%- assign c=45 -%}{%- assign d=30 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='tripeptide-1 + tetrapeptide-7 || SYN-AKE || olive extract' -%}{%- assign has_profile=true -%}
+  {%- when 'skinbetter-science-interfuse-intensive-treatment-lines' -%}{%- assign h=65 -%}{%- assign b=25 -%}{%- assign f=60 -%}{%- assign r=15 -%}{%- assign c=35 -%}{%- assign d=25 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='multi-weight hyaluronic acid || Argireline || tripeptide-1' -%}{%- assign has_profile=true -%}
+  {%- when 'skinbetter-science-techno-neck-perfecting-cream' -%}{%- assign h=55 -%}{%- assign b=40 -%}{%- assign f=80 -%}{%- assign r=30 -%}{%- assign c=35 -%}{%- assign d=40 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='nitric oxide complex || niacinamide || heptapeptide-7' -%}{%- assign has_profile=true -%}
+  {%- when 'skinbetter-science-trio-luxe-moisture-treatment' -%}{%- assign h=90 -%}{%- assign b=25 -%}{%- assign f=30 -%}{%- assign r=15 -%}{%- assign c=75 -%}{%- assign d=35 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='ceramides + cholesterol || urea + sodium PCA || squalane' -%}{%- assign has_profile=true -%}
+  {%- when 'skinbetter-science-hydration-boosting-cream-face' -%}{%- assign h=85 -%}{%- assign b=25 -%}{%- assign f=25 -%}{%- assign r=10 -%}{%- assign c=75 -%}{%- assign d=30 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='ceramide complex || L22 lipid complex || beta-glucan' -%}{%- assign has_profile=true -%}
+  {%- when 'skinbetter-science-trio-rebalancing-moisture-treatment' -%}{%- assign h=65 -%}{%- assign b=35 -%}{%- assign f=25 -%}{%- assign r=35 -%}{%- assign c=55 -%}{%- assign d=35 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='ceramides + NMF || salicylic acid || niacinamide' -%}{%- assign has_profile=true -%}
+  {%- when 'skinbetter-science-instant-effect-eye-gel' -%}{%- assign h=45 -%}{%- assign b=40 -%}{%- assign f=40 -%}{%- assign r=10 -%}{%- assign c=30 -%}{%- assign d=40 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='caffeine || algae de-puffing complex || optical-blur silica' -%}{%- assign has_profile=true -%}
+  {%- when 'skinbetter-science-refresh-detoxifying-scrub-mask-face' -%}{%- assign h=30 -%}{%- assign b=45 -%}{%- assign f=15 -%}{%- assign r=80 -%}{%- assign c=30 -%}{%- assign d=20 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='kaolin + bentonite clay || glycolic + lactic acid || jojoba beads' -%}{%- assign has_profile=true -%}
+  {%- when 'alastin-regenerating-skin-nectar' -%}{%- assign h=45 -%}{%- assign b=25 -%}{%- assign f=70 -%}{%- assign r=40 -%}{%- assign c=70 -%}{%- assign d=55 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='TriHex peptides || arnica montana || phytoene + phytofluene' -%}{%- assign has_profile=true -%}
+  {%- when 'alastin-restorative-skin-complex' -%}{%- assign h=45 -%}{%- assign b=40 -%}{%- assign f=80 -%}{%- assign r=40 -%}{%- assign c=40 -%}{%- assign d=55 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='TriHex peptides || phytoene + phytofluene || niacinamide' -%}{%- assign has_profile=true -%}
+  {%- when 'alastin-ultra-nourishing-moisturizer' -%}{%- assign h=85 -%}{%- assign b=15 -%}{%- assign f=45 -%}{%- assign r=10 -%}{%- assign c=80 -%}{%- assign d=40 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='TriHex peptides || tremella + shea butter || oat kernel extract' -%}{%- assign has_profile=true -%}
+  {%- when 'alastin-inhance-post-injection-serum' -%}{%- assign h=50 -%}{%- assign b=40 -%}{%- assign f=55 -%}{%- assign r=30 -%}{%- assign c=85 -%}{%- assign d=35 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='TriHex peptides || arnica (ChromaFADE) || hyaluronic acid' -%}{%- assign has_profile=true -%}
+  {%- when 'omnilux-contour-face-red-light-infrared-light-therapy' -%}{%- assign h=0 -%}{%- assign b=20 -%}{%- assign f=75 -%}{%- assign r=45 -%}{%- assign c=45 -%}{%- assign d=15 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='633nm red light || 830nm near-infrared' -%}{%- assign has_profile=true -%}
+  {%- when 'skinmedica-tns-advanced-serum' -%}{%- assign h=40 -%}{%- assign b=30 -%}{%- assign f=85 -%}{%- assign r=35 -%}{%- assign c=35 -%}{%- assign d=40 -%}{%- assign intensity=4 -%}{%- assign timing='Both' -%}{%- assign actives='TNS growth factors || Progeline peptides || vitamin E' -%}{%- assign has_profile=true -%}
+  {%- when 'skinmedica-tns-eye-repair' -%}{%- assign h=45 -%}{%- assign b=40 -%}{%- assign f=80 -%}{%- assign r=30 -%}{%- assign c=40 -%}{%- assign d=40 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='growth factor blend || tetrapeptide-7 || vitamin C' -%}{%- assign has_profile=true -%}
+  {%- when 'skinmedica-ha5®-rejuvenating-hydrator' -%}{%- assign h=90 -%}{%- assign b=15 -%}{%- assign f=40 -%}{%- assign r=15 -%}{%- assign c=50 -%}{%- assign d=25 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='5 forms of hyaluronic acid || VITISENSCE complex || vitamin E' -%}{%- assign has_profile=true -%}
+  {%- when 'skinmedica-retinol-complex' -%}{%- assign h=30 -%}{%- assign b=45 -%}{%- assign f=75 -%}{%- assign r=90 -%}{%- assign c=25 -%}{%- assign d=30 -%}{%- assign intensity=4 -%}{%- assign timing='PM' -%}{%- assign actives='retinol (0.25–1.0%) || niacinamide || PhytoShield antioxidants' -%}{%- assign has_profile=true -%}
+  {%- when 'skinmedica®lytera-2-0' -%}{%- assign h=40 -%}{%- assign b=90 -%}{%- assign f=30 -%}{%- assign r=25 -%}{%- assign c=35 -%}{%- assign d=40 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='phenylethyl resorcinol || niacinamide || tranexamic acid' -%}{%- assign has_profile=true -%}
+  {%- when 'skinmedica-lumivive™-system-day-night' -%}{%- assign h=35 -%}{%- assign b=45 -%}{%- assign f=45 -%}{%- assign r=30 -%}{%- assign c=30 -%}{%- assign d=90 -%}{%- assign intensity=4 -%}{%- assign timing='Both' -%}{%- assign actives='ENVAILLE anti-pollution || MitoQ || niacinamide' -%}{%- assign has_profile=true -%}
+  {%- when 'skinmedica-dermal-repair-cream' -%}{%- assign h=85 -%}{%- assign b=20 -%}{%- assign f=30 -%}{%- assign r=10 -%}{%- assign c=70 -%}{%- assign d=55 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='vitamin C (THD ascorbate) || vitamin E || squalane' -%}{%- assign has_profile=true -%}
+  {%- when 'skinmedica-scar-gel' -%}{%- assign h=40 -%}{%- assign b=15 -%}{%- assign f=20 -%}{%- assign r=25 -%}{%- assign c=85 -%}{%- assign d=20 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='silicone (dimethicone) || centella asiatica || bulbine frutescens' -%}{%- assign has_profile=true -%}
+  {%- when 'hydrinity-restorative-ha-serum' -%}{%- assign h=95 -%}{%- assign b=15 -%}{%- assign f=25 -%}{%- assign r=5 -%}{%- assign c=65 -%}{%- assign d=25 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='supercharged hyaluronic acid || PPM6 peptide || kakadu plum' -%}{%- assign has_profile=true -%}
+  {%- when 'hydrinity-renewing-ha-serum' -%}{%- assign h=90 -%}{%- assign b=20 -%}{%- assign f=55 -%}{%- assign r=20 -%}{%- assign c=50 -%}{%- assign d=25 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='supercharged hyaluronic acid || firming tripeptide-2 || hexapeptide-40' -%}{%- assign has_profile=true -%}
+  {%- when 'hydrinity-vivid-brightening-serum' -%}{%- assign h=50 -%}{%- assign b=85 -%}{%- assign f=30 -%}{%- assign r=35 -%}{%- assign c=45 -%}{%- assign d=35 -%}{%- assign intensity=3 -%}{%- assign timing='Both' -%}{%- assign actives='hexylresorcinol || oligopeptide-68 || Brightenyl' -%}{%- assign has_profile=true -%}
+  {%- when 'hydri-c-daily-vitamin-c-moisturizer' -%}{%- assign h=70 -%}{%- assign b=50 -%}{%- assign f=30 -%}{%- assign r=10 -%}{%- assign c=50 -%}{%- assign d=70 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='vitamin C (THD ascorbate) || sodium hyaluronate || green tea + kakadu plum' -%}{%- assign has_profile=true -%}
+  {%- when 'hydrinity-hyacyn-active-purifying-mist' -%}{%- assign h=35 -%}{%- assign b=10 -%}{%- assign f=10 -%}{%- assign r=10 -%}{%- assign c=90 -%}{%- assign d=40 -%}{%- assign intensity=1 -%}{%- assign timing='Both' -%}{%- assign actives='hypochlorous acid (~120 ppm) || electrolyzed water' -%}{%- assign has_profile=true -%}
+  {%- when 'hydrinity-prelude-facial-treatment-cleanser' -%}{%- assign h=35 -%}{%- assign b=20 -%}{%- assign f=10 -%}{%- assign r=45 -%}{%- assign c=50 -%}{%- assign d=25 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='fulvic acid || botanical AHA complex || panthenol' -%}{%- assign has_profile=true -%}
+  {%- when 'hydrinity-luxe-lip' -%}{%- assign h=90 -%}{%- assign b=10 -%}{%- assign f=45 -%}{%- assign r=5 -%}{%- assign c=55 -%}{%- assign d=25 -%}{%- assign intensity=2 -%}{%- assign timing='Both' -%}{%- assign actives='supercharged hyaluronic acid || tripeptide-38 || shea + cupuaçu butters' -%}{%- assign has_profile=true -%}
+  {%- when 'colorescience-sunforgettable®-total-protection™-face-shield-spf-50' -%}{%- assign h=35 -%}{%- assign b=25 -%}{%- assign f=15 -%}{%- assign r=5 -%}{%- assign c=60 -%}{%- assign d=95 -%}{%- assign intensity=1 -%}{%- assign timing='AM' -%}{%- assign actives='12% zinc oxide || 2% niacinamide || EnviroScreen antioxidants' -%}{%- assign has_profile=true -%}
+  {%- when 'colorescience-sunforgettable-total-protection-brush-on-shield-spf-50' -%}{%- assign h=25 -%}{%- assign b=15 -%}{%- assign f=10 -%}{%- assign r=5 -%}{%- assign c=55 -%}{%- assign d=95 -%}{%- assign intensity=1 -%}{%- assign timing='AM' -%}{%- assign actives='22.5% zinc oxide || 22.5% titanium dioxide || botanical antioxidants' -%}{%- assign has_profile=true -%}
+  {%- when 'colorescience-sunforgettable®-face-shield-flex' -%}{%- assign h=35 -%}{%- assign b=25 -%}{%- assign f=15 -%}{%- assign r=5 -%}{%- assign c=60 -%}{%- assign d=95 -%}{%- assign intensity=1 -%}{%- assign timing='AM' -%}{%- assign actives='12% zinc oxide || niacinamide || LIPOCHROMAN antioxidant' -%}{%- assign has_profile=true -%}
+  {%- when 'colorescience-even-up-3-in-1-skin-perfector-sunscreen-spf-50' -%}{%- assign h=30 -%}{%- assign b=70 -%}{%- assign f=15 -%}{%- assign r=10 -%}{%- assign c=50 -%}{%- assign d=90 -%}{%- assign intensity=2 -%}{%- assign timing='AM' -%}{%- assign actives='titanium dioxide + zinc oxide || vitamin C || LUMIRA brightening complex' -%}{%- assign has_profile=true -%}
+  {%- when 'colorescience-total-eye-3-in-1-renewal-care' -%}{%- assign h=45 -%}{%- assign b=45 -%}{%- assign f=65 -%}{%- assign r=15 -%}{%- assign c=45 -%}{%- assign d=75 -%}{%- assign intensity=2 -%}{%- assign timing='AM' -%}{%- assign actives='tripeptide-5 complex || titanium dioxide + zinc oxide || marine eye complex' -%}{%- assign has_profile=true -%}
+  {%- when 'colorescience-no-show-mineral-sunscreen-spf50' -%}{%- assign h=35 -%}{%- assign b=10 -%}{%- assign f=10 -%}{%- assign r=5 -%}{%- assign c=65 -%}{%- assign d=95 -%}{%- assign intensity=1 -%}{%- assign timing='AM' -%}{%- assign actives='10% zinc oxide || bisabolol + allantoin || tremella extract' -%}{%- assign has_profile=true -%}
+  {%- when 'colorescience-all-calm-multi-correction-serum' -%}{%- assign h=35 -%}{%- assign b=20 -%}{%- assign f=15 -%}{%- assign r=5 -%}{%- assign c=90 -%}{%- assign d=90 -%}{%- assign intensity=1 -%}{%- assign timing='AM' -%}{%- assign actives='titanium dioxide + zinc oxide || niacinamide || sea fennel calming complex' -%}{%- assign has_profile=true -%}
+{%- endcase -%}
+{%- if has_profile -%}
+{%- assign actives_list = actives | split: ' || ' -%}
+{%- assign int_word = 'Active' -%}
+{%- case intensity -%}
+  {%- when 1 -%}{%- assign int_word = 'Gentle' -%}
+  {%- when 2 -%}{%- assign int_word = 'Everyday' -%}
+  {%- when 3 -%}{%- assign int_word = 'Active' -%}
+  {%- when 4 -%}{%- assign int_word = 'Advanced' -%}
+  {%- when 5 -%}{%- assign int_word = 'Maximum' -%}
+{%- endcase -%}
+<div class="cc-sig" data-cc-sig data-vals="{{ h }},{{ b }},{{ f }},{{ r }},{{ c }},{{ d }}">
+  <div class="cc-sig__head">
+    <div class="cc-sig__head-left">
+      <span class="cc-sig__kicker">Formulation Signature</span>
+      <span class="cc-sig__sub">Where this formula concentrates</span>
+    </div>
+    <span class="cc-sig__seal" aria-hidden="true">CC</span>
+  </div>
+
+  <div class="cc-sig__grid">
+    <div class="cc-sig__radar">
+      <svg class="cc-sig__svg" viewBox="0 0 300 280" role="img" aria-label="Formulation profile chart"></svg>
+    </div>
+    <ul class="cc-sig__axes" role="list">
+      <li class="cc-sig__ax" data-axis="0" style="--v: {{ h }}"><span class="cc-sig__ax-dot"></span><span class="cc-sig__ax-name">Hydration</span><span class="cc-sig__ax-bar"><i></i></span><span class="cc-sig__ax-val" data-v="{{ h }}">0</span></li>
+      <li class="cc-sig__ax" data-axis="1" style="--v: {{ b }}"><span class="cc-sig__ax-dot"></span><span class="cc-sig__ax-name">Brightening</span><span class="cc-sig__ax-bar"><i></i></span><span class="cc-sig__ax-val" data-v="{{ b }}">0</span></li>
+      <li class="cc-sig__ax" data-axis="2" style="--v: {{ f }}"><span class="cc-sig__ax-dot"></span><span class="cc-sig__ax-name">Firming</span><span class="cc-sig__ax-bar"><i></i></span><span class="cc-sig__ax-val" data-v="{{ f }}">0</span></li>
+      <li class="cc-sig__ax" data-axis="3" style="--v: {{ r }}"><span class="cc-sig__ax-dot"></span><span class="cc-sig__ax-name">Renewal</span><span class="cc-sig__ax-bar"><i></i></span><span class="cc-sig__ax-val" data-v="{{ r }}">0</span></li>
+      <li class="cc-sig__ax" data-axis="4" style="--v: {{ c }}"><span class="cc-sig__ax-dot"></span><span class="cc-sig__ax-name">Calming</span><span class="cc-sig__ax-bar"><i></i></span><span class="cc-sig__ax-val" data-v="{{ c }}">0</span></li>
+      <li class="cc-sig__ax" data-axis="5" style="--v: {{ d }}"><span class="cc-sig__ax-dot"></span><span class="cc-sig__ax-name">Defense</span><span class="cc-sig__ax-bar"><i></i></span><span class="cc-sig__ax-val" data-v="{{ d }}">0</span></li>
+    </ul>
+  </div>
+
+  <div class="cc-sig__meta">
+    <div class="cc-sig__meta-cell">
+      <span class="cc-sig__meta-label">Strength</span>
+      <div class="cc-sig__gauge">
+        <span class="cc-sig__pips">{% for i in (1..5) %}<span class="cc-sig__pip{% if i <= intensity %} is-on{% endif %}"></span>{% endfor %}</span>
+        <span class="cc-sig__gauge-word">{{ int_word }}</span>
+      </div>
+    </div>
+    <div class="cc-sig__meta-cell">
+      <span class="cc-sig__meta-label">Best used</span>
+      <span class="cc-sig__timing">{% if timing == 'AM' %}<span aria-hidden="true">☀</span> Morning{% elsif timing == 'PM' %}<span aria-hidden="true">☾</span> Night{% else %}<span aria-hidden="true">☀</span><span aria-hidden="true">☾</span> AM + PM{% endif %}</span>
+    </div>
+  </div>
+
+  {%- if actives_list.size > 0 -%}
+  <div class="cc-sig__actives">
+    <span class="cc-sig__meta-label">Key actives</span>
+    <div class="cc-sig__chips">
+      {%- for a in actives_list limit: 3 -%}<span class="cc-sig__chip">{{ a }}</span>{%- endfor -%}
+    </div>
+  </div>
+  {%- endif -%}
+
+  <p class="cc-sig__note">Curated Clinicals' editorial read of where this formula concentrates — a guide to help you choose, not a medical or clinical claim.</p>
+</div>
+
+<style>
+  .cc-sig {
+    --g: #d8b865; --g2: #c19a3d; --g-deep: #8a6c1e;
+    position: relative; margin: 1.75rem 0 2rem; padding: 1.5rem 1.5rem 1.35rem;
+    background: radial-gradient(120% 140% at 15% 0%, #241d13 0%, #17130d 45%, #100c07 100%);
+    border: 1px solid rgba(216,184,101,0.28); border-radius: 20px; color: #efe6d2;
+    box-shadow: 0 26px 60px -30px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,236,190,0.06);
+    overflow: hidden; box-sizing: border-box; font-family: 'DM Sans', system-ui, sans-serif;
+  }
+  .cc-sig * { box-sizing: border-box; }
+  .cc-sig::before { content: ''; position: absolute; inset: 0; background: radial-gradient(60% 60% at 85% 15%, rgba(216,184,101,0.12), transparent 70%); pointer-events: none; }
+  .cc-sig__head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; position: relative; z-index: 1; margin-bottom: 0.5rem; }
+  .cc-sig__kicker { display: block; font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 600; letter-spacing: 0.01em; color: #f6ecd4; line-height: 1.05; }
+  .cc-sig__sub { display: block; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--g-deep); margin-top: 0.28rem; font-weight: 600; }
+  .cc-sig__seal { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; border: 1px solid rgba(216,184,101,0.5); color: var(--g); font-family: 'Cormorant Garamond', serif; font-size: 0.82rem; letter-spacing: 0.04em; flex: 0 0 auto; }
+  .cc-sig__grid { display: grid; grid-template-columns: minmax(180px, 46%) 1fr; gap: 0.75rem 1.4rem; align-items: center; position: relative; z-index: 1; }
+  .cc-sig__radar { min-width: 0; }
+  .cc-sig__svg { width: 100%; height: auto; display: block; overflow: visible; }
+  .cc-sig__axes { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+  .cc-sig__ax { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 0.55rem; cursor: default; }
+  .cc-sig__ax-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--g); box-shadow: 0 0 0 0 rgba(216,184,101,0.5); transition: box-shadow 0.3s ease, transform 0.3s ease; grid-row: 1; }
+  .cc-sig__ax-name { grid-column: 2; grid-row: 1; font-size: 0.8rem; color: #d8ceb8; letter-spacing: 0.01em; }
+  .cc-sig__ax-val { grid-column: 3; grid-row: 1; font-family: 'Cormorant Garamond', serif; font-size: 1.02rem; font-weight: 600; color: var(--g); font-variant-numeric: tabular-nums; min-width: 1.7em; text-align: right; }
+  .cc-sig__ax-bar { grid-column: 2 / 4; grid-row: 2; height: 4px; border-radius: 999px; background: rgba(216,184,101,0.13); overflow: hidden; }
+  .cc-sig__ax-bar i { display: block; height: 100%; width: 0; border-radius: 999px; background: linear-gradient(90deg, var(--g-deep), var(--g)); transition: width 1s cubic-bezier(0.22,1,0.36,1); }
+  .cc-sig.in .cc-sig__ax-bar i { width: calc(var(--v) * 1%); }
+  .cc-sig__ax.is-hot .cc-sig__ax-dot { box-shadow: 0 0 0 5px rgba(216,184,101,0.18); transform: scale(1.25); }
+  .cc-sig__ax.is-hot .cc-sig__ax-name { color: #fff; }
+  .cc-sig__meta { display: flex; gap: 0.75rem; margin-top: 1.15rem; position: relative; z-index: 1; }
+  .cc-sig__meta-cell { flex: 1; background: rgba(255,255,255,0.03); border: 1px solid rgba(216,184,101,0.16); border-radius: 12px; padding: 0.6rem 0.8rem; }
+  .cc-sig__meta-label { display: block; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--g-deep); font-weight: 700; margin-bottom: 0.4rem; }
+  .cc-sig__gauge { display: flex; align-items: center; gap: 0.55rem; }
+  .cc-sig__pips { display: inline-flex; gap: 4px; }
+  .cc-sig__pip { width: 15px; height: 5px; border-radius: 999px; background: rgba(216,184,101,0.18); transition: background 0.4s ease, box-shadow 0.4s ease; }
+  .cc-sig.in .cc-sig__pip.is-on { background: linear-gradient(90deg, var(--g-deep), var(--g)); box-shadow: 0 0 8px rgba(216,184,101,0.45); }
+  .cc-sig__gauge-word { font-family: 'Cormorant Garamond', serif; font-size: 1.02rem; color: #f0e6cf; }
+  .cc-sig__timing { font-family: 'Cormorant Garamond', serif; font-size: 1.08rem; color: #f0e6cf; letter-spacing: 0.02em; }
+  .cc-sig__timing span { color: var(--g); }
+  .cc-sig__actives { margin-top: 1rem; position: relative; z-index: 1; }
+  .cc-sig__chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.5rem; }
+  .cc-sig__chip { font-size: 0.72rem; letter-spacing: 0.01em; color: #e8dcc0; background: rgba(216,184,101,0.1); border: 1px solid rgba(216,184,101,0.28); border-radius: 999px; padding: 0.32rem 0.7rem; }
+  .cc-sig__note { margin: 1rem 0 0; font-size: 0.62rem; line-height: 1.5; color: #8c8069; position: relative; z-index: 1; }
+  @media (max-width: 560px) {
+    .cc-sig__grid { grid-template-columns: 1fr; }
+    .cc-sig__radar { max-width: 300px; margin: 0 auto 0.5rem; }
+  }
+</style>
+
+<script>
+(function(){
+  if (window.__ccSigInit) { window.__ccSigInit(); return; }
+  var AX = ['Hydration','Brightening','Firming','Renewal','Calming','Defense'];
+  var SVGNS = 'http://www.w3.org/2000/svg';
+  function el(n, attrs){ var e = document.createElementNS(SVGNS, n); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+  function pt(cx, cy, R, i, frac){ var a = (-90 + i*60) * Math.PI/180; return [cx + R*frac*Math.cos(a), cy + R*frac*Math.sin(a)]; }
+  function ease(t){ return 1 - Math.pow(1 - t, 3); }
+
+  function draw(root){
+    if (root.__done) return; root.__done = true;
+    var svg = root.querySelector('.cc-sig__svg');
+    var vals = (root.getAttribute('data-vals')||'').split(',').map(function(x){ return parseFloat(x)||0; });
+    var cx = 150, cy = 138, R = 104;
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    // defs: gradient + glow
+    var defs = el('defs', {});
+    var grad = el('radialGradient', { id: 'ccSigGrad', cx: '50%', cy: '50%', r: '65%' });
+    grad.appendChild(el('stop', { offset: '0%', 'stop-color': '#f4dd98', 'stop-opacity': '0.55' }));
+    grad.appendChild(el('stop', { offset: '100%', 'stop-color': '#b8912f', 'stop-opacity': '0.28' }));
+    defs.appendChild(grad);
+    var fil = el('filter', { id: 'ccSigGlow', x: '-40%', y: '-40%', width: '180%', height: '180%' });
+    fil.appendChild(el('feGaussianBlur', { stdDeviation: '3.4', result: 'b' }));
+    var mrg = el('feMerge', {}); mrg.appendChild(el('feMergeNode', { in: 'b' })); mrg.appendChild(el('feMergeNode', { in: 'SourceGraphic' }));
+    fil.appendChild(mrg); defs.appendChild(fil); svg.appendChild(defs);
+    // grid rings
+    [0.25, 0.5, 0.75, 1].forEach(function(fr){
+      var pts = []; for (var i=0;i<6;i++){ var p = pt(cx,cy,R,i,fr); pts.push(p[0].toFixed(1)+','+p[1].toFixed(1)); }
+      svg.appendChild(el('polygon', { points: pts.join(' '), fill: 'none', stroke: 'rgba(216,184,101,0.16)', 'stroke-width': fr===1?'1.1':'0.8' }));
+    });
+    // spokes + axis letters + dots holders
+    var dots = [];
+    for (var i=0;i<6;i++){
+      var edge = pt(cx,cy,R,i,1);
+      svg.appendChild(el('line', { x1: cx, y1: cy, x2: edge[0].toFixed(1), y2: edge[1].toFixed(1), stroke: 'rgba(216,184,101,0.12)', 'stroke-width': '0.8' }));
+      var lp = pt(cx,cy,R+15,i,1);
+      var t = el('text', { x: lp[0].toFixed(1), y: (lp[1]+3.5).toFixed(1), 'text-anchor': 'middle', fill: 'rgba(216,184,101,0.72)', 'font-size': '10', 'font-family': 'DM Sans, sans-serif', 'font-weight': '600' });
+      t.textContent = AX[i].charAt(0);
+      svg.appendChild(t);
+    }
+    // data polygon (animated) + vertex dots
+    var poly = el('polygon', { points: '', fill: 'url(#ccSigGrad)', stroke: '#e8c86a', 'stroke-width': '1.8', 'stroke-linejoin': 'round', filter: 'url(#ccSigGlow)' });
+    svg.appendChild(poly);
+    for (var j=0;j<6;j++){ var dt = el('circle', { r: '2.6', fill: '#f6e4a6', stroke: '#8a6c1e', 'stroke-width': '0.8' }); svg.appendChild(dt); dots.push(dt); }
+    root.__dots = dots;
+    // animate bloom
+    var start = null, DUR = 1150;
+    function frame(ts){
+      if (!start) start = ts;
+      var t = Math.min(1, (ts - start)/DUR), e = ease(t);
+      var pts = [];
+      for (var i=0;i<6;i++){
+        var p = pt(cx, cy, R, i, (vals[i]/100)*e);
+        pts.push(p[0].toFixed(2)+','+p[1].toFixed(2));
+        dots[i].setAttribute('cx', p[0].toFixed(2)); dots[i].setAttribute('cy', p[1].toFixed(2));
+      }
+      poly.setAttribute('points', pts.join(' '));
+      if (t < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+    // count-up axis values
+    root.querySelectorAll('.cc-sig__ax-val').forEach(function(sp){
+      var target = parseFloat(sp.getAttribute('data-v'))||0, s2 = null;
+      function cu(ts){ if(!s2) s2 = ts; var t = Math.min(1,(ts-s2)/900); sp.textContent = Math.round(target*ease(t)); if(t<1) requestAnimationFrame(cu); }
+      requestAnimationFrame(cu);
+    });
+    // cross-highlight list <-> dots
+    root.querySelectorAll('.cc-sig__ax').forEach(function(li){
+      var idx = parseInt(li.getAttribute('data-axis'),10);
+      function on(){ li.classList.add('is-hot'); if(root.__dots&&root.__dots[idx]){ root.__dots[idx].setAttribute('r','4.2'); } }
+      function off(){ li.classList.remove('is-hot'); if(root.__dots&&root.__dots[idx]){ root.__dots[idx].setAttribute('r','2.6'); } }
+      li.addEventListener('mouseenter', on); li.addEventListener('mouseleave', off);
+      li.addEventListener('focus', on); li.addEventListener('blur', off);
+    });
+  }
+
+  function reveal(root){ root.classList.add('in'); draw(root); }
+
+  function init(){
+    var nodes = document.querySelectorAll('[data-cc-sig]');
+    if (!nodes.length) return;
+    if (!('IntersectionObserver' in window)){ nodes.forEach(reveal); return; }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting){ reveal(en.target); io.unobserve(en.target); } });
+    }, { threshold: 0.35 });
+    nodes.forEach(function(n){ if (!n.__watched){ n.__watched = true; io.observe(n); } });
+  }
+  window.__ccSigInit = init;
+  if (document.readyState !== 'loading') init(); else document.addEventListener('DOMContentLoaded', init);
+})();
+</script>
+{%- endif -%}

@@ -1,0 +1,89 @@
+{%- comment -%}
+  cc-cart-savings — total savings vs. retail + free-express-shipping progress.
+  Pure Liquid so it recomputes whenever the cart section re-renders (qty changes).
+  Regular = max(variant.compare_at_price, original_price) per unit; savings = MSRP − amount paid,
+  which captures BOTH the compare-at markdown AND any cart discount codes in one honest number.
+{%- endcomment -%}
+{%- if cart.item_count > 0 -%}
+  {%- assign cc_msrp = 0 -%}
+  {%- for item in cart.items -%}
+    {%- assign reg = item.variant.compare_at_price -%}
+    {%- if reg == nil or reg < item.original_price -%}{%- assign reg = item.original_price -%}{%- endif -%}
+    {%- assign line_reg = reg | times: item.quantity -%}
+    {%- assign cc_msrp = cc_msrp | plus: line_reg -%}
+  {%- endfor -%}
+  {%- assign cc_savings = cc_msrp | minus: cart.total_price -%}
+  {%- if cc_savings < 0 -%}{%- assign cc_savings = 0 -%}{%- endif -%}
+  {%- assign cc_pct = 0 -%}
+  {%- if cc_msrp > 0 and cc_savings > 0 -%}{%- assign cc_pct = cc_savings | times: 100 | divided_by: cc_msrp -%}{%- endif -%}
+
+  {%- assign cc_ship_threshold = 15000 -%}
+  {%- assign cc_remaining = cc_ship_threshold | minus: cart.total_price -%}
+  {%- assign cc_progress = cart.total_price | times: 100 | divided_by: cc_ship_threshold -%}
+  {%- if cc_progress > 100 -%}{%- assign cc_progress = 100 -%}{%- endif -%}
+
+  <div class="cc-cartsave" data-cc-cartsave>
+    {%- if cc_savings > 0 -%}
+      <div class="cc-cartsave__hero">
+        <span class="cc-cartsave__spark" aria-hidden="true">✦</span>
+        <div class="cc-cartsave__hero-text">
+          <span class="cc-cartsave__label">Your savings today</span>
+          <span class="cc-cartsave__amount">You're saving {{ cc_savings | money }}</span>
+        </div>
+        {%- if cc_pct > 0 -%}<span class="cc-cartsave__pct">{{ cc_pct }}%<small>off retail</small></span>{%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="cc-cartsave__ship">
+      {%- if cc_remaining > 0 -%}
+        <p class="cc-cartsave__ship-text">
+          <span aria-hidden="true">🚚</span> You're <strong>{{ cc_remaining | money }}</strong> away from <strong>FREE express shipping</strong>
+        </p>
+      {%- else -%}
+        <p class="cc-cartsave__ship-text cc-cartsave__ship-text--unlocked">
+          <span aria-hidden="true">🎉</span> <strong>FREE express shipping unlocked</strong> — Canada Post Express, on us
+        </p>
+      {%- endif -%}
+      <div class="cc-cartsave__track"><span class="cc-cartsave__fill" style="width: {{ cc_progress }}%;"></span></div>
+    </div>
+  </div>
+
+  <style>
+    .cc-cartsave { width: 100%; margin: 0 0 var(--gap-2xl); font-family: inherit; box-sizing: border-box; }
+    .cc-cartsave * { box-sizing: border-box; }
+    .cc-cartsave__hero {
+      display: flex; align-items: center; gap: 0.85rem;
+      background: linear-gradient(115deg, #17130d 0%, #241a0d 55%, #3a2a10 100%);
+      border: 1px solid rgba(212,186,106,0.4); border-radius: 16px;
+      padding: 0.95rem 1.15rem; margin-bottom: 0.85rem; position: relative; overflow: hidden;
+      box-shadow: 0 14px 34px -18px rgba(138,108,30,0.9);
+    }
+    .cc-cartsave__hero::after {
+      content: ''; position: absolute; top: 0; left: -60%; width: 55%; height: 100%;
+      background: linear-gradient(100deg, transparent, rgba(255,240,200,0.35), transparent);
+      transform: skewX(-18deg); animation: ccShine 3.4s ease-in-out infinite;
+    }
+    @keyframes ccShine { 0%,100% { left: -60%; } 55%,70% { left: 130%; } }
+    .cc-cartsave__spark { font-size: 1.4rem; color: #f0d488; text-shadow: 0 0 14px rgba(240,212,136,0.7); animation: ccSpin 6s linear infinite; }
+    @keyframes ccSpin { to { transform: rotate(360deg); } }
+    .cc-cartsave__hero-text { display: flex; flex-direction: column; gap: 0.1rem; z-index: 1; }
+    .cc-cartsave__label { font-size: 0.6rem; letter-spacing: 0.26em; text-transform: uppercase; color: #c9a86a; font-weight: 700; }
+    .cc-cartsave__amount { font-family: 'Cormorant Garamond', 'Times New Roman', serif; font-size: 1.5rem; font-weight: 600; color: #fbf1d6; line-height: 1.1; }
+    .cc-cartsave__pct {
+      margin-left: auto; display: flex; flex-direction: column; align-items: center; z-index: 1;
+      font-family: 'Cormorant Garamond', serif; font-size: 1.5rem; font-weight: 700; line-height: 1;
+      color: #f0d488;
+    }
+    .cc-cartsave__pct small { font-family: 'DM Sans', sans-serif; font-size: 0.5rem; letter-spacing: 0.16em; text-transform: uppercase; color: #b5945a; margin-top: 0.15rem; }
+    .cc-cartsave__ship-text { font-size: 0.82rem; margin: 0 0 0.5rem; color: var(--color-foreground, #2a2018); line-height: 1.4; }
+    .cc-cartsave__ship-text strong { color: #8a6c1e; }
+    .cc-cartsave__ship-text--unlocked strong { color: #1f7a4d; }
+    .cc-cartsave__track { width: 100%; height: 7px; border-radius: 999px; background: rgba(138,108,30,0.16); overflow: hidden; }
+    .cc-cartsave__fill {
+      display: block; height: 100%; border-radius: 999px;
+      background: linear-gradient(90deg, #b89234, #e2c574, #b89234); background-size: 200% 100%;
+      transition: width 0.7s cubic-bezier(0.22,1,0.36,1); animation: ccFlow 2.6s linear infinite;
+    }
+    @keyframes ccFlow { to { background-position: 200% 0; } }
+  </style>
+{%- endif -%}
