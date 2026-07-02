@@ -856,6 +856,50 @@
 
     <div class="lux-body">
 
+    <style>
+      .lux-houses { max-width: 1400px; margin: 0 auto 3.5rem; text-align: center; }
+      .lux-houses__label { display: block; font-family: 'DM Sans', sans-serif; text-transform: uppercase; letter-spacing: 0.32em; font-size: 0.66rem; font-weight: 600; color: var(--gold-deep); margin-bottom: 1.25rem; }
+      .lux-houses__rail { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
+      .lux-house { display: inline-flex; align-items: baseline; gap: 0.4rem; padding: 0.62rem 1.15rem; border: 1px solid rgba(138,108,30,0.28); border-radius: 999px; background: rgba(255,255,255,0.4); color: var(--ink-rich); text-decoration: none; font-family: 'Cormorant Garamond', serif; font-size: 1.12rem; font-weight: 500; line-height: 1; letter-spacing: 0.01em; transition: all 0.35s cubic-bezier(0.22,1,0.36,1); position: relative; overflow: hidden; }
+      .lux-house::before { content: ''; position: absolute; inset: 0; background: linear-gradient(120deg, var(--gold-deep), var(--gold), var(--gold-light)); opacity: 0; transition: opacity 0.35s ease; z-index: 0; }
+      .lux-house__name, .lux-house__count { position: relative; z-index: 1; }
+      .lux-house__count { font-family: 'DM Sans', sans-serif; font-size: 0.62rem; font-weight: 600; color: var(--gold-deep); transform: translateY(-0.35em); transition: color 0.35s ease; }
+      .lux-house:hover { border-color: var(--gold); transform: translateY(-2px); box-shadow: 0 8px 22px -10px var(--gold-glow); }
+      .lux-house.is-active { border-color: transparent; color: #fff; box-shadow: 0 10px 26px -12px rgba(138,108,30,0.6); }
+      .lux-house.is-active::before { opacity: 1; }
+      .lux-house.is-active .lux-house__count { color: rgba(255,255,255,0.85); }
+      .lux-house.is-active .lux-house__name { color: #1a1411; }
+      @media (max-width: 700px) {
+        .lux-houses__rail { flex-wrap: nowrap; overflow-x: auto; justify-content: flex-start; padding: 0.25rem 1.25rem 0.75rem; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .lux-houses__rail::-webkit-scrollbar { display: none; }
+        .lux-house { flex: 0 0 auto; }
+      }
+    </style>
+
+    {%- comment -%} ── The Houses: robust per-brand navigation to real collection pages ── {%- endcomment -%}
+    {%- assign brand_map = 'Alastin Skincare::alastin|Colorescience::colorescience|EltaMD::elta-md|Hydrinity::hydrinity|Omnilux::omnilux|Skinbetter Science::skinbetter-science|SkinCeuticals::skinceuticals|SkinMedica::skinmedica|ZO Skin Health::zo-skin-health' | split: '|' -%}
+    {%- assign on_all = false -%}
+    {%- if collection.handle == 'all' or collection.handle == blank or template.name == 'index' -%}{%- assign on_all = true -%}{%- endif -%}
+    <nav class="lux-houses" aria-label="Shop by brand">
+      <span class="lux-houses__label">The Houses</span>
+      <div class="lux-houses__rail">
+        <a href="/collections/all" class="lux-house lux-house--all{% if on_all %} is-active{% endif %}">
+          <span class="lux-house__name">All Brands</span>
+        </a>
+        {%- for pair in brand_map -%}
+          {%- assign bits = pair | split: '::' -%}
+          {%- assign b_name = bits[0] -%}
+          {%- assign b_handle = bits[1] -%}
+          {%- assign b_col = collections[b_handle] -%}
+          {%- assign b_count = b_col.products_count | default: 0 -%}
+          <a href="/collections/{{ b_handle }}" class="lux-house{% if collection.handle == b_handle %} is-active{% endif %}">
+            <span class="lux-house__name">{{ b_name }}</span>
+            {%- if b_count > 0 -%}<span class="lux-house__count">{{ b_count }}</span>{%- endif -%}
+          </a>
+        {%- endfor -%}
+      </div>
+    </nav>
+
     {%- if section.settings.intro_text != blank -%}
       <p class="lux-intro">{{ section.settings.intro_text }}</p>
     {%- endif -%}
@@ -1005,7 +1049,7 @@
       </div>
     </div>
 
-        {% paginate collection.products by 48 %}
+        {% paginate collection.products by 250 %}
       {%- assign vendor_buf = '' -%}
       {%- for product in collection.products -%}
         {%- assign v = product.vendor | default: 'Other' -%}
