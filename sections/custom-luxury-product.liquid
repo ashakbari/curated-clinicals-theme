@@ -798,7 +798,7 @@
         <ul class="lux-product__concerns">
           {%- for c in concerns_list -%}
             {%- if c != blank -%}
-              <li>{{ c | replace: '-', ' ' }}</li>
+              <li><a href="/collections/all?concerns={{ c }}" style="color:inherit;text-decoration:none" title="Shop all for {{ c | replace: '-', ' ' }}">{{ c | replace: '-', ' ' }}</a></li>
             {%- endif -%}
           {%- endfor -%}
         </ul>
