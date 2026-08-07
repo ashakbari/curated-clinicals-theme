@@ -18,7 +18,7 @@
           "type": "_announcement",
           "name": "t:names.announcement",
           "settings": {
-            "text": "🍁 CANADA DAY WEEK — <strong>20% OFF EVERYTHING </strong>EXPRESS SHIPPING OVER $150",
+            "text": "<strong>20% OFF EVERYTHING </strong>EXPRESS SHIPPING OVER $150 - Offer ends August 12th",
             "link": "",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
