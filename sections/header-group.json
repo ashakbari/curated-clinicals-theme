@@ -18,7 +18,7 @@
           "type": "_announcement",
           "name": "t:names.announcement",
           "settings": {
-            "text": "<strong>20% OFF EVERYTHING </strong>EXPRESS SHIPPING OVER $150 - Offer ends August 12th",
+            "text": "<strong>20% OFF EVERYTHING </strong>- Free Express Shipping over $150 - Offer ends August 21st",
             "link": "",
             "font": "var(--font-subheading--family)",
             "font_size": "0.75rem",
